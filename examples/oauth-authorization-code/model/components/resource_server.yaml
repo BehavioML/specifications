@@ -1,0 +1,11 @@
+description: |
+  Implementation boundary for protected resource serving behavior.
+
+implements:
+  capabilities:
+    - oauth/validate_access_token
+    - oauth/return_protected_resource
+  interfaces:
+    - oauth/resource_endpoint
+
+belongs_to: resource_api

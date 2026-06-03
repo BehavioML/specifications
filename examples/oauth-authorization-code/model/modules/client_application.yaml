@@ -1,0 +1,2 @@
+description: |
+  Organizational boundary for client application behavior that starts authorization, exchanges codes, and calls protected resources.

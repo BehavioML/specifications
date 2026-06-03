@@ -1,0 +1,16 @@
+description: |
+  The authorization server handles a token request, validates the authorization code, and issues tokens.
+
+roles:
+  primary: authorization_server
+  participants:
+    - client
+
+triggered_by:
+  - token_request_received
+
+steps:
+  - oauth/receive_token_request
+  - oauth/validate_authorization_code
+  - oauth/issue_access_token
+  - oauth/issue_refresh_token

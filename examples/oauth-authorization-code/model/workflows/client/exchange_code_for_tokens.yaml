@@ -1,0 +1,13 @@
+description: |
+  The client receives the authorization code through the redirect and exchanges it for tokens at the token endpoint.
+
+roles:
+  primary: client
+  participants:
+    - authorization_server
+
+triggered_by:
+  - authorization_code_issued
+
+steps:
+  - oauth/exchange_code_for_tokens

@@ -1,0 +1,4 @@
+description: |
+  Redirect the user agent back to the client with the issued authorization code.
+requires:
+  - oauth/authorization_endpoint

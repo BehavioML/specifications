@@ -1,0 +1,6 @@
+description: |
+  Issue and persist an access token for the validated authorization code.
+requires:
+  - oauth/token_store
+events:
+  - tokens_issued

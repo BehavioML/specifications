@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "validate:models": "scripts/behavioml-validate.rb examples/quic/model && scripts/behavioml-validate.rb examples/oauth-authorization-code/model"
+  }
+}

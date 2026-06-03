@@ -1,0 +1,10 @@
+description: |
+  Implementation boundary for consent grant evaluation and persistence concerns.
+
+implements:
+  capabilities:
+    - oauth/obtain_consent
+  interfaces:
+    - oauth/consent_store
+
+belongs_to: authorization_platform

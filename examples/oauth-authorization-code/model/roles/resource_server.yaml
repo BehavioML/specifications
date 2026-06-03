@@ -1,0 +1,2 @@
+description: |
+  The functional participant that protects resources and evaluates access tokens or authorization context before returning data.

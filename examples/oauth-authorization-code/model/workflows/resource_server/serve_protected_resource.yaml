@@ -1,0 +1,15 @@
+description: |
+  The resource server validates the presented token or authorization context and returns the protected resource.
+
+roles:
+  primary: resource_server
+  participants:
+    - client
+    - authorization_server
+
+triggered_by:
+  - protected_resource_requested
+
+steps:
+  - oauth/validate_access_token
+  - oauth/return_protected_resource

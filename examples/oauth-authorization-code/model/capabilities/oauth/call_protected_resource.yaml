@@ -1,0 +1,6 @@
+description: |
+  Call the resource server with the issued access token.
+requires:
+  - oauth/resource_endpoint
+events:
+  - protected_resource_requested

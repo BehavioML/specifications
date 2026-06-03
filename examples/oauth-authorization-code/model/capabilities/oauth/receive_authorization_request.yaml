@@ -1,0 +1,4 @@
+description: |
+  Receive and parse the authorization request at the authorization endpoint.
+requires:
+  - oauth/authorization_endpoint

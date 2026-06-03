@@ -1,0 +1,19 @@
+description: |
+  Model the user agent as a role because redirect mediation is behaviorally important in the authorization code flow.
+
+rationale: |
+  The user agent is not modeled as an OAuth protocol endpoint, but it materially participates in the flow by carrying redirects between the client, resource owner, and authorization server. Treating it as a role keeps workflows behavior-focused without introducing a special browser construct.
+
+consequences: |
+  Workflows can list user_agent as a participant where redirects are relevant. Components may still model a browser runtime implementation boundary separately from this functional role.
+
+affects:
+  - workflows:client/start_authorization
+  - workflows:authorization_server/handle_authorization_request
+  - workflows:authorization_server/issue_authorization_code
+  - workflows:authorization_server/deny_authorization
+  - capabilities:oauth/redirect_to_authorization_server
+  - capabilities:oauth/redirect_with_authorization_code
+  - capabilities:oauth/redirect_with_authorization_denied
+  - events:authorization_requested
+  - events:authorization_denied

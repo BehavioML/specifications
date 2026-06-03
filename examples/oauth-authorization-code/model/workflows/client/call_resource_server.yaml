@@ -1,0 +1,13 @@
+description: |
+  The client uses the issued access token to call the protected resource endpoint.
+
+roles:
+  primary: client
+  participants:
+    - resource_server
+
+triggered_by:
+  - tokens_issued
+
+steps:
+  - oauth/call_protected_resource

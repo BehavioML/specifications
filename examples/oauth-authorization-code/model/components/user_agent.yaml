@@ -1,0 +1,8 @@
+description: |
+  Implementation boundary for user-agent redirect mediation in this behavioral model.
+
+implements:
+  capabilities:
+    - oauth/redirect_to_authorization_server
+
+belongs_to: browser_runtime

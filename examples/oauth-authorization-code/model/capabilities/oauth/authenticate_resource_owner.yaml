@@ -1,0 +1,4 @@
+description: |
+  Authenticate or otherwise identify the resource owner before authorization can proceed.
+events:
+  - resource_owner_authenticated

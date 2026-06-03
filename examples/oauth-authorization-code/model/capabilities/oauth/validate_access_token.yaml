@@ -1,0 +1,6 @@
+description: |
+  Validate the access token or equivalent authorization context before serving the protected resource.
+requires:
+  - oauth/token_store
+events:
+  - access_token_validated

@@ -1,0 +1,2 @@
+description: |
+  The browser-like mediator that carries redirects between the client, resource owner, and authorization server.

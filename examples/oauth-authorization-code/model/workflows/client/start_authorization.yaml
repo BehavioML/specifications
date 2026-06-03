@@ -1,0 +1,13 @@
+description: |
+  The client starts the authorization code flow and sends the resource owner through the user agent to the authorization server.
+
+roles:
+  primary: client
+  participants:
+    - resource_owner
+    - user_agent
+    - authorization_server
+
+steps:
+  - oauth/build_authorization_request
+  - oauth/redirect_to_authorization_server

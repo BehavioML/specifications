@@ -1,0 +1,6 @@
+description: |
+  Return the protected resource after authorization has been validated.
+requires:
+  - oauth/resource_endpoint
+events:
+  - protected_resource_returned
