@@ -1,0 +1,5 @@
+description: |
+  Receive a connection close signal from the peer.
+
+requires:
+  - transport/udp_datagram_io

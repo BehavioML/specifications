@@ -1,0 +1,11 @@
+description: |
+  An endpoint expires a connection after inactivity and discards connection state.
+
+roles:
+  primary: endpoint
+
+uses:
+  - connection/discard_connection_state
+
+emits:
+  - idle_timeout_expired

@@ -1,0 +1,5 @@
+description: |
+  Retain closing connection state until the close timer expires.
+
+requires:
+  - time/timer

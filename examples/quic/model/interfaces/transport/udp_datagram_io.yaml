@@ -1,0 +1,2 @@
+description: |
+  Architectural dependency point for sending and receiving UDP datagrams.

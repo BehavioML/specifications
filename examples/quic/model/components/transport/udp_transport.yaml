@@ -1,0 +1,8 @@
+description: |
+  Implementation boundary for UDP datagram transport.
+
+implements:
+  interfaces:
+    - transport/udp_datagram_io
+
+belongs_to: transport

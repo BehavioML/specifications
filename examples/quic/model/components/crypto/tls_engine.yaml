@@ -1,0 +1,11 @@
+description: |
+  Implementation boundary for TLS handshake support used by QUIC connection establishment.
+
+implements:
+  capabilities:
+    - connection/perform_handshake
+    - connection/validate_peer
+  interfaces:
+    - crypto/tls_handshake
+
+belongs_to: crypto

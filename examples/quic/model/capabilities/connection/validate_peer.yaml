@@ -1,0 +1,5 @@
+description: |
+  Validate the peer as part of connection establishment.
+
+requires:
+  - crypto/tls_handshake

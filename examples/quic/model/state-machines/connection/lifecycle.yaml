@@ -1,0 +1,41 @@
+entity: connection
+
+states:
+  - initial
+  - handshaking
+  - connected
+  - closing
+  - draining
+  - closed
+
+transitions:
+  - on: connection_started
+    from: initial
+    to: handshaking
+
+  - on: handshake_completed
+    from: handshaking
+    to: connected
+
+  - on: connection_close_sent
+    from: connected
+    to: closing
+
+  - on: connection_close_received
+    from:
+      - initial
+      - handshaking
+      - connected
+    to: draining
+
+  - on: connection_close_timer_expired
+    from:
+      - closing
+      - draining
+    to: closed
+
+  - on: idle_timeout_expired
+    from:
+      - handshaking
+      - connected
+    to: closed

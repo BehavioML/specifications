@@ -1,0 +1,8 @@
+description: |
+  Coordinate the connection handshake without modeling TLS internals.
+
+uses:
+  - connection/validate_peer
+
+requires:
+  - crypto/tls_handshake
