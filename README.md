@@ -216,7 +216,13 @@ Example:
 capabilities/auth/validate_user.yaml
 ```
 
-Identity:
+Scope:
+
+```text
+capabilities
+```
+
+Path identity:
 
 ```text
 auth/validate_user
@@ -250,16 +256,33 @@ BehavioML does not use:
 - UUIDs
 - Internal names
 
-Identity is derived from the file path.
+Identity is derived from the file path inside an entity scope.
 
 ---
 
-## Principle 13: References are always absolute
+## Principle 13: References are resolved by semantic field scope
+
+A field defines the target entity type for its references.
+
+The reference value is a path identity inside that target scope.
+
+References are never filesystem-relative.
+
+Examples:
+
+| Field | Target scope | Value | Resolves to |
+|----------|----------|----------|----------|
+| `steps` | `capabilities/` | `auth/validate_user` | `capabilities/auth/validate_user.yaml` |
+| `triggered_by` | `events/` | `handshake_failed` | `events/handshake_failed.yaml` |
+| `requires` | `interfaces/` | `crypto/tls_handshake` | `interfaces/crypto/tls_handshake.yaml` |
+| `roles.primary` | `roles/` | `client` | `roles/client.yaml` |
 
 Allowed:
 
 ```text
 auth/validate_user
+handshake_failed
+client
 ```
 
 Forbidden:
@@ -267,7 +290,32 @@ Forbidden:
 ```text
 ../validate_user
 ./validate_user
-validate_user
+```
+
+Some fields are polymorphic and can reference multiple entity types.
+
+Polymorphic fields must use typed references.
+
+Typed reference syntax:
+
+```text
+<scope>:<path-identity>
+```
+
+Example:
+
+```text
+workflows:connection/client/establish_connection
+capabilities:connection/perform_handshake
+events:handshake_failed
+```
+
+URL-like forms are not used.
+
+Forbidden:
+
+```text
+events://handshake_failed
 ```
 
 ---
@@ -442,6 +490,18 @@ State machines describe what is allowed.
 
 Explains rationale.
 
+A decision may affect any model entity.
+
+When a decision references affected entities, those references are polymorphic and must use typed reference syntax.
+
+Example:
+
+```text
+workflows:connection/client/establish_connection
+capabilities:connection/perform_handshake
+events:handshake_failed
+```
+
 ---
 
 # Relationships
@@ -482,6 +542,10 @@ Interface
 Component
     belongs_to
 Module
+
+Decision
+    affects
+Any model entity
 
 Event
     triggers
