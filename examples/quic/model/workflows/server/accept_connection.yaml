@@ -10,7 +10,3 @@ steps:
   - connection/receive_initial
   - connection/validate_peer
   - connection/perform_handshake
-
-emits:
-  - connection_started
-  - handshake_completed

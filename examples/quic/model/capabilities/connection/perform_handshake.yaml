@@ -6,3 +6,6 @@ uses:
 
 requires:
   - crypto/tls_handshake
+
+emits:
+  - handshake_completed

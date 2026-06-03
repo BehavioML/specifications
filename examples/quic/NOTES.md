@@ -14,7 +14,7 @@ The model covers a small QUIC connection lifecycle slice:
 - idle timeout
 - connection lifecycle states from `initial` through `closed`
 
-The model uses one file per model entity and path-based identity. Workflows involve roles, step through capabilities, and emit events. The connection state machine owns lifecycle transitions.
+The model uses one file per model entity and path-based identity. Workflows involve roles, step through capabilities, and can emit contextual events. Capabilities can declare intrinsic events. The connection state machine owns lifecycle transitions.
 
 ## What was intentionally not modeled
 
@@ -39,7 +39,7 @@ Role was added as a first-class exploratory entity to represent functional parti
 
 ## Where the model feels natural
 
-The separation between workflows, emitted events, and state-machine-owned transitions feels natural for connection lifecycle behavior. It lets workflows describe protocol activity while the state machine remains the source of truth for valid lifecycle movement.
+The separation between workflows, capabilities, emitted events, and state-machine-owned transitions feels natural for connection lifecycle behavior. It lets workflows describe protocol activity while capabilities identify intrinsic lifecycle events and the state machine remains the source of truth for valid lifecycle movement.
 
 Capabilities also feel useful as a bridge between workflows and implementation. They allow workflow files to avoid direct component references while still making implementation responsibilities visible through components.
 
@@ -62,3 +62,21 @@ This example leaves several modeling details intentionally unresolved:
 - Should `client` and `server` be specializations of `endpoint`, or should role inheritance/composition be avoided?
 - Should an event be namespaced by the entity it affects, for example `connection/handshake_completed`, or remain a flat path under `events/` for now?
 - How much lifecycle detail is enough before the model starts becoming a protocol specification rather than a behavior model?
+
+## Capability-level events
+
+This variant tests whether events should be declared by capabilities rather than workflows. When an event is intrinsic to a capability, workflows can stay focused on sequencing behavior and causal relationships can be derived from:
+
+```text
+workflow step → capability → emitted events
+```
+
+For this exploratory pass, connection establishment and connection-close signal events moved to the capabilities that perform those protocol actions. Timeout events remain workflow-level because the current capability model only says `connection/discard_connection_state` discards state for a closed or expired connection; it does not clearly model the timer or idle-timeout source that causes the discard. Assigning both `connection_close_timer_expired` and `idle_timeout_expired` to that one capability would make them possible-context outcomes rather than clearly intrinsic emissions.
+
+Open questions:
+
+- Can the same capability emit different events in different workflow contexts?
+- Should capability `emits` describe possible events or guaranteed events?
+- Should workflows be able to override, filter, or contextualize emitted events?
+- How should failure events be modeled?
+- Can one capability emit multiple lifecycle events, or should that indicate the capability is too broad?

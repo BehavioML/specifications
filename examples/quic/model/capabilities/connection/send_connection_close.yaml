@@ -3,3 +3,6 @@ description: |
 
 requires:
   - transport/udp_datagram_io
+
+emits:
+  - connection_close_sent
