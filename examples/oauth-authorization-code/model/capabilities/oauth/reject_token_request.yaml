@@ -1,0 +1,4 @@
+description: |
+  Reject a token request when the authorization code is invalid or cannot be redeemed.
+events:
+  - token_request_rejected

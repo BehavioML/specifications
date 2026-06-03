@@ -1,0 +1,22 @@
+description: |
+  Implementation boundary for authorization endpoint and token endpoint behavior.
+
+implements:
+  capabilities:
+    - oauth/receive_authorization_request
+    - oauth/authenticate_resource_owner
+    - oauth/validate_redirect_uri
+    - oauth/issue_authorization_code
+    - oauth/redirect_with_authorization_code
+    - oauth/redirect_with_authorization_denied
+    - oauth/receive_token_request
+    - oauth/validate_authorization_code
+    - oauth/reject_authorization_request
+    - oauth/reject_token_request
+  interfaces:
+    - oauth/authorization_endpoint
+    - oauth/token_endpoint
+    - oauth/client_registry
+    - oauth/authorization_code_store
+
+belongs_to: authorization_platform

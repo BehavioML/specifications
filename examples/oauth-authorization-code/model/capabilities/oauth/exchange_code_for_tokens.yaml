@@ -1,0 +1,6 @@
+description: |
+  Submit the authorization code to the token endpoint to request tokens.
+requires:
+  - oauth/token_endpoint
+events:
+  - token_request_received

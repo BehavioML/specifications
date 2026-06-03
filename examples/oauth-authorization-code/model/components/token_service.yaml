@@ -1,0 +1,11 @@
+description: |
+  Implementation boundary for token issuing and token persistence concerns.
+
+implements:
+  capabilities:
+    - oauth/issue_access_token
+    - oauth/issue_refresh_token
+  interfaces:
+    - oauth/token_store
+
+belongs_to: authorization_platform

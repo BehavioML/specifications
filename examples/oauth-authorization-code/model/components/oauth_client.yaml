@@ -1,0 +1,10 @@
+description: |
+  Implementation boundary for client-side OAuth authorization code flow behavior.
+
+implements:
+  capabilities:
+    - oauth/build_authorization_request
+    - oauth/exchange_code_for_tokens
+    - oauth/call_protected_resource
+
+belongs_to: client_application

@@ -1,0 +1,16 @@
+description: |
+  The authorization server handles a denied consent outcome by rejecting the authorization request and redirecting the user agent back to the client with a denied outcome.
+
+roles:
+  primary: authorization_server
+  participants:
+    - resource_owner
+    - client
+    - user_agent
+
+triggered_by:
+  - consent_denied
+
+steps:
+  - oauth/reject_authorization_request
+  - oauth/redirect_with_authorization_denied

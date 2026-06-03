@@ -1,0 +1,4 @@
+description: |
+  Reject an authorization request when authorization is denied or cannot proceed.
+events:
+  - authorization_denied

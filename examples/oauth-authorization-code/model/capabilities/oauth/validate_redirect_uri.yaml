@@ -1,0 +1,4 @@
+description: |
+  Validate the client redirect URI against registered client metadata.
+requires:
+  - oauth/client_registry

@@ -1,0 +1,7 @@
+description: |
+  Validate that the authorization code exists, is bound to the request context, and has not already been redeemed.
+requires:
+  - oauth/authorization_code_store
+events:
+  - authorization_code_validated
+  - authorization_code_rejected

@@ -1,0 +1,4 @@
+description: |
+  Optionally issue a refresh token without modeling rotation or refresh grant behavior.
+requires:
+  - oauth/token_store

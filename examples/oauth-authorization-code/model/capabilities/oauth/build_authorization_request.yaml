@@ -1,0 +1,6 @@
+description: |
+  Build the client authorization request that starts the authorization code flow.
+requires:
+  - oauth/client_registry
+events:
+  - authorization_requested

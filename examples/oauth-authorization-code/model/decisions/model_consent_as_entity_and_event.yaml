@@ -1,0 +1,17 @@
+description: |
+  Model consent as both a consent_grant entity and observable consent events.
+
+rationale: |
+  Consent has persisted business meaning as an authorization grant, while grant or denial outcomes also drive subsequent behavior. The entity represents state ownership; consent_granted and consent_denied represent observed outcomes.
+
+consequences: |
+  The authorization request workflow can remain linear at the behavioral level, while the grant and denial scenarios are represented by separate event-triggered workflows.
+
+affects:
+  - entities:consent_grant
+  - workflows:authorization_server/handle_authorization_request
+  - workflows:authorization_server/issue_authorization_code
+  - workflows:authorization_server/deny_authorization
+  - capabilities:oauth/obtain_consent
+  - events:consent_granted
+  - events:consent_denied
