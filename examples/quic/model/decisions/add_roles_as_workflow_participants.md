@@ -10,4 +10,4 @@ QUIC lifecycle behavior naturally refers to client, server, and endpoint partici
 
 ## Consequences
 
-Workflow files may include `roles`, but they still use capabilities and emit events. Roles do not implement capabilities, own state, or organize components.
+Workflow files may include `roles`, but they still step through capabilities and emit events. Roles do not implement capabilities, own state, or organize components.

@@ -14,7 +14,7 @@ The model covers a small QUIC connection lifecycle slice:
 - idle timeout
 - connection lifecycle states from `initial` through `closed`
 
-The model uses one file per model entity and path-based identity. Workflows involve roles, use capabilities, and emit events. The connection state machine owns lifecycle transitions.
+The model uses one file per model entity and path-based identity. Workflows involve roles, step through capabilities, and emit events. The connection state machine owns lifecycle transitions.
 
 ## What was intentionally not modeled
 
