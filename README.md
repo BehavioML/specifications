@@ -222,6 +222,18 @@ Identity:
 auth/validate_user
 ```
 
+Directories may group related model entities.
+
+For example, related workflows may be grouped by domain area, protocol phase, feature, role, or behavior family:
+
+```text
+workflows/connection/client/establish_connection.yaml
+workflows/connection/client/handle_handshake_failure.yaml
+workflows/connection/endpoint/handle_idle_timeout.yaml
+```
+
+A separate higher-level entity should only be introduced when the group itself needs source-of-truth metadata.
+
 ---
 
 ## Principle 11: One file equals one entity
@@ -297,6 +309,10 @@ A workflow may be triggered by events.
 Important failures, timeouts, retries, and recovery paths may be represented as separate workflows when they are meaningful at system-behavior level.
 
 Workflows should not model every execution branch.
+
+Related workflows may be grouped by directory instead of introducing a separate Scenario, Use Case, Story, or Journey entity.
+
+A higher-level workflow grouping entity should only be introduced when that grouping needs its own source-of-truth metadata.
 
 ---
 
