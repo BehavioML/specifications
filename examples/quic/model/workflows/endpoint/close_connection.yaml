@@ -4,7 +4,7 @@ description: |
 roles:
   primary: endpoint
 
-uses:
+steps:
   - connection/send_connection_close
   - connection/enter_closing
   - connection/discard_connection_state

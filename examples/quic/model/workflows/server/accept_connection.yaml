@@ -6,7 +6,7 @@ roles:
   participants:
     - client
 
-uses:
+steps:
   - connection/receive_initial
   - connection/validate_peer
   - connection/perform_handshake
