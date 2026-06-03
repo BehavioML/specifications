@@ -7,5 +7,6 @@ uses:
 requires:
   - crypto/tls_handshake
 
-emits:
+events:
   - handshake_completed
+  - handshake_failed

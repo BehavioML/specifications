@@ -39,7 +39,7 @@ Role was added as a first-class exploratory entity to represent functional parti
 
 ## Where the model feels natural
 
-The separation between workflows, capabilities, emitted events, and state-machine-owned transitions feels natural for connection lifecycle behavior. It lets workflows describe protocol activity while capabilities identify intrinsic lifecycle events and the state machine remains the source of truth for valid lifecycle movement.
+The separation between workflows, capabilities, observable events, and state-machine-owned transitions feels natural for connection lifecycle behavior. It lets workflows describe protocol activity while capabilities identify intrinsic lifecycle events and the state machine remains the source of truth for valid lifecycle movement.
 
 Capabilities also feel useful as a bridge between workflows and implementation. They allow workflow files to avoid direct component references while still making implementation responsibilities visible through components.
 
@@ -68,7 +68,7 @@ This example leaves several modeling details intentionally unresolved:
 This variant tests whether events should be declared by capabilities rather than workflows. When an event is intrinsic to a capability, workflows can stay focused on sequencing behavior and causal relationships can be derived from:
 
 ```text
-workflow step → capability → emitted events
+workflow step → capability → observable events
 ```
 
 For this exploratory pass, connection establishment and connection-close signal events moved to the capabilities that perform those protocol actions. Timeout events remain workflow-level because the current capability model only says `connection/discard_connection_state` discards state for a closed or expired connection; it does not clearly model the timer or idle-timeout source that causes the discard. Assigning both `connection_close_timer_expired` and `idle_timeout_expired` to that one capability would make them possible-context outcomes rather than clearly intrinsic emissions.
@@ -76,7 +76,26 @@ For this exploratory pass, connection establishment and connection-close signal 
 Open questions:
 
 - Can the same capability emit different events in different workflow contexts?
-- Should capability `emits` describe possible events or guaranteed events?
+- Should capability `events` describe possible events or guaranteed events?
 - Should workflows be able to override, filter, or contextualize emitted events?
 - How should failure events be modeled?
-- Can one capability emit multiple lifecycle events, or should that indicate the capability is too broad?
+- Can one capability declare multiple lifecycle events, or should that indicate the capability is too broad?
+
+## Workflow per scenario
+
+This variant avoids turning workflows into declarative code.
+
+Instead of modeling success, failure, timeout, retry, and recovery branches inside one large workflow, each coherent behavioral scenario can be represented as a separate workflow.
+
+Events can trigger follow-up workflows through `triggered_by`.
+
+This keeps workflows readable, diff-friendly, and focused.
+
+Open questions:
+
+- When should behavior be a branch inside a workflow versus a separate workflow?
+- Should `triggered_by` accept only events?
+- Can a workflow be triggered by multiple alternative events?
+- Should workflows declare preconditions separately from triggers?
+- How should related workflows be grouped into a larger story or use case?
+- Do we need a higher-level entity above Workflow, such as Scenario, Use Case, or Story?
