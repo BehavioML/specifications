@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "validate:models": "behavioml-validate examples/quic/model"
+  },
+  "devDependencies": {
+    "@behavioml/validator": "github:BehavioML/validator"
+  }
+}
