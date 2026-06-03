@@ -415,14 +415,25 @@ transitions:
   - from: initial
     on: connection_started
     to: handshaking
+  - from:
+      - handshaking
+      - connected
+    on: connection_close_received
+    to: closing
 ```
 
 Rules:
 
 - `entity` references `entities/`
+- `transitions[].from` may be a single state string or a non-empty array of state strings
+- `transitions[].to` is a single state string
 - `transitions[].on` references `events/`
 - state machines own transitions
 - workflows do not own transitions
+
+Multiple `from` states may be used when the same event causes the same transition to the same target state from several source states.
+
+Multiple `to` states are not supported. Multiple targets imply conditional branching and should be modeled explicitly instead.
 
 ---
 
@@ -476,8 +487,10 @@ Suggested initial checks:
 13. Component `belongs_to` resolves under `modules/`.
 14. State machine `entity` resolves under `entities/`.
 15. State machine transition events resolve under `events/`.
-16. Decision `affects` entries use typed references and resolve to existing model entities.
-17. `generated/` directories are ignored as source-of-truth input.
+16. State machine transition source states, if validated, may be scalar or array-valued.
+17. State machine transition target states, if validated, are scalar.
+18. Decision `affects` entries use typed references and resolve to existing model entities.
+19. `generated/` directories are ignored as source-of-truth input.
 
 ---
 
