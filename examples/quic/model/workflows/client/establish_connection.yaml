@@ -7,5 +7,20 @@ roles:
     - server
 
 steps:
-  - connection/send_initial
-  - connection/perform_handshake
+  - capability: connection/send_initial
+
+  - capability: connection/perform_handshake
+    on_event:
+      handshake_completed:
+        then:
+          - end: connected
+
+      handshake_failed:
+        then:
+          - capability: connection/send_connection_close
+          - end: closing
+
+      idle_timeout_expired:
+        then:
+          - capability: connection/discard_connection_state
+          - end: closed

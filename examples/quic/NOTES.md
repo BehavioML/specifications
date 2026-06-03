@@ -39,7 +39,7 @@ Role was added as a first-class exploratory entity to represent functional parti
 
 ## Where the model feels natural
 
-The separation between workflows, capabilities, emitted events, and state-machine-owned transitions feels natural for connection lifecycle behavior. It lets workflows describe protocol activity while capabilities identify intrinsic lifecycle events and the state machine remains the source of truth for valid lifecycle movement.
+The separation between workflows, capabilities, observable events, and state-machine-owned transitions feels natural for connection lifecycle behavior. It lets workflows describe protocol activity while capabilities identify intrinsic lifecycle events and the state machine remains the source of truth for valid lifecycle movement.
 
 Capabilities also feel useful as a bridge between workflows and implementation. They allow workflow files to avoid direct component references while still making implementation responsibilities visible through components.
 
@@ -68,15 +68,41 @@ This example leaves several modeling details intentionally unresolved:
 This variant tests whether events should be declared by capabilities rather than workflows. When an event is intrinsic to a capability, workflows can stay focused on sequencing behavior and causal relationships can be derived from:
 
 ```text
-workflow step → capability → emitted events
+workflow step → capability → events
 ```
 
-For this exploratory pass, connection establishment and connection-close signal events moved to the capabilities that perform those protocol actions. Timeout events remain workflow-level because the current capability model only says `connection/discard_connection_state` discards state for a closed or expired connection; it does not clearly model the timer or idle-timeout source that causes the discard. Assigning both `connection_close_timer_expired` and `idle_timeout_expired` to that one capability would make them possible-context outcomes rather than clearly intrinsic emissions.
+For this exploratory pass, connection establishment and connection-close signal events moved to the capabilities that perform those protocol actions. Timeout events remain contextual/external to those capabilities because the current capability model only says `connection/discard_connection_state` discards state for a closed or expired connection; it does not clearly model the timer or idle-timeout source that causes the discard. Assigning both `connection_close_timer_expired` and `idle_timeout_expired` to that one capability would make them possible-context events rather than clearly associated capability events.
 
 Open questions:
 
 - Can the same capability emit different events in different workflow contexts?
-- Should capability `emits` describe possible events or guaranteed events?
+- Should capability `events` describe possible observable events or guaranteed events?
 - Should workflows be able to override, filter, or contextualize emitted events?
 - How should failure events be modeled?
 - Can one capability emit multiple lifecycle events, or should that indicate the capability is too broad?
+
+## Diff-friendly branching workflows
+
+This variant tests whether workflows can support branching while preserving readable diffs.
+
+Instead of a global `nodes:` graph, branching is attached locally to the step that observes the relevant event or result.
+
+This keeps related behavior close together in YAML and avoids fragile internal node references.
+
+Semantic distinction:
+
+- `event`: observable occurrence in the system; may be consumed by workflows, state machines, monitoring, or other behavior.
+- `result`: local outcome of a workflow step; used only for branching inside that workflow.
+- `state`: persistent lifecycle condition owned by an entity/state machine.
+
+In `client/establish_connection`, the handshake step branches locally on `on_event` because `handshake_completed`, `handshake_failed`, and `idle_timeout_expired` are observable events rather than private step return values. `handshake_completed` and `handshake_failed` are declared by the `connection/perform_handshake` capability because they are associated with handshake behavior. `idle_timeout_expired` remains contextual/external to that capability because the current handshake capability does not own the idle-timeout event source.
+
+Open questions:
+
+- Should simple steps remain scalar references, or should all steps be objects?
+- Does `end:` represent workflow completion, a named workflow outcome, or a domain state label?
+- Should branch bodies use `then:` lists?
+- Can branches nest, or should complex branches be extracted into separate workflows?
+- Should workflows branch mostly on `on_event`, `on_result`, or both?
+- Should events in `on_event` be declared by the preceding capability, by external sources, or both?
+- How should retries be modeled without turning workflows into code?
