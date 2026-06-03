@@ -272,6 +272,8 @@ Owns:
 - branching
 - emitted events
 
+A workflow is expressed as steps through capabilities.
+
 ---
 
 ## Role
@@ -398,7 +400,7 @@ Workflow
 Role
 
 Workflow
-    uses
+    steps through
 Capability
 
 Capability
