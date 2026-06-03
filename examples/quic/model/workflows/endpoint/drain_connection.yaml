@@ -10,5 +10,4 @@ steps:
   - connection/discard_connection_state
 
 emits:
-  - connection_close_received
   - connection_close_timer_expired
