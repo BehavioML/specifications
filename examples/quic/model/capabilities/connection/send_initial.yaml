@@ -4,5 +4,5 @@ description: |
 requires:
   - transport/udp_datagram_io
 
-emits:
+events:
   - connection_started
