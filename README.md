@@ -1,4 +1,3 @@
-
 # BehavioML Specification v0.1
 
 Behavior-first system modeling language.
@@ -6,6 +5,7 @@ Behavior-first system modeling language.
 BehavioML models systems using:
 
 - Workflows
+- Roles
 - Capabilities
 - Interfaces
 - Components
@@ -58,6 +58,7 @@ If information appears in multiple places, the model is wrong.
 | Entity | Owns |
 |----------|----------|
 | Workflow | Behavior |
+| Role | Workflow participation |
 | Capability | Responsibility |
 | Interface | Architectural contracts |
 | Component | Implementation |
@@ -180,6 +181,7 @@ Architecture is derived from:
 
 ```text
 Workflows
+Roles
 Capabilities
 Interfaces
 Components
@@ -269,6 +271,32 @@ Owns:
 - decisions
 - branching
 - emitted events
+
+---
+
+## Role
+
+Represents a functional participant in a workflow.
+
+Examples:
+
+```text
+client
+server
+endpoint
+publisher
+subscriber
+relay
+```
+
+A role is not:
+
+- a Component
+- an Entity
+- a Module
+- an implementation
+
+Roles describe who participates in behavior, not how that behavior is implemented.
 
 ---
 
@@ -366,6 +394,10 @@ Explains rationale.
 
 ```text
 Workflow
+    involves
+Role
+
+Workflow
     uses
 Capability
 
@@ -418,7 +450,7 @@ This prevents:
 
 - duplication
 - circular references
-- workflow/state coupling
+- workflow-state coupling
 
 ---
 
@@ -427,6 +459,7 @@ This prevents:
 ```text
 Architecture =
     Workflows
+  + Roles
   + Capabilities
   + Interfaces
   + Components
@@ -463,6 +496,7 @@ These belong in source code.
 model/
 
 ├── workflows/
+├── roles/
 ├── capabilities/
 ├── interfaces/
 ├── components/
