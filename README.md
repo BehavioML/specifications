@@ -57,13 +57,13 @@ If information appears in multiple places, the model is wrong.
 
 | Entity | Owns |
 |----------|----------|
-| Workflow | Behavior |
+| Workflow | Behavioral scenario |
 | Role | Workflow participation |
 | Capability | Responsibility |
 | Interface | Architectural contracts |
 | Component | Implementation |
 | Module | Organization |
-| Event | Domain events |
+| Event | Observable occurrences |
 | Entity | State ownership |
 | State Machine | State transitions |
 | Decision | Rationale |
@@ -90,13 +90,21 @@ Implementation
 
 Workflows are the primary entry point for understanding a system.
 
-A workflow describes:
+A workflow describes one behaviorally meaningful scenario.
 
-- actions
-- decisions
-- branching
-- failures
-- emitted events
+A workflow may describe:
+
+- nominal behavior
+- failure handling
+- timeout handling
+- recovery behavior
+- other meaningful behavioral scenarios
+
+A workflow is not an exhaustive execution graph.
+
+A workflow is not a program.
+
+Implementation-local branching belongs in source code.
 
 Workflows never describe implementation.
 
@@ -123,6 +131,7 @@ Capabilities:
 - are implementation-independent
 - can be composed
 - can be shared across workflows
+- can declare observable events associated with their behavior
 
 ---
 
@@ -263,16 +272,31 @@ Repeated behavior should be extracted into reusable capabilities.
 
 ## Workflow
 
-Describes behavior.
+Describes one behaviorally meaningful scenario.
 
-Owns:
+Examples:
 
-- actions
-- decisions
-- branching
-- emitted events
+```text
+establish_connection
+handle_handshake_failure
+handle_idle_timeout
+close_connection
+```
+
+A workflow owns:
+
+- behavioral intent
+- ordered steps
+- participating roles
+- optional triggering events
 
 A workflow is expressed as steps through capabilities.
+
+A workflow may be triggered by events.
+
+Important failures, timeouts, retries, and recovery paths may be represented as separate workflows when they are meaningful at system-behavior level.
+
+Workflows should not model every execution branch.
 
 ---
 
@@ -307,6 +331,10 @@ Roles describe who participates in behavior, not how that behavior is implemente
 Describes responsibility.
 
 Capabilities may be atomic or composite.
+
+Capabilities may declare observable events associated with their behavior.
+
+Capability-declared events do not imply exact timing, final result, success/failure classification, or a single receiver.
 
 ---
 
@@ -345,7 +373,14 @@ Describes organizational boundaries.
 
 ## Event
 
-Represents something that happened.
+Represents something observable that happened in the system.
+
+Events may be consumed by:
+
+- workflows
+- state machines
+- monitoring
+- other behavior
 
 Examples:
 
@@ -353,6 +388,7 @@ Examples:
 user_created
 payment_completed
 ice_restart_completed
+handshake_failed
 ```
 
 ---
@@ -403,6 +439,10 @@ Workflow
     steps through
 Capability
 
+Workflow
+    may be triggered by
+Event
+
 Capability
     uses
 Capability
@@ -410,6 +450,10 @@ Capability
 Capability
     requires
 Interface
+
+Capability
+    declares observable
+Event
 
 Component
     implements
@@ -422,10 +466,6 @@ Interface
 Component
     belongs_to
 Module
-
-Workflow
-    emits
-Event
 
 Event
     triggers
@@ -444,7 +484,9 @@ Workflows do not own transitions.
 
 State machines own transitions.
 
-Workflows emit events.
+Capabilities may declare observable events.
+
+Events may trigger workflows.
 
 Events trigger state transitions.
 
@@ -453,6 +495,7 @@ This prevents:
 - duplication
 - circular references
 - workflow-state coupling
+- workflow-as-code modeling
 
 ---
 
@@ -487,6 +530,8 @@ BehavioML does not model:
 - Private Methods
 - Framework Details
 - Implementation Patterns
+- Implementation-local Branching
+- Technical Exceptions
 
 These belong in source code.
 
