@@ -43,6 +43,17 @@ The separation between workflows, emitted events, and state-machine-owned transi
 
 Capabilities also feel useful as a bridge between workflows and implementation. They allow workflow files to avoid direct component references while still making implementation responsibilities visible through components.
 
+## Step-level events
+
+This exploratory variant tests whether workflow events should be attached to specific workflow steps instead of only to the workflow as a whole. Keeping emitted events next to the capability step that causes them may preserve causality more clearly when a workflow contains multiple protocol actions and lifecycle effects.
+
+Open questions:
+
+- Should workflows still support top-level emits?
+- Should step-level emits replace top-level emits?
+- Can a workflow emit events outside a capability step?
+- Should steps support labels, conditions, failures, and retries later?
+
 ## Where BehavioML needs further design
 
 This example leaves several modeling details intentionally unresolved:
