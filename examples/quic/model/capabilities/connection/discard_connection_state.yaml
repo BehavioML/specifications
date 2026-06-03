@@ -1,0 +1,2 @@
+description: |
+  Discard lifecycle state for a closed or expired connection.

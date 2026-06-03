@@ -1,0 +1,14 @@
+description: |
+  An endpoint initiates connection shutdown by sending a close signal and entering the closing lifecycle path.
+
+roles:
+  primary: endpoint
+
+uses:
+  - connection/send_connection_close
+  - connection/enter_closing
+  - connection/discard_connection_state
+
+emits:
+  - connection_close_sent
+  - connection_close_timer_expired

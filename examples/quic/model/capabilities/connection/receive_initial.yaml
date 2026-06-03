@@ -1,0 +1,5 @@
+description: |
+  Receive the initial datagram that begins server-side connection establishment.
+
+requires:
+  - transport/udp_datagram_io

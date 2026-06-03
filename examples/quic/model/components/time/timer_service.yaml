@@ -1,0 +1,8 @@
+description: |
+  Implementation boundary for lifecycle timers.
+
+implements:
+  interfaces:
+    - time/timer
+
+belongs_to: time

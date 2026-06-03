@@ -1,0 +1,2 @@
+description: |
+  A functional participant that can operate either side of a QUIC connection lifecycle.

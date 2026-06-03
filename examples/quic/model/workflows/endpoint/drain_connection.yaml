@@ -1,0 +1,14 @@
+description: |
+  An endpoint observes peer-initiated shutdown and keeps enough state to drain the connection safely.
+
+roles:
+  primary: endpoint
+
+uses:
+  - connection/receive_connection_close
+  - connection/enter_draining
+  - connection/discard_connection_state
+
+emits:
+  - connection_close_received
+  - connection_close_timer_expired

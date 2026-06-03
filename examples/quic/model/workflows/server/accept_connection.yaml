@@ -1,0 +1,16 @@
+description: |
+  The server receives the client's initial connection attempt, validates the peer, and completes the handshake.
+
+roles:
+  primary: server
+  participants:
+    - client
+
+uses:
+  - connection/receive_initial
+  - connection/validate_peer
+  - connection/perform_handshake
+
+emits:
+  - connection_started
+  - handshake_completed

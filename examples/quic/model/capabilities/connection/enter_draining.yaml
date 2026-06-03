@@ -1,0 +1,5 @@
+description: |
+  Retain draining connection state long enough to absorb delayed peer traffic.
+
+requires:
+  - time/timer

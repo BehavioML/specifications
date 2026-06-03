@@ -1,0 +1,14 @@
+description: |
+  Implementation boundary for QUIC endpoint lifecycle behavior.
+
+implements:
+  capabilities:
+    - connection/send_initial
+    - connection/receive_initial
+    - connection/send_connection_close
+    - connection/receive_connection_close
+    - connection/enter_closing
+    - connection/enter_draining
+    - connection/discard_connection_state
+
+belongs_to: transport

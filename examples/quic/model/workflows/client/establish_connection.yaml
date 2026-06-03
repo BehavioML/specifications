@@ -1,0 +1,15 @@
+description: |
+  The client starts a QUIC connection, performs the handshake, and reaches the connected lifecycle state.
+
+roles:
+  primary: client
+  participants:
+    - server
+
+uses:
+  - connection/send_initial
+  - connection/perform_handshake
+
+emits:
+  - connection_started
+  - handshake_completed
