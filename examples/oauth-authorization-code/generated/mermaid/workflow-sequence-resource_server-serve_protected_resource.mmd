@@ -1,0 +1,7 @@
+sequenceDiagram
+  participant resource_server as Resource Server
+  participant client as Client
+  participant authorization_server as Authorization Server
+
+  Note over resource_server: Validate access token
+  resource_server->>client: Return protected resource

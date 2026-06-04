@@ -1,0 +1,6 @@
+sequenceDiagram
+  participant client as Client
+  participant server as Server
+
+  client->>server: Connection Close
+  Note over client: Discard connection state

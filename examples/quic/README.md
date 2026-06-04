@@ -98,4 +98,6 @@ Generated Mermaid diagrams are available under:
 generated/mermaid/
 ```
 
+Generated Mermaid documentation includes state-machine diagrams and workflow sequence diagrams. QUIC workflow sequence diagrams are useful for packet/message scenarios, while lifecycle constraints remain best represented by state machines. Relationship graphs, when present, are inspection views rather than primary documentation.
+
 These files are derived from the model and should be regenerated after model changes.

@@ -1,0 +1,9 @@
+sequenceDiagram
+  participant authorization_server as Authorization Server
+  participant client as Client
+  participant resource_owner as Resource Owner
+  participant user_agent as User Agent
+
+  Note over authorization_server: Issue authorization code
+  authorization_server->>user_agent: Redirect with authorization code
+  user_agent->>client: Authorization callback
