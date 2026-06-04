@@ -7,5 +7,11 @@ roles:
     - server
 
 steps:
-  - connection/send_initial
-  - connection/perform_handshake
+  - from: client
+    to: server
+    capability: connection/send_initial
+    label: Initial packet
+  - from: client
+    to: server
+    capability: connection/perform_handshake
+    label: Handshake exchange

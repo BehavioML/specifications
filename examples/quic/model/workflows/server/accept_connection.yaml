@@ -1,5 +1,5 @@
 description: |
-  The server receives the client's initial connection attempt, validates the peer, and completes the handshake.
+  The server receives the client's initial connection attempt and completes the handshake.
 
 roles:
   primary: server
@@ -7,6 +7,11 @@ roles:
     - client
 
 steps:
-  - connection/receive_initial
-  - connection/validate_peer
-  - connection/perform_handshake
+  - from: client
+    to: server
+    capability: connection/receive_initial
+    label: Initial packet
+  - from: server
+    to: client
+    capability: connection/perform_handshake
+    label: Handshake exchange

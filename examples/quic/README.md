@@ -27,6 +27,8 @@ This example should help answer the following questions:
 
 Can BehavioML describe protocol behavior naturally?
 
+QUIC workflows now use sequence-diagrammable object steps where the scenario has a clear ordered spine. Client/server packet exchanges use explicit `from`/`to` role boundaries, while local endpoint processing uses `from`-only steps. Lifecycle legality remains primarily represented by the connection state machine rather than being forced into sequence-diagram control flow.
+
 ### Event
 
 Can events act as the bridge between workflows and state transitions?

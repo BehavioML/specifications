@@ -5,9 +5,15 @@ roles:
   primary: endpoint
 
 steps:
-  - connection/receive_connection_close
-  - connection/enter_draining
-  - connection/discard_connection_state
+  - from: endpoint
+    capability: connection/receive_connection_close
+    label: Receive Connection Close
+  - from: endpoint
+    capability: connection/enter_draining
+    label: Enter draining
+  - from: endpoint
+    capability: connection/discard_connection_state
+    label: Discard connection state
 
 emits:
   - connection_close_timer_expired

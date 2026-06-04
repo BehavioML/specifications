@@ -5,7 +5,9 @@ roles:
   primary: endpoint
 
 steps:
-  - connection/discard_connection_state
+  - from: endpoint
+    capability: connection/discard_connection_state
+    label: Discard connection state
 
 emits:
   - idle_timeout_expired
