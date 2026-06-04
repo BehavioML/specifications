@@ -1,5 +1,9 @@
 {
+  "private": true,
   "scripts": {
-    "validate:models": "scripts/behavioml-validate.rb examples/quic/model && scripts/behavioml-validate.rb examples/oauth-authorization-code/model"
+    "validate:models": "behavioml-validate examples/quic/model && behavioml-validate examples/oauth-authorization-code/model"
+  },
+  "devDependencies": {
+    "@behavioml/validator": "github:BehavioML/validator"
   }
 }
