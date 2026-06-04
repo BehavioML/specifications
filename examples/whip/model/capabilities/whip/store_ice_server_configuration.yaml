@@ -1,0 +1,4 @@
+description: |
+  Store ICE server configuration discovered from Link rel=ice-server metadata for use by the WHIP client.
+events:
+  - ice_server_link_received

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "validate:models": "behavioml-validate examples/quic/model && behavioml-validate examples/oauth-authorization-code/model"
+    "validate:models": "behavioml-validate examples/quic/model && behavioml-validate examples/oauth-authorization-code/model && behavioml-validate examples/whip/model"
   },
   "devDependencies": {
     "@behavioml/generator": "github:BehavioML/generator",

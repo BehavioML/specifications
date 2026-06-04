@@ -1,0 +1,7 @@
+sequenceDiagram
+  participant whip_client as Whip Client
+  participant whip_endpoint as Whip Endpoint
+
+  whip_client->>whip_endpoint: Original WHIP request
+  whip_endpoint->>whip_client: 307 Temporary Redirect
+  whip_client->>whip_endpoint: Repeat original request at redirected endpoint

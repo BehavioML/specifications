@@ -1,0 +1,4 @@
+description: |
+  Return the WHIP termination response after the resource and associated ingest session are removed.
+events:
+  - session_terminated

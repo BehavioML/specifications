@@ -1,0 +1,7 @@
+description: |
+  Receive a WHIP request that lacks a valid bearer token and stop protocol processing before changing session or resource state.
+uses:
+  - whip/extract_bearer_token
+  - whip/validate_bearer_token
+events:
+  - authorization_failed

@@ -1,0 +1,18 @@
+description: |
+  Model WHIP HTTP requests and responses as workflow-visible steps.
+
+rationale: |
+  WHIP behavior is defined by role interactions over HTTP: POST creates a resource, PATCH updates it, DELETE terminates it, and error or redirect responses change client behavior. These exchanges must remain visible in Workflow.steps with explicit from/to context instead of being hidden inside Capability.uses.
+
+consequences: |
+  Workflow sequence diagrams show the HTTP-exchange spine, while validation, allocation, persistence, and response preparation remain ordered internal decomposition under the relevant capabilities.
+
+affects:
+  - workflows:client/create_session
+  - workflows:client/follow_redirect
+  - workflows:client/trickle_ice_candidate
+  - workflows:client/restart_ice
+  - workflows:client/terminate_session
+  - workflows:endpoint/reject_unauthorized_request
+  - workflows:endpoint/reject_invalid_offer
+  - workflows:endpoint/reject_unknown_resource

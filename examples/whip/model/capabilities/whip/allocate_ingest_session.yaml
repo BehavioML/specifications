@@ -1,0 +1,4 @@
+description: |
+  Allocate behaviorally relevant ingest session capacity for the WHIP session without modeling media pipeline internals.
+requires:
+  - media/ingest_session_allocation

@@ -1,0 +1,2 @@
+description: |
+  The endpoint-created HTTP resource identified by the Location response header and used for PATCH updates and DELETE termination.

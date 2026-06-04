@@ -1,0 +1,7 @@
+description: |
+  Receive a PATCH or DELETE targeting an unknown or expired WHIP resource and reject it before applying an update or termination.
+uses:
+  - whip/authorize_request
+  - whip/validate_resource_location
+events:
+  - unknown_resource_rejected

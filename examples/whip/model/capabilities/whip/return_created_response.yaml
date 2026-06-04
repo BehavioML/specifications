@@ -1,0 +1,4 @@
+description: |
+  Return HTTP 201 Created with an SDP answer, the WHIP resource Location, and any ICE server discovery links.
+events:
+  - session_established

@@ -1,0 +1,15 @@
+description: |
+  Keep detailed SDP grammar, ICE candidate grammar, HTTP header schemas, and problem-details payload schemas out of the core BehavioML model.
+
+rationale: |
+  These protocol payload contracts matter for an implementation or HTTP contract document, but the WHIP example is intended to model behavioral responsibilities, workflows, lifecycle transitions, and protocol outcomes.
+
+consequences: |
+  Capabilities use names such as validate_sdp_offer, validate_ice_candidate_fragment, include_location_header, and return_problem_response without expanding the underlying wire-format schemas.
+
+affects:
+  - capabilities:whip/validate_sdp_offer
+  - capabilities:whip/validate_ice_candidate_fragment
+  - capabilities:whip/include_location_header
+  - capabilities:whip/return_problem_response
+  - capabilities:whip/return_authorization_error

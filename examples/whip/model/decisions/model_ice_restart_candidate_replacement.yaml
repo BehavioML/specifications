@@ -1,0 +1,14 @@
+description: |
+  Model ICE restart remote-candidate replacement as explicit WHIP behavior.
+
+rationale: |
+  During an ICE restart, the new restart offer replaces previous remote candidates rather than merely appending to them. That replacement changes endpoint responsibility and lifecycle behavior, so it is represented as a capability and event instead of being left as payload interpretation.
+
+consequences: |
+  The restart_ice workflow expands through replace_remote_ice_candidates, and the session lifecycle records remote_ice_candidates_replaced while the session is in ice_restarting.
+
+affects:
+  - workflows:client/restart_ice
+  - capabilities:whip/replace_remote_ice_candidates
+  - events:remote_ice_candidates_replaced
+  - state-machines:whip_session/lifecycle

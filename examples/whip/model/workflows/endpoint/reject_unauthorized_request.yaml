@@ -1,0 +1,20 @@
+description: |
+  The endpoint rejects a WHIP request that does not carry a valid bearer token and returns an authorization problem response.
+
+roles:
+  primary: whip_endpoint
+  participants:
+    - whip_client
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_sdp_offer
+    label: WHIP request without valid bearer token
+  - from: whip_endpoint
+    capability: whip/receive_unauthorized_request
+    label: Extract and validate bearer token
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_authorization_error
+    label: 401 or 403 problem response

@@ -1,0 +1,2 @@
+description: |
+  Repeat the original WHIP HTTP request at the redirected endpoint identified by the 307 response.
