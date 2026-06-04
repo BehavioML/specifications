@@ -1,0 +1,11 @@
+%% state-machine: authorization_code/lifecycle
+stateDiagram-v2
+  state requested
+  state issued
+  state redeemed
+  state expired
+  state rejected
+  requested --> issued: authorization_code_issued
+  issued --> redeemed: authorization_code_validated
+  requested --> rejected: authorization_code_rejected
+  issued --> rejected: authorization_code_rejected

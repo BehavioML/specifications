@@ -1,0 +1,22 @@
+flowchart LR
+  C_connection_discard_connection_state["capability: connection/discard_connection_state"]
+  C_connection_enter_closing["capability: connection/enter_closing"]
+  C_connection_enter_draining["capability: connection/enter_draining"]
+  C_connection_perform_handshake["capability: connection/perform_handshake"]
+  E_handshake_completed["event: handshake_completed"]
+  E_handshake_failed["event: handshake_failed"]
+  C_connection_receive_connection_close["capability: connection/receive_connection_close"]
+  E_connection_close_received["event: connection_close_received"]
+  C_connection_receive_initial["capability: connection/receive_initial"]
+  E_connection_started["event: connection_started"]
+  C_connection_send_connection_close["capability: connection/send_connection_close"]
+  E_connection_close_sent["event: connection_close_sent"]
+  C_connection_send_initial["capability: connection/send_initial"]
+  C_connection_validate_peer["capability: connection/validate_peer"]
+
+  C_connection_perform_handshake --> E_handshake_completed
+  C_connection_perform_handshake --> E_handshake_failed
+  C_connection_receive_connection_close --> E_connection_close_received
+  C_connection_receive_initial --> E_connection_started
+  C_connection_send_connection_close --> E_connection_close_sent
+  C_connection_send_initial --> E_connection_started
