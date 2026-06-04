@@ -1,5 +1,8 @@
 description: |
   Retain closing connection state until the close timer expires.
 
+uses:
+  - connection/discard_connection_state
+
 requires:
   - time/timer

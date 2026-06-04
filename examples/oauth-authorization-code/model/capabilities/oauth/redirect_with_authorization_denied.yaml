@@ -1,5 +1,7 @@
 description: |
   Redirect the user agent back to the client with an authorization denied outcome.
+uses:
+  - oauth/reject_authorization_request
 requires:
   - oauth/authorization_endpoint
 events:

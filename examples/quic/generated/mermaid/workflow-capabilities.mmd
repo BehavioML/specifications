@@ -20,10 +20,8 @@ flowchart LR
   W_client_handle_handshake_failure --> C_connection_discard_connection_state
   W_endpoint_close_connection --> C_connection_send_connection_close
   W_endpoint_close_connection --> C_connection_enter_closing
-  W_endpoint_close_connection --> C_connection_discard_connection_state
   W_endpoint_drain_connection --> C_connection_receive_connection_close
   W_endpoint_drain_connection --> C_connection_enter_draining
-  W_endpoint_drain_connection --> C_connection_discard_connection_state
   W_endpoint_handle_idle_timeout --> C_connection_discard_connection_state
   W_server_accept_connection --> C_connection_receive_initial
   W_server_accept_connection --> C_connection_perform_handshake

@@ -11,9 +11,6 @@ steps:
   - from: endpoint
     capability: connection/enter_draining
     label: Enter draining
-  - from: endpoint
-    capability: connection/discard_connection_state
-    label: Discard connection state
 
 emits:
   - connection_close_timer_expired

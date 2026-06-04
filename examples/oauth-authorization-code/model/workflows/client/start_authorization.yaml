@@ -10,9 +10,6 @@ roles:
 
 steps:
   - from: client
-    capability: oauth/build_authorization_request
-    label: Build authorization request
-  - from: client
     to: user_agent
     capability: oauth/redirect_to_authorization_server
     label: Redirect to authorization server
