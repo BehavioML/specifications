@@ -1,0 +1,4 @@
+description: |
+  Apply the accepted ICE restart to the WHIP session while preserving the existing WHIP resource identity.
+events:
+  - ice_restart_completed

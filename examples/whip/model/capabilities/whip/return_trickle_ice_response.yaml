@@ -1,0 +1,4 @@
+description: |
+  Return HTTP 204 No Content after a valid trickle ICE candidate fragment has been accepted.
+events:
+  - remote_ice_candidate_applied

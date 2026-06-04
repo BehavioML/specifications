@@ -1,0 +1,8 @@
+sequenceDiagram
+  participant whip_client as Whip Client
+  participant whip_endpoint as Whip Endpoint
+
+  whip_client->>whip_endpoint: POST SDP offer
+  Note over whip_endpoint: Authorize, validate, allocate resource, and generate answer
+  Note over whip_endpoint: 1. Authorize Request<br/>2. Validate Sdp Offer<br/>3. Allocate Ingest Session<br/>4. Create Whip Resource<br/>5. Generate Sdp Answer<br/>6. Include Location Header<br/>7. Include Ice Server Links
+  whip_endpoint->>whip_client: 201 Created with SDP answer and Location

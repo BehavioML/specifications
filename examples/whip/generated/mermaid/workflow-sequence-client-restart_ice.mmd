@@ -1,0 +1,8 @@
+sequenceDiagram
+  participant whip_client as Whip Client
+  participant whip_endpoint as Whip Endpoint
+
+  whip_client->>whip_endpoint: PATCH ICE restart offer
+  Note over whip_endpoint: Validate restart, replace remote candidates, and generate answer
+  Note over whip_endpoint: 1. Authorize Request<br/>2. Validate Resource Location<br/>3. Validate Ice Restart Offer<br/>4. Replace Remote Ice Candidates<br/>5. Apply Ice Restart<br/>6. Generate Sdp Answer
+  whip_endpoint->>whip_client: 200 OK with SDP answer

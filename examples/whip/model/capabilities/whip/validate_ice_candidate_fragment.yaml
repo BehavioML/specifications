@@ -1,0 +1,2 @@
+description: |
+  Validate a trickled ICE candidate fragment at a behavioral level without modeling ICE candidate grammar.

@@ -1,0 +1,20 @@
+description: |
+  The endpoint rejects an invalid SDP offer or unsupported media/session request before creating a WHIP resource.
+
+roles:
+  primary: whip_endpoint
+  participants:
+    - whip_client
+
+triggered_by:
+  - session_creation_requested
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/receive_invalid_sdp_offer
+    label: POST invalid SDP offer
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_problem_response
+    label: Problem response

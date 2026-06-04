@@ -1,0 +1,2 @@
+description: |
+  The functional participant that owns the WHIP HTTP protocol surface for session creation, resource updates, and termination.

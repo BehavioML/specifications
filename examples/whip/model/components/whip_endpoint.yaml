@@ -1,0 +1,26 @@
+description: |
+  Implementation boundary for the WHIP HTTP protocol surface and resource lifecycle behavior.
+
+implements:
+  capabilities:
+    - whip/receive_sdp_offer
+    - whip/return_created_response
+    - whip/receive_redirect_response
+    - whip/receive_trickle_ice_patch
+    - whip/return_trickle_ice_response
+    - whip/receive_ice_restart_patch
+    - whip/return_ice_restart_answer
+    - whip/receive_delete_request
+    - whip/return_termination_response
+    - whip/return_problem_response
+    - whip/return_authorization_error
+    - whip/receive_unauthorized_request
+    - whip/receive_invalid_sdp_offer
+    - whip/receive_unknown_resource_request
+    - whip/create_whip_resource
+    - whip/include_location_header
+    - whip/include_ice_server_links
+    - whip/validate_resource_location
+    - whip/delete_whip_resource
+
+belongs_to: whip_http

@@ -1,0 +1,2 @@
+description: |
+  Architectural dependency point for producing SDP answers without modeling SDP grammar or browser-specific WebRTC APIs.

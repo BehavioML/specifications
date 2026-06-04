@@ -1,0 +1,4 @@
+description: |
+  Release media ingest session capacity associated with a terminating WHIP session.
+requires:
+  - media/ingest_session_allocation

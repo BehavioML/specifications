@@ -1,0 +1,6 @@
+sequenceDiagram
+  participant whip_client as Whip Client
+  participant whip_endpoint as Whip Endpoint
+
+  whip_endpoint->>whip_client: Response includes Link rel=ice-server
+  Note over whip_client: Store ICE server configuration

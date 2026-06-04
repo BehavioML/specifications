@@ -1,0 +1,19 @@
+description: |
+  The client records ICE server discovery metadata surfaced by Link rel=ice-server headers in a WHIP response.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+triggered_by:
+  - ice_server_link_received
+
+steps:
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/include_ice_server_links
+    label: Response includes Link rel=ice-server
+  - from: whip_client
+    capability: whip/store_ice_server_configuration
+    label: Store ICE server configuration

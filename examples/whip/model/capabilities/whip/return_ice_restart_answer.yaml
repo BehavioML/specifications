@@ -1,0 +1,4 @@
+description: |
+  Return HTTP 200 OK with the SDP answer for a successfully processed ICE restart.
+events:
+  - ice_restart_completed

@@ -1,0 +1,20 @@
+description: |
+  The client creates a WHIP session by posting an SDP offer and receiving a 201 Created response with an SDP answer and resource Location.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_sdp_offer
+    label: POST SDP offer
+  - from: whip_endpoint
+    capability: whip/receive_sdp_offer
+    label: Authorize, validate, allocate resource, and generate answer
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_created_response
+    label: 201 Created with SDP answer and Location

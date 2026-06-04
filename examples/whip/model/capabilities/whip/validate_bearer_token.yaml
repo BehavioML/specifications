@@ -1,0 +1,7 @@
+description: |
+  Validate that the extracted bearer token authorizes the requested WHIP operation.
+requires:
+  - auth/bearer_token_validation
+events:
+  - authorization_succeeded
+  - authorization_failed

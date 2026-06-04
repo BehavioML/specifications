@@ -1,0 +1,62 @@
+entity: whip_session
+
+states:
+  - new
+  - creating
+  - active
+  - ice_restarting
+  - terminating
+  - terminated
+  - failed
+
+transitions:
+  - from: new
+    on: session_creation_requested
+    to: creating
+
+  - from: creating
+    on: session_resource_created
+    to: active
+
+  - from: active
+    on: session_established
+    to: active
+
+  - from: creating
+    on: session_creation_failed
+    to: failed
+
+  - from: active
+    on: trickle_ice_candidate_received
+    to: active
+
+  - from: active
+    on: remote_ice_candidate_applied
+    to: active
+
+  - from: active
+    on: ice_restart_requested
+    to: ice_restarting
+
+  - from: ice_restarting
+    on: remote_ice_candidates_replaced
+    to: ice_restarting
+
+  - from: ice_restarting
+    on: ice_restart_completed
+    to: active
+
+  - from: active
+    on: termination_requested
+    to: terminating
+
+  - from: terminating
+    on: session_terminated
+    to: terminated
+
+  - from:
+      - active
+      - ice_restarting
+      - terminating
+    on: request_rejected
+    to: failed

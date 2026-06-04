@@ -1,0 +1,8 @@
+sequenceDiagram
+  participant whip_endpoint as Whip Endpoint
+  participant whip_client as Whip Client
+
+  whip_client->>whip_endpoint: Request unknown WHIP resource
+  Note over whip_endpoint: Validate resource Location
+  Note over whip_endpoint: 1. Authorize Request<br/>2. Validate Resource Location
+  whip_endpoint->>whip_client: 404 problem response

@@ -1,0 +1,12 @@
+description: |
+  Implementation boundary for bearer-token extraction and validation used by WHIP request authorization.
+
+implements:
+  capabilities:
+    - whip/authorize_request
+    - whip/extract_bearer_token
+    - whip/validate_bearer_token
+  interfaces:
+    - auth/bearer_token_validation
+
+belongs_to: authorization

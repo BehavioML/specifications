@@ -1,0 +1,12 @@
+description: |
+  Receive an ICE restart PATCH and prepare endpoint-side restart processing for an existing WHIP resource.
+uses:
+  - whip/authorize_request
+  - whip/validate_resource_location
+  - whip/validate_ice_restart_offer
+  - whip/replace_remote_ice_candidates
+  - whip/apply_ice_restart
+  - whip/generate_sdp_answer
+events:
+  - authorization_succeeded
+  - ice_restart_requested

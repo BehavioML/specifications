@@ -1,0 +1,103 @@
+flowchart LR
+  C_whip_allocate_ingest_session["capability: whip/allocate_ingest_session"]
+  C_whip_apply_ice_restart["capability: whip/apply_ice_restart"]
+  E_ice_restart_completed["event: ice_restart_completed"]
+  C_whip_apply_remote_ice_candidate["capability: whip/apply_remote_ice_candidate"]
+  E_remote_ice_candidate_applied["event: remote_ice_candidate_applied"]
+  C_whip_authorize_request["capability: whip/authorize_request"]
+  E_authorization_succeeded["event: authorization_succeeded"]
+  E_authorization_failed["event: authorization_failed"]
+  C_whip_create_whip_resource["capability: whip/create_whip_resource"]
+  E_session_resource_created["event: session_resource_created"]
+  C_whip_delete_whip_resource["capability: whip/delete_whip_resource"]
+  E_session_terminated["event: session_terminated"]
+  C_whip_extract_bearer_token["capability: whip/extract_bearer_token"]
+  C_whip_generate_sdp_answer["capability: whip/generate_sdp_answer"]
+  C_whip_include_ice_server_links["capability: whip/include_ice_server_links"]
+  E_ice_server_link_received["event: ice_server_link_received"]
+  C_whip_include_location_header["capability: whip/include_location_header"]
+  C_whip_receive_delete_request["capability: whip/receive_delete_request"]
+  E_termination_requested["event: termination_requested"]
+  C_whip_receive_ice_restart_patch["capability: whip/receive_ice_restart_patch"]
+  E_ice_restart_requested["event: ice_restart_requested"]
+  C_whip_receive_invalid_sdp_offer["capability: whip/receive_invalid_sdp_offer"]
+  E_session_creation_requested["event: session_creation_requested"]
+  E_sdp_offer_received["event: sdp_offer_received"]
+  E_invalid_offer_rejected["event: invalid_offer_rejected"]
+  C_whip_receive_redirect_response["capability: whip/receive_redirect_response"]
+  E_redirect_response_received["event: redirect_response_received"]
+  C_whip_receive_sdp_offer["capability: whip/receive_sdp_offer"]
+  C_whip_receive_trickle_ice_patch["capability: whip/receive_trickle_ice_patch"]
+  E_trickle_ice_candidate_received["event: trickle_ice_candidate_received"]
+  C_whip_receive_unauthorized_request["capability: whip/receive_unauthorized_request"]
+  C_whip_receive_unknown_resource_request["capability: whip/receive_unknown_resource_request"]
+  E_unknown_resource_rejected["event: unknown_resource_rejected"]
+  C_whip_reject_invalid_sdp_offer["capability: whip/reject_invalid_sdp_offer"]
+  E_session_creation_failed["event: session_creation_failed"]
+  C_whip_release_ingest_session["capability: whip/release_ingest_session"]
+  C_whip_repeat_request_at_redirected_endpoint["capability: whip/repeat_request_at_redirected_endpoint"]
+  C_whip_replace_remote_ice_candidates["capability: whip/replace_remote_ice_candidates"]
+  E_remote_ice_candidates_replaced["event: remote_ice_candidates_replaced"]
+  C_whip_return_authorization_error["capability: whip/return_authorization_error"]
+  E_request_rejected["event: request_rejected"]
+  E_problem_response_returned["event: problem_response_returned"]
+  C_whip_return_created_response["capability: whip/return_created_response"]
+  E_session_established["event: session_established"]
+  C_whip_return_ice_restart_answer["capability: whip/return_ice_restart_answer"]
+  C_whip_return_problem_response["capability: whip/return_problem_response"]
+  C_whip_return_termination_response["capability: whip/return_termination_response"]
+  C_whip_return_trickle_ice_response["capability: whip/return_trickle_ice_response"]
+  C_whip_send_delete_request["capability: whip/send_delete_request"]
+  C_whip_send_ice_restart_patch["capability: whip/send_ice_restart_patch"]
+  C_whip_send_sdp_offer["capability: whip/send_sdp_offer"]
+  C_whip_send_trickle_ice_patch["capability: whip/send_trickle_ice_patch"]
+  C_whip_send_unknown_resource_request["capability: whip/send_unknown_resource_request"]
+  C_whip_store_ice_server_configuration["capability: whip/store_ice_server_configuration"]
+  C_whip_validate_bearer_token["capability: whip/validate_bearer_token"]
+  C_whip_validate_ice_candidate_fragment["capability: whip/validate_ice_candidate_fragment"]
+  C_whip_validate_ice_restart_offer["capability: whip/validate_ice_restart_offer"]
+  C_whip_validate_resource_location["capability: whip/validate_resource_location"]
+  C_whip_validate_sdp_offer["capability: whip/validate_sdp_offer"]
+
+  C_whip_apply_ice_restart --> E_ice_restart_completed
+  C_whip_apply_remote_ice_candidate --> E_remote_ice_candidate_applied
+  C_whip_authorize_request --> E_authorization_succeeded
+  C_whip_authorize_request --> E_authorization_failed
+  C_whip_create_whip_resource --> E_session_resource_created
+  C_whip_delete_whip_resource --> E_session_terminated
+  C_whip_include_ice_server_links --> E_ice_server_link_received
+  C_whip_include_location_header --> E_session_resource_created
+  C_whip_receive_delete_request --> E_authorization_succeeded
+  C_whip_receive_delete_request --> E_termination_requested
+  C_whip_receive_ice_restart_patch --> E_authorization_succeeded
+  C_whip_receive_ice_restart_patch --> E_ice_restart_requested
+  C_whip_receive_invalid_sdp_offer --> E_session_creation_requested
+  C_whip_receive_invalid_sdp_offer --> E_sdp_offer_received
+  C_whip_receive_invalid_sdp_offer --> E_invalid_offer_rejected
+  C_whip_receive_redirect_response --> E_redirect_response_received
+  C_whip_receive_sdp_offer --> E_session_creation_requested
+  C_whip_receive_sdp_offer --> E_sdp_offer_received
+  C_whip_receive_sdp_offer --> E_authorization_succeeded
+  C_whip_receive_trickle_ice_patch --> E_authorization_succeeded
+  C_whip_receive_trickle_ice_patch --> E_trickle_ice_candidate_received
+  C_whip_receive_unauthorized_request --> E_authorization_failed
+  C_whip_receive_unknown_resource_request --> E_unknown_resource_rejected
+  C_whip_reject_invalid_sdp_offer --> E_invalid_offer_rejected
+  C_whip_reject_invalid_sdp_offer --> E_session_creation_failed
+  C_whip_replace_remote_ice_candidates --> E_remote_ice_candidates_replaced
+  C_whip_return_authorization_error --> E_authorization_failed
+  C_whip_return_authorization_error --> E_request_rejected
+  C_whip_return_authorization_error --> E_problem_response_returned
+  C_whip_return_created_response --> E_session_established
+  C_whip_return_ice_restart_answer --> E_ice_restart_completed
+  C_whip_return_problem_response --> E_request_rejected
+  C_whip_return_problem_response --> E_problem_response_returned
+  C_whip_return_termination_response --> E_session_terminated
+  C_whip_return_trickle_ice_response --> E_remote_ice_candidate_applied
+  C_whip_store_ice_server_configuration --> E_ice_server_link_received
+  C_whip_validate_bearer_token --> E_authorization_succeeded
+  C_whip_validate_bearer_token --> E_authorization_failed
+  C_whip_validate_ice_restart_offer --> E_ice_restart_requested
+  C_whip_validate_resource_location --> E_unknown_resource_rejected
+  C_whip_validate_sdp_offer --> E_session_creation_requested
+  C_whip_validate_sdp_offer --> E_session_creation_failed

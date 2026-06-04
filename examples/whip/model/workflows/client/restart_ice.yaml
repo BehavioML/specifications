@@ -1,0 +1,23 @@
+description: |
+  The client sends an ICE restart PATCH, the endpoint replaces previous remote candidates, applies the restart, and returns a new SDP answer.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+triggered_by:
+  - session_established
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_ice_restart_patch
+    label: PATCH ICE restart offer
+  - from: whip_endpoint
+    capability: whip/receive_ice_restart_patch
+    label: Validate restart, replace remote candidates, and generate answer
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_ice_restart_answer
+    label: 200 OK with SDP answer

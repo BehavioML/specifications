@@ -1,0 +1,2 @@
+description: |
+  The WHIP client observed ICE server discovery metadata from a Link rel=ice-server response header.

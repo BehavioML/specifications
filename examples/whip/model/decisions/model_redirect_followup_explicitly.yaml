@@ -1,0 +1,14 @@
+description: |
+  Model the HTTP 307 follow-up request explicitly rather than inferring it from the redirect response.
+
+rationale: |
+  A 307 response preserves the original request method and body, but the client's repeated request is still observable behavior. Generators should not infer retries, redirects, or follow-up requests that are not present in Workflow.steps.
+
+consequences: |
+  The follow_redirect workflow contains both the 307 response and the client request repeated at the redirected endpoint. The example uses the same whip_endpoint role because it does not distinguish concrete endpoint instances.
+
+affects:
+  - workflows:client/follow_redirect
+  - capabilities:whip/receive_redirect_response
+  - capabilities:whip/repeat_request_at_redirected_endpoint
+  - events:redirect_response_received

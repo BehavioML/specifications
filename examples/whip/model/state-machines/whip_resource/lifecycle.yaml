@@ -1,0 +1,44 @@
+entity: whip_resource
+
+states:
+  - absent
+  - created
+  - active
+  - deleting
+  - deleted
+  - failed
+
+transitions:
+  - from: absent
+    on: session_resource_created
+    to: created
+
+  - from: created
+    on: session_established
+    to: active
+
+  - from: absent
+    on: session_creation_failed
+    to: failed
+
+  - from: active
+    on: trickle_ice_candidate_received
+    to: active
+
+  - from: active
+    on: ice_restart_requested
+    to: active
+
+  - from: active
+    on: termination_requested
+    to: deleting
+
+  - from: deleting
+    on: session_terminated
+    to: deleted
+
+  - from:
+      - deleted
+      - failed
+    on: unknown_resource_rejected
+    to: failed

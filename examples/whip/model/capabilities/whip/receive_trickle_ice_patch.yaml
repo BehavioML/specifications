@@ -1,0 +1,10 @@
+description: |
+  Receive a trickle ICE PATCH for an existing WHIP resource and apply the candidate fragment if valid.
+uses:
+  - whip/authorize_request
+  - whip/validate_resource_location
+  - whip/validate_ice_candidate_fragment
+  - whip/apply_remote_ice_candidate
+events:
+  - authorization_succeeded
+  - trickle_ice_candidate_received
