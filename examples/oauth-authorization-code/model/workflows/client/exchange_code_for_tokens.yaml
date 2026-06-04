@@ -1,5 +1,5 @@
 description: |
-  The client receives the authorization code through the redirect and exchanges it for tokens at the token endpoint.
+  After the authorization callback delivers the code, the client exchanges it for tokens at the token endpoint and receives the token response.
 
 roles:
   primary: client
@@ -10,4 +10,11 @@ triggered_by:
   - authorization_code_issued
 
 steps:
-  - oauth/exchange_code_for_tokens
+  - from: client
+    to: authorization_server
+    capability: oauth/exchange_code_for_tokens
+    label: Token request
+  - from: authorization_server
+    to: client
+    capability: oauth/return_token_response
+    label: Token response

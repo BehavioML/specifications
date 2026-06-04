@@ -1,0 +1,10 @@
+description: |
+  Return a token endpoint response to the client after validating the authorization code and producing the requested tokens.
+uses:
+  - oauth/validate_authorization_code
+  - oauth/issue_access_token
+  - oauth/issue_refresh_token
+requires:
+  - oauth/token_endpoint
+events:
+  - tokens_issued

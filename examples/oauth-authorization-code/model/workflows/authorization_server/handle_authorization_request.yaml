@@ -12,7 +12,18 @@ triggered_by:
   - authorization_requested
 
 steps:
-  - oauth/receive_authorization_request
-  - oauth/authenticate_resource_owner
-  - oauth/validate_redirect_uri
-  - oauth/obtain_consent
+  - from: user_agent
+    to: authorization_server
+    capability: oauth/receive_authorization_request
+    label: Authorization request
+  - from: authorization_server
+    to: resource_owner
+    capability: oauth/authenticate_resource_owner
+    label: Authenticate resource owner
+  - from: authorization_server
+    capability: oauth/validate_redirect_uri
+    label: Validate redirect URI
+  - from: authorization_server
+    to: resource_owner
+    capability: oauth/obtain_consent
+    label: Obtain consent

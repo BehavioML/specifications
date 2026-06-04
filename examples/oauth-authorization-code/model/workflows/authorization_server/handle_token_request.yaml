@@ -1,5 +1,5 @@
 description: |
-  The authorization server handles a token request, validates the authorization code, and issues tokens.
+  The authorization server handles a token request and returns the token endpoint response.
 
 roles:
   primary: authorization_server
@@ -10,7 +10,11 @@ triggered_by:
   - token_request_received
 
 steps:
-  - oauth/receive_token_request
-  - oauth/validate_authorization_code
-  - oauth/issue_access_token
-  - oauth/issue_refresh_token
+  - from: client
+    to: authorization_server
+    capability: oauth/receive_token_request
+    label: Token request
+  - from: authorization_server
+    to: client
+    capability: oauth/return_token_response
+    label: Token response

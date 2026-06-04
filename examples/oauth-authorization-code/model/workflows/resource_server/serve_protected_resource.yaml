@@ -11,5 +11,10 @@ triggered_by:
   - protected_resource_requested
 
 steps:
-  - oauth/validate_access_token
-  - oauth/return_protected_resource
+  - from: resource_server
+    capability: oauth/validate_access_token
+    label: Validate access token
+  - from: resource_server
+    to: client
+    capability: oauth/return_protected_resource
+    label: Return protected resource

@@ -126,6 +126,18 @@ Separate workflows were clearer and stayed aligned with BehavioML's scenario-ori
 
 This supports the current guidance that workflows should not become executable branch graphs.
 
+### Sequence-diagrammable workflow steps
+
+Converting the OAuth workflows from legacy string steps to object steps made the intended sequence-diagram shape much more explicit. A step with `from` and `to` worked naturally for redirects, incoming requests, callbacks, token exchanges, resource calls, and resource responses because those steps cross role boundaries. A step with only `from` worked well for local preparation, validation, issuance, and rejection responsibilities where the behavior belongs to one role even if the broader scenario involves other participants.
+
+The separate `label` field was useful. Capability references such as `oauth/receive_authorization_request` and `oauth/redirect_with_authorization_code` remain stable model responsibilities, while labels such as `Authorization request` or `Redirect with authorization code` can present the step in the language of this workflow. This should reduce generator guesswork because the model now says which role performs the step and whether another role is directly involved, instead of requiring a generator to infer messages from capability names.
+
+The follow-up modeling pass tightened the boundary between observable scenario steps and internal decomposition. Browser-mediated callbacks are now explicit rather than inferred: after the authorization server redirects through the user agent, the user agent has its own `oauth/deliver_authorization_callback` step back to the client for both authorization-code and denied outcomes. This keeps the sequence diagram honest without asking a generator to invent the browser's follow-up request.
+
+Token response delivery is also distinct from local token production. `oauth/return_token_response` is the observable authorization-server-to-client response step, while `oauth/validate_authorization_code`, `oauth/issue_access_token`, and `oauth/issue_refresh_token` are internal decomposition under that capability's `uses`. This makes `Workflow.steps` read as the ordered observable scenario spine rather than a list of every validation, persistence, or issuance responsibility.
+
+Some local steps remain intentionally visible when they are useful in the human-facing sequence diagram. For example, redirect URI validation and authorization-code issuance still communicate important protocol responsibilities. `oauth/validate_access_token` also stays local to the resource server because token introspection is not modeled explicitly. The useful rule of thumb from this pass is: keep local steps when they clarify the scenario, but move details to `Capability.uses` when the sequence remains understandable without rendering them directly.
+
 ### Validator coverage observations
 
 The validator coverage output was useful but somewhat noisy:

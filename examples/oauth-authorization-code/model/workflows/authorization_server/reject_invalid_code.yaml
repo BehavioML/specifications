@@ -10,4 +10,7 @@ triggered_by:
   - authorization_code_rejected
 
 steps:
-  - oauth/reject_token_request
+  - from: authorization_server
+    to: client
+    capability: oauth/reject_token_request
+    label: Reject token request
