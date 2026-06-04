@@ -1,0 +1,16 @@
+description: |
+  The authorization server rejects an authorization request when the redirect URI or request redirect context cannot be validated safely.
+
+roles:
+  primary: authorization_server
+  participants:
+    - user_agent
+
+triggered_by:
+  - redirect_uri_rejected
+
+steps:
+  - from: authorization_server
+    to: user_agent
+    capability: oauth/return_authorization_request_rejection
+    label: Reject authorization request without redirect

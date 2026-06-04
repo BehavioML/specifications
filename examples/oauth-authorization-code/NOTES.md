@@ -12,7 +12,7 @@ This seems to fit the current `roles.primary` and `roles.participants` model wit
 
 `client/start_authorization.yaml` is intentionally a root behavior without `triggered_by`. It represents an externally initiated user or application action rather than an event emitted by another model element.
 
-Other workflows use `triggered_by` when a clear event exists, such as `authorization_requested`, `consent_granted`, `authorization_code_issued`, `token_request_received`, and `protected_resource_requested`.
+Other workflows use `triggered_by` when a clear event exists, such as `authorization_requested`, `consent_granted`, `authorization_code_received_by_client`, `token_request_received`, `protected_resource_requested`, `redirect_uri_rejected`, and `access_token_rejected`.
 
 Open question: should BehavioML eventually distinguish externally initiated root workflows, or is optional `triggered_by` sufficient?
 
@@ -54,6 +54,18 @@ Metamodel questions discovered:
 2. Whether a state listed but not transitioned to should be flagged as a coverage finding or accepted as known future behavior.
 3. Whether duplicate event declarations from client-side and server-side capabilities should be treated as intentional shared observability or as a possible ambiguity.
 4. Whether consent deserves a first-class lifecycle in larger examples.
+
+## Implementation-readiness scope clarifications
+
+The model now distinguishes server-side authorization-code issuance from client-observed callback delivery. `authorization_code_issued` remains the authorization server's code-production outcome, while `authorization_code_received_by_client` is emitted by the user-agent callback delivery capability and triggers `workflows/client/exchange_code_for_tokens.yaml`. This keeps the explicit `user_agent` to `client` workflow step as source-of-truth behavior instead of letting a generator infer the callback.
+
+Invalid authorization request behavior is modeled as a safe failure path. `oauth/validate_redirect_uri` can emit `redirect_uri_rejected`, which triggers `workflows/authorization_server/reject_invalid_authorization_request.yaml`. That workflow returns a local/user-agent-facing rejection and deliberately does not redirect to an unvalidated URI. It stays at the behavioral level and does not model HTTP status codes or OAuth error payload schemas.
+
+Protected-resource denial is also modeled as a focused failure path. `oauth/validate_access_token` can emit `access_token_rejected`, which triggers `workflows/resource_server/deny_protected_resource.yaml`; the resource server then returns an observable denial instead of a protected resource. The model does not enumerate OAuth error codes.
+
+Resource-owner authentication failure is explicitly out of scope for this example. `oauth/authenticate_resource_owner` models only successful authentication or identification sufficient to continue to consent. Adding login failure, retry, account recovery, or user-interface behavior would make this example less focused on the authorization-code scaffold.
+
+Refresh-token issuance is optional by authorization-server policy and represented only as an optional artifact during token response production. The example does not model refresh-token grant, rotation, revocation, expiration, or lifecycle behavior.
 
 ## Modeling feedback for review
 
@@ -104,9 +116,11 @@ Using only an event would lose the persisted grant concept. Using only an entity
 
 - `authorization_requested` triggers authorization request handling.
 - `consent_granted` triggers authorization code issuing.
-- `authorization_code_issued` triggers client token exchange.
+- `authorization_code_received_by_client` triggers client token exchange, keeping it separate from server-side `authorization_code_issued`.
 - `token_request_received` triggers token request handling.
 - `protected_resource_requested` triggers protected resource serving.
+- `redirect_uri_rejected` triggers safe authorization request rejection.
+- `access_token_rejected` triggers protected resource denial.
 
 It felt too narrow only for externally initiated behavior. `workflows/client/start_authorization.yaml` is a root/user-initiated workflow, but the current model has no way to say that without adding a new schema concept. For now, omitting `triggered_by` is the right fit.
 
@@ -116,6 +130,8 @@ There were two places where inline branching would have been tempting but was in
 
 - Consent grant versus denial after `capabilities/oauth/obtain_consent.yaml`.
 - Valid authorization code versus invalid authorization code after `capabilities/oauth/validate_authorization_code.yaml`.
+- Accepted versus rejected redirect URI behavior after `capabilities/oauth/validate_redirect_uri.yaml`.
+- Accepted versus rejected access token behavior after `capabilities/oauth/validate_access_token.yaml`.
 
 Separate workflows were clearer and stayed aligned with BehavioML's scenario-oriented workflow rules:
 
@@ -123,6 +139,8 @@ Separate workflows were clearer and stayed aligned with BehavioML's scenario-ori
 - `workflows/authorization_server/deny_authorization.yaml`
 - `workflows/authorization_server/handle_token_request.yaml`
 - `workflows/authorization_server/reject_invalid_code.yaml`
+- `workflows/authorization_server/reject_invalid_authorization_request.yaml`
+- `workflows/resource_server/deny_protected_resource.yaml`
 
 This supports the current guidance that workflows should not become executable branch graphs.
 
@@ -132,11 +150,11 @@ Converting the OAuth workflows from legacy string steps to object steps made the
 
 The separate `label` field was useful. Capability references such as `oauth/receive_authorization_request` and `oauth/redirect_with_authorization_code` remain stable model responsibilities, while labels such as `Authorization request` or `Redirect with authorization code` can present the step in the language of this workflow. This should reduce generator guesswork because the model now says which role performs the step and whether another role is directly involved, instead of requiring a generator to infer messages from capability names.
 
-The follow-up modeling pass tightened the boundary between observable scenario steps and internal decomposition. Browser-mediated callbacks are now explicit rather than inferred: after the authorization server redirects through the user agent, the user agent has its own `oauth/deliver_authorization_callback` step back to the client for both authorization-code and denied outcomes. This keeps the sequence diagram honest without asking a generator to invent the browser's follow-up request.
+The follow-up modeling pass tightened the boundary between observable scenario steps and internal decomposition. Browser-mediated callbacks are now explicit rather than inferred: after the authorization server redirects through the user agent, the user agent has its own `oauth/deliver_authorization_callback` step back to the client for both authorization-code and denied outcomes. The successful code callback emits `authorization_code_received_by_client`, so client token exchange is tied to what the client observes rather than directly to server-side `authorization_code_issued`. This keeps the sequence diagram honest without asking a generator to invent the browser's follow-up request.
 
 Token response delivery is also distinct from local token production. `oauth/return_token_response` is the observable authorization-server-to-client response step, while `oauth/validate_authorization_code`, `oauth/issue_access_token`, and `oauth/issue_refresh_token` are internal decomposition under that capability's `uses`. This makes `Workflow.steps` read as the ordered observable scenario spine rather than a list of every validation, persistence, or issuance responsibility.
 
-Some local steps remain intentionally visible when they are useful in the human-facing sequence diagram. For example, redirect URI validation and authorization-code issuance still communicate important protocol responsibilities. `oauth/validate_access_token` also stays local to the resource server because token introspection is not modeled explicitly. The useful rule of thumb from this pass is: keep local steps when they clarify the scenario, but move details to `Capability.uses` when the sequence remains understandable without rendering them directly.
+Some local steps remain intentionally visible when they are useful in the human-facing sequence diagram. For example, redirect URI validation and authorization-code issuance still communicate important protocol responsibilities. Rejected redirect URI behavior is modeled as a separate safe rejection workflow rather than as an inline branch or an unsafe redirect callback. `oauth/validate_access_token` also stays local to the resource server because token introspection is not modeled explicitly, and rejected access-token behavior is represented by a separate protected-resource denial workflow. The useful rule of thumb from this pass is: keep local steps when they clarify the scenario, but move details to `Capability.uses` when the sequence remains understandable without rendering them directly.
 
 ### Validator coverage observations
 

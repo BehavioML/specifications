@@ -1,0 +1,6 @@
+description: |
+  Inform the user agent that the authorization request cannot safely proceed without redirecting to an unvalidated URI.
+requires:
+  - oauth/authorization_endpoint
+events:
+  - authorization_request_rejected

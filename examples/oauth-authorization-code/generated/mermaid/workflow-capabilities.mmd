@@ -14,6 +14,8 @@ flowchart LR
   W_authorization_server_issue_authorization_code["workflow: authorization_server/issue_authorization_code"]
   C_oauth_issue_authorization_code["capability: oauth/issue_authorization_code"]
   C_oauth_redirect_with_authorization_code["capability: oauth/redirect_with_authorization_code"]
+  W_authorization_server_reject_invalid_authorization_request["workflow: authorization_server/reject_invalid_authorization_request"]
+  C_oauth_return_authorization_request_rejection["capability: oauth/return_authorization_request_rejection"]
   W_authorization_server_reject_invalid_code["workflow: authorization_server/reject_invalid_code"]
   C_oauth_reject_token_request["capability: oauth/reject_token_request"]
   W_client_call_resource_server["workflow: client/call_resource_server"]
@@ -23,6 +25,8 @@ flowchart LR
   W_client_start_authorization["workflow: client/start_authorization"]
   C_oauth_build_authorization_request["capability: oauth/build_authorization_request"]
   C_oauth_redirect_to_authorization_server["capability: oauth/redirect_to_authorization_server"]
+  W_resource_server_deny_protected_resource["workflow: resource_server/deny_protected_resource"]
+  C_oauth_deny_protected_resource["capability: oauth/deny_protected_resource"]
   W_resource_server_serve_protected_resource["workflow: resource_server/serve_protected_resource"]
   C_oauth_validate_access_token["capability: oauth/validate_access_token"]
   C_oauth_return_protected_resource["capability: oauth/return_protected_resource"]
@@ -39,11 +43,13 @@ flowchart LR
   W_authorization_server_issue_authorization_code --> C_oauth_issue_authorization_code
   W_authorization_server_issue_authorization_code --> C_oauth_redirect_with_authorization_code
   W_authorization_server_issue_authorization_code --> C_oauth_deliver_authorization_callback
+  W_authorization_server_reject_invalid_authorization_request --> C_oauth_return_authorization_request_rejection
   W_authorization_server_reject_invalid_code --> C_oauth_reject_token_request
   W_client_call_resource_server --> C_oauth_call_protected_resource
   W_client_exchange_code_for_tokens --> C_oauth_exchange_code_for_tokens
   W_client_exchange_code_for_tokens --> C_oauth_return_token_response
   W_client_start_authorization --> C_oauth_build_authorization_request
   W_client_start_authorization --> C_oauth_redirect_to_authorization_server
+  W_resource_server_deny_protected_resource --> C_oauth_deny_protected_resource
   W_resource_server_serve_protected_resource --> C_oauth_validate_access_token
   W_resource_server_serve_protected_resource --> C_oauth_return_protected_resource
