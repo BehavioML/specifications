@@ -5,4 +5,5 @@ sequenceDiagram
   participant user_agent as User Agent
 
   authorization_server->>user_agent: Redirect with authorization code
+  Note over user_agent: 1. Issue Authorization Code
   user_agent->>client: Authorization callback

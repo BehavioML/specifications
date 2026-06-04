@@ -4,3 +4,4 @@ sequenceDiagram
 
   client->>authorization_server: Token request
   authorization_server->>client: Token response
+  Note over client: 1. Validate Authorization Code<br/>2. Issue Access Token<br/>3. Issue Refresh Token
