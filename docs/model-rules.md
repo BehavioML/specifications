@@ -239,6 +239,16 @@ Workflows must not reference components directly.
 
 Meaningful failure, timeout, retry, and recovery paths may be represented as separate workflows triggered by events.
 
+`triggered_by` should reference the event that makes the workflow behaviorally eligible to start from the perspective of the workflow's primary role.
+
+It should not reference merely any upstream causal event if that event is not observable by, or behaviorally available to, the role that starts the workflow.
+
+For example, a client workflow that exchanges an OAuth authorization code for tokens should not be triggered by the server-side event that the authorization code was issued if the client only learns about the code when the browser delivers the authorization callback.
+
+In that case, the client workflow should be triggered by an explicit callback-delivered or code-received event.
+
+This keeps workflow causality aligned with observable behavior and avoids hidden assumptions in generated diagrams or implementation scaffolds.
+
 ### Workflow grouping
 
 Related workflows may be grouped by directory.
