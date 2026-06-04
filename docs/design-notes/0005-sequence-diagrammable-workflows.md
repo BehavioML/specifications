@@ -121,6 +121,36 @@ BehavioML should avoid maintaining two sources of truth for the same scenario sp
 
 ---
 
+## Rejected direction: implicit current role
+
+Another possible solution is to let local steps omit role context and inherit the previous receiver.
+
+Example:
+
+```yaml
+steps:
+  - from: user_agent
+    to: authorization_server
+    capability: oauth/receive_authorization_request
+    label: Authorization request
+
+  - capability: oauth/validate_redirect_uri
+    label: Validate redirect URI
+
+  - capability: oauth/issue_authorization_code
+    label: Issue authorization code
+```
+
+This is concise, but it creates fragile implicit state.
+
+If a visual editor moves or deletes the first step, the meaning of the following local steps changes.
+
+BehavioML should support visual editing and stable local transformations.
+
+For that reason, object steps should not rely on implicit current-role inference.
+
+---
+
 ## Proposed direction
 
 Make `Workflow.steps` the ordered observable spine of the scenario.
@@ -130,7 +160,13 @@ A step remains anchored to one capability, but may also describe how that capabi
 A step can be either:
 
 1. an interaction between roles
-2. a local action at the current role
+2. a local action performed by one role
+
+Both forms are explicit.
+
+Object steps require `from`.
+
+`to` is optional.
 
 ---
 
@@ -143,18 +179,15 @@ steps:
   - oauth/build_authorization_request
 ```
 
-It is equivalent to:
+It is equivalent to a legacy compact capability reference.
 
-```yaml
-steps:
-  - capability: oauth/build_authorization_request
-```
+It is valid, but it is not sequence-diagrammable without additional information.
 
 The object form allows sequence-diagram semantics:
 
 ```yaml
 steps:
-  - at: client
+  - from: client
     capability: oauth/build_authorization_request
     label: Build authorization request
 
@@ -168,10 +201,12 @@ steps:
     capability: oauth/receive_authorization_request
     label: Authorization request
 
-  - capability: oauth/validate_redirect_uri
+  - from: authorization_server
+    capability: oauth/validate_redirect_uri
     label: Validate redirect URI
 
-  - capability: oauth/issue_authorization_code
+  - from: authorization_server
+    capability: oauth/issue_authorization_code
     label: Issue authorization code
 
   - from: authorization_server
@@ -205,62 +240,30 @@ sequenceDiagram
   user_agent->>authorization_server: Authorization request
 ```
 
-### Local step with explicit role
+### Local step
 
-A step with `at` represents a local action performed by one role.
+A step with `from` and no `to` represents a local action performed by one role.
 
 ```yaml
-- at: client
-  capability: oauth/build_authorization_request
-  label: Build authorization request
+- from: authorization_server
+  capability: oauth/validate_redirect_uri
+  label: Validate redirect URI
 ```
 
 This can render as:
 
 ```mermaid
 sequenceDiagram
-  participant client as Client
+  participant authorization_server as Authorization Server
 
-  Note over client: Build authorization request
+  Note over authorization_server: Validate redirect URI
 ```
 
-### Local step with inferred role
+There is no separate `at` field.
 
-A step without `from`, `to`, or `at` is a local action at the current role.
+`from` means the role responsible for the step.
 
-The current role is inferred from the previous step.
-
-The current role is:
-
-1. the `to` role of the previous interaction step
-2. the `at` role of the previous local step
-3. `roles.primary` if no current role exists yet
-
-Example:
-
-```yaml
-steps:
-  - from: user_agent
-    to: authorization_server
-    capability: oauth/receive_authorization_request
-    label: Authorization request
-
-  - capability: oauth/validate_redirect_uri
-    label: Validate redirect URI
-
-  - capability: oauth/issue_authorization_code
-    label: Issue authorization code
-```
-
-This means:
-
-```text
-user_agent -> authorization_server: Authorization request
-Note over authorization_server: Validate redirect URI
-Note over authorization_server: Issue authorization code
-```
-
-This avoids repeating `at: authorization_server` on every local step.
+`to` means the step crosses a role boundary.
 
 ---
 
@@ -317,6 +320,18 @@ uses:
 
 This keeps the workflow focused on the scenario spine while still allowing deeper capability structure.
 
+If the validation or issuance actions are important enough to appear in the scenario, they can be modeled explicitly as local steps:
+
+```yaml
+- from: authorization_server
+  capability: oauth/validate_redirect_uri
+  label: Validate redirect URI
+
+- from: authorization_server
+  capability: oauth/issue_authorization_code
+  label: Issue authorization code
+```
+
 ---
 
 ## Design principle
@@ -325,7 +340,7 @@ This keeps the workflow focused on the scenario spine while still allowing deepe
 
 That does not mean every step must be a message between roles.
 
-It means every step should have a clear place in an observable scenario:
+It means every object step should have a clear place in an observable scenario:
 
 - as an interaction between roles
 - as a local action by a role
@@ -336,28 +351,30 @@ If a capability cannot be meaningfully placed in the scenario sequence, it proba
 
 ## Validator implications
 
-Future validator support should allow both legacy and object step forms.
+Future validator support should allow both legacy string steps and object steps.
 
-Errors:
+Errors for object steps:
 
 - object step must define `capability`
-- `from` and `to` must appear together
-- `from`, `to`, and `at` must reference roles in the workflow
-- `from`/`to` and `at` should not be used on the same step
+- object step must define `from`
+- `to` must not appear without `from`
+- `from` and `to` must reference roles in the workflow
+- `from` and `to` should not be the same role unless explicitly allowed later
 - `capability` must reference an existing capability
+- `at` is not a valid workflow step field
 
 Warnings:
 
 - workflow uses object steps but some steps lack `label`
-- local step relies on inferred current role and no current role exists
+- workflow mixes legacy string steps and object steps
+- workflow uses only legacy string steps and therefore cannot produce reliable sequence diagrams
 - capability appears in a workflow step but is not behaviorally observable enough to render clearly, if such a heuristic can be defined later
 
 Non-errors:
 
-- step without `from`/`to`
+- step without `to`
 - step without `label`
 - string-form legacy step
-- local step inferred from previous interaction target
 
 ---
 
@@ -371,15 +388,16 @@ Command shape could be:
 behavioml-generate <model-dir> --format mermaid --view sequence --workflow <workflow-identity>
 ```
 
-For each step:
+For each object step:
 
 - `from` + `to` renders as a Mermaid sequence message
-- `at` renders as `Note over <role>`
-- no `from`/`to`/`at` renders as `Note over <current-role>`
+- `from` without `to` renders as `Note over <from>`
 - `label` is used as message text
 - missing `label` falls back to humanized capability identity
 
 The generator should not guess role direction from capability names.
+
+Legacy string steps should either be skipped, rendered as comments, or rejected by the sequence view with a clear message.
 
 ---
 
@@ -403,7 +421,7 @@ If OAuth cannot be modeled cleanly with this shape, the proposal should be revis
 
 1. Should object step form become the preferred form for all workflows, or only workflows intended for sequence diagrams?
 2. Should `label` be optional or required for object steps?
-3. Should `at` be required for local steps, or is current-role inference desirable enough to keep?
+3. Should `from` and `to` be allowed to refer only to workflow roles, or also to external actor-like references later?
 4. Should generators render local steps by default, or hide them unless explicitly requested?
 5. Should `Capability.uses` be visualized separately to show internal decomposition below each sequence step?
 6. Should workflows eventually distinguish documentation-level steps from deeper behavioral steps?
@@ -416,6 +434,14 @@ If OAuth cannot be modeled cleanly with this shape, the proposal should be revis
 The current `Workflow.steps` string form remains valid.
 
 The proposed object step form should be explored first in the OAuth example before changing validator or generator rules.
+
+Object steps require `from`.
+
+Object steps may optionally define `to`.
+
+There is no `at` field.
+
+There is no implicit current-role inference.
 
 Do not add a separate `interactions` list.
 
