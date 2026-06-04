@@ -5,9 +5,15 @@ roles:
   primary: endpoint
 
 steps:
-  - connection/send_connection_close
-  - connection/enter_closing
-  - connection/discard_connection_state
+  - from: endpoint
+    capability: connection/send_connection_close
+    label: Send Connection Close
+  - from: endpoint
+    capability: connection/enter_closing
+    label: Enter closing
+  - from: endpoint
+    capability: connection/discard_connection_state
+    label: Discard connection state
 
 emits:
   - connection_close_timer_expired

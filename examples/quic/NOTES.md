@@ -99,3 +99,17 @@ Open questions:
 - Should workflows declare preconditions separately from triggers?
 - How should related workflows be grouped into a larger story or use case?
 - Do we need a higher-level entity above Workflow, such as Scenario, Use Case, or Story?
+
+## Sequence-diagrammable workflow object steps
+
+The QUIC workflows were converted from legacy string steps to object workflow steps as an experiment in applying the sequence-diagrammable workflow shape to a protocol lifecycle model.
+
+The best fit is the connection-establishment path. `client/establish_connection` and `server/accept_connection` now read as observable client/server scenario spines: the Initial packet crosses from client to server, followed by a compact Handshake exchange step. This keeps the workflow useful as a human-facing sequence diagram without expanding TLS, packet validation, key derivation, or transport parameter mechanics into the workflow.
+
+The close and failure paths are a mixed fit. `client/handle_handshake_failure` works reasonably well because the client sends a Connection Close to the server and then discards local connection state. The generic endpoint workflows (`endpoint/close_connection`, `endpoint/drain_connection`, and `endpoint/handle_idle_timeout`) remain more lifecycle-oriented. They use `from: endpoint` local steps because the current role model has `client`, `server`, and generic `endpoint`, but no generic `peer` role. That avoids inventing a new participant solely to make a sequence diagram look more complete.
+
+`from + to` works well for QUIC packets when the roles are concrete (`client` and `server`). It is less natural for generic endpoint lifecycle workflows because a packet may cross a network boundary even though the model intentionally abstracts away the opposite endpoint. In those cases, `from`-only steps are still useful for showing the endpoint responsibility, but they should not be read as a complete packet-level trace.
+
+Several capabilities felt too internal for `Workflow.steps`. Peer validation is already part of `connection/perform_handshake` through `Capability.uses`, so the server acceptance workflow no longer carries `connection/validate_peer` as a separate scenario step. Other internal mechanics such as packet parsing, key derivation, connection-id selection, transport parameter recording, ACK handling, and detailed state updates remain intentionally outside the workflow spine.
+
+The conversion did not suggest an immediate change to design note 0005 or 0006. Instead, it reinforces their boundary: workflows are useful as ordered observable scenario spines, while lifecycle legality remains the state machine's job and internal decomposition belongs in capabilities. QUIC also highlights one unresolved modeling awkwardness: generic endpoint workflows may need either an explicit peer role in a future pass or acceptance that some endpoint lifecycle workflows are not meant to produce complete role-to-role sequence diagrams.
