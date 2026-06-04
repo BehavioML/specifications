@@ -5,6 +5,7 @@ flowchart LR
   E_authorization_requested["event: authorization_requested"]
   C_oauth_call_protected_resource["capability: oauth/call_protected_resource"]
   E_protected_resource_requested["event: protected_resource_requested"]
+  C_oauth_deliver_authorization_callback["capability: oauth/deliver_authorization_callback"]
   C_oauth_exchange_code_for_tokens["capability: oauth/exchange_code_for_tokens"]
   E_token_request_received["event: token_request_received"]
   C_oauth_issue_access_token["capability: oauth/issue_access_token"]
@@ -26,6 +27,7 @@ flowchart LR
   E_token_request_rejected["event: token_request_rejected"]
   C_oauth_return_protected_resource["capability: oauth/return_protected_resource"]
   E_protected_resource_returned["event: protected_resource_returned"]
+  C_oauth_return_token_response["capability: oauth/return_token_response"]
   C_oauth_validate_access_token["capability: oauth/validate_access_token"]
   E_access_token_validated["event: access_token_validated"]
   C_oauth_validate_authorization_code["capability: oauth/validate_authorization_code"]
@@ -46,6 +48,7 @@ flowchart LR
   C_oauth_reject_authorization_request --> E_authorization_denied
   C_oauth_reject_token_request --> E_token_request_rejected
   C_oauth_return_protected_resource --> E_protected_resource_returned
+  C_oauth_return_token_response --> E_tokens_issued
   C_oauth_validate_access_token --> E_access_token_validated
   C_oauth_validate_authorization_code --> E_authorization_code_validated
   C_oauth_validate_authorization_code --> E_authorization_code_rejected

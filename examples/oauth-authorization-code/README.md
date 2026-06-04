@@ -84,6 +84,8 @@ Generated Mermaid diagrams are available under:
 generated/mermaid/
 ```
 
+Generated Mermaid documentation includes state-machine diagrams and workflow sequence diagrams. OAuth workflow sequence diagrams are especially useful for browser-mediated redirects, callbacks, token exchange, and protected resource calls. Relationship graphs, when present, are inspection views rather than primary documentation.
+
 These files are derived from the model and should be regenerated after model changes.
 
 ## How to validate

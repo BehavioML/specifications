@@ -1,0 +1,10 @@
+sequenceDiagram
+  participant authorization_server as Authorization Server
+  participant resource_owner as Resource Owner
+  participant client as Client
+  participant user_agent as User Agent
+
+  user_agent->>authorization_server: Authorization request
+  authorization_server->>resource_owner: Authenticate resource owner
+  Note over authorization_server: Validate redirect URI
+  authorization_server->>resource_owner: Obtain consent

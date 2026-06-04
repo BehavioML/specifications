@@ -4,6 +4,7 @@
     "validate:models": "behavioml-validate examples/quic/model && behavioml-validate examples/oauth-authorization-code/model"
   },
   "devDependencies": {
+    "@behavioml/generator": "github:BehavioML/generator",
     "@behavioml/validator": "github:BehavioML/validator"
   }
 }

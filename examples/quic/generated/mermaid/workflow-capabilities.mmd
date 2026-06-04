@@ -13,7 +13,6 @@ flowchart LR
   W_endpoint_handle_idle_timeout["workflow: endpoint/handle_idle_timeout"]
   W_server_accept_connection["workflow: server/accept_connection"]
   C_connection_receive_initial["capability: connection/receive_initial"]
-  C_connection_validate_peer["capability: connection/validate_peer"]
 
   W_client_establish_connection --> C_connection_send_initial
   W_client_establish_connection --> C_connection_perform_handshake
@@ -27,5 +26,4 @@ flowchart LR
   W_endpoint_drain_connection --> C_connection_discard_connection_state
   W_endpoint_handle_idle_timeout --> C_connection_discard_connection_state
   W_server_accept_connection --> C_connection_receive_initial
-  W_server_accept_connection --> C_connection_validate_peer
   W_server_accept_connection --> C_connection_perform_handshake
