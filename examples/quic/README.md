@@ -87,3 +87,13 @@ The example should produce:
 The example should drive the language.
 
 The language should not be designed entirely in the abstract.
+
+## Generated views
+
+Generated Mermaid diagrams are available under:
+
+```text
+generated/mermaid/
+```
+
+These files are derived from the model and should be regenerated after model changes.

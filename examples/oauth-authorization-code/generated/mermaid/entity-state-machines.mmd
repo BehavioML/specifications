@@ -1,0 +1,15 @@
+flowchart LR
+  SM_authorization_code_lifecycle["state-machine: authorization_code/lifecycle"]
+  E_authorization_code["entity: authorization_code"]
+  S_authorization_code_lifecycle_requested["state: requested"]
+  S_authorization_code_lifecycle_issued["state: issued"]
+  S_authorization_code_lifecycle_redeemed["state: redeemed"]
+  S_authorization_code_lifecycle_expired["state: expired"]
+  S_authorization_code_lifecycle_rejected["state: rejected"]
+
+  E_authorization_code --> SM_authorization_code_lifecycle
+  SM_authorization_code_lifecycle --> S_authorization_code_lifecycle_requested
+  SM_authorization_code_lifecycle --> S_authorization_code_lifecycle_issued
+  SM_authorization_code_lifecycle --> S_authorization_code_lifecycle_redeemed
+  SM_authorization_code_lifecycle --> S_authorization_code_lifecycle_expired
+  SM_authorization_code_lifecycle --> S_authorization_code_lifecycle_rejected

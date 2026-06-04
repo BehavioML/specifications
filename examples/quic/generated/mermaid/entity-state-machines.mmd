@@ -1,0 +1,17 @@
+flowchart LR
+  SM_connection_lifecycle["state-machine: connection/lifecycle"]
+  E_connection["entity: connection"]
+  S_connection_lifecycle_initial["state: initial"]
+  S_connection_lifecycle_handshaking["state: handshaking"]
+  S_connection_lifecycle_connected["state: connected"]
+  S_connection_lifecycle_closing["state: closing"]
+  S_connection_lifecycle_draining["state: draining"]
+  S_connection_lifecycle_closed["state: closed"]
+
+  E_connection --> SM_connection_lifecycle
+  SM_connection_lifecycle --> S_connection_lifecycle_initial
+  SM_connection_lifecycle --> S_connection_lifecycle_handshaking
+  SM_connection_lifecycle --> S_connection_lifecycle_connected
+  SM_connection_lifecycle --> S_connection_lifecycle_closing
+  SM_connection_lifecycle --> S_connection_lifecycle_draining
+  SM_connection_lifecycle --> S_connection_lifecycle_closed

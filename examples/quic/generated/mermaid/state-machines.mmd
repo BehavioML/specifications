@@ -1,0 +1,18 @@
+%% state-machine: connection/lifecycle
+stateDiagram-v2
+  state initial
+  state handshaking
+  state connected
+  state closing
+  state draining
+  state closed
+  initial --> handshaking: connection_started
+  handshaking --> connected: handshake_completed
+  connected --> closing: connection_close_sent
+  initial --> draining: connection_close_received
+  handshaking --> draining: connection_close_received
+  connected --> draining: connection_close_received
+  closing --> closed: connection_close_timer_expired
+  draining --> closed: connection_close_timer_expired
+  handshaking --> closed: idle_timeout_expired
+  connected --> closed: idle_timeout_expired

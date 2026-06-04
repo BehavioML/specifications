@@ -73,6 +73,16 @@ This example intentionally excludes:
 
 The model keeps tokens and authorization codes as behavioral artifacts, not as protocol wire formats.
 
+## Generated views
+
+Generated Mermaid diagrams are available under:
+
+```text
+generated/mermaid/
+```
+
+These files are derived from the model and should be regenerated after model changes.
+
 ## How to validate
 
 From the repository root, run:
