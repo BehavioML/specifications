@@ -1,0 +1,7 @@
+description: |
+  Obtain resource owner consent or validate an existing consent grant for the requested access.
+requires:
+  - oauth/consent_store
+events:
+  - consent_granted
+  - consent_denied

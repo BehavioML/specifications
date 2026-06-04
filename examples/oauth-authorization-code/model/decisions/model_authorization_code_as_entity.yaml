@@ -1,0 +1,20 @@
+description: |
+  Model the authorization code as a lifecycle-bearing entity rather than as request metadata.
+
+rationale: |
+  The authorization code has behaviorally significant state: it is issued, can be redeemed, and can be rejected when invalid, expired, or already used. Making it an entity allows a state machine to own those transitions.
+
+consequences: |
+  The model can express valid and invalid token-request outcomes without embedding state transitions in workflows or modeling code storage internals.
+
+affects:
+  - entities:authorization_code
+  - state-machines:authorization_code/lifecycle
+  - workflows:authorization_server/issue_authorization_code
+  - workflows:authorization_server/handle_token_request
+  - workflows:authorization_server/reject_invalid_code
+  - capabilities:oauth/issue_authorization_code
+  - capabilities:oauth/validate_authorization_code
+  - events:authorization_code_issued
+  - events:authorization_code_validated
+  - events:authorization_code_rejected

@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "validate:models": "behavioml-validate examples/quic/model"
+    "validate:models": "behavioml-validate examples/quic/model && behavioml-validate examples/oauth-authorization-code/model"
   },
   "devDependencies": {
     "@behavioml/validator": "github:BehavioML/validator"

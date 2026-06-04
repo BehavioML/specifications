@@ -1,0 +1,16 @@
+description: |
+  The authorization server issues an authorization code after consent and redirects the user agent back to the client.
+
+roles:
+  primary: authorization_server
+  participants:
+    - client
+    - resource_owner
+    - user_agent
+
+triggered_by:
+  - consent_granted
+
+steps:
+  - oauth/issue_authorization_code
+  - oauth/redirect_with_authorization_code

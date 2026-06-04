@@ -1,0 +1,2 @@
+description: |
+  A short-lived grant artifact issued by the authorization server and redeemed by the client at the token endpoint.

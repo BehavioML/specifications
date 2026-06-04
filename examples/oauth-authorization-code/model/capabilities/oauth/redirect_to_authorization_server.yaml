@@ -1,0 +1,4 @@
+description: |
+  Send the resource owner through the user agent to the authorization server authorization endpoint.
+requires:
+  - oauth/authorization_endpoint

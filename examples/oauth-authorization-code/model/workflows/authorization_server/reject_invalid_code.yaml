@@ -1,0 +1,13 @@
+description: |
+  The authorization server rejects a token request when the submitted authorization code is invalid, expired, or already redeemed.
+
+roles:
+  primary: authorization_server
+  participants:
+    - client
+
+triggered_by:
+  - authorization_code_rejected
+
+steps:
+  - oauth/reject_token_request

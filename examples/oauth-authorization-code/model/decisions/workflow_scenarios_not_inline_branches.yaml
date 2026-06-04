@@ -1,0 +1,23 @@
+description: |
+  Model success and failure scenarios as separate workflows instead of inline branches.
+
+rationale: |
+  BehavioML workflows describe behaviorally meaningful scenarios rather than executable control-flow graphs. Separate workflows keep the nominal authorization-code path, authorization-denied path, and invalid-code path readable without adding branch syntax.
+
+consequences: |
+  Some workflows are root behaviors, while others are clearly event-triggered. This stresses the optional triggered_by field without introducing new entry-point or trigger schema concepts.
+
+affects:
+  - workflows:client/start_authorization
+  - workflows:authorization_server/handle_authorization_request
+  - workflows:authorization_server/issue_authorization_code
+  - workflows:client/exchange_code_for_tokens
+  - workflows:authorization_server/handle_token_request
+  - workflows:client/call_resource_server
+  - workflows:resource_server/serve_protected_resource
+  - workflows:authorization_server/deny_authorization
+  - workflows:authorization_server/reject_invalid_code
+  - capabilities:oauth/obtain_consent
+  - capabilities:oauth/validate_authorization_code
+  - events:consent_denied
+  - events:authorization_code_rejected

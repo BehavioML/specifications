@@ -1,0 +1,6 @@
+description: |
+  Receive the client's token request at the authorization server token endpoint.
+requires:
+  - oauth/token_endpoint
+events:
+  - token_request_received

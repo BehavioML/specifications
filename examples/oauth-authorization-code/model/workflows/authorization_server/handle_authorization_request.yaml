@@ -1,0 +1,18 @@
+description: |
+  The authorization server receives the authorization request, identifies the resource owner, validates client redirect context, and obtains or validates consent.
+
+roles:
+  primary: authorization_server
+  participants:
+    - resource_owner
+    - client
+    - user_agent
+
+triggered_by:
+  - authorization_requested
+
+steps:
+  - oauth/receive_authorization_request
+  - oauth/authenticate_resource_owner
+  - oauth/validate_redirect_uri
+  - oauth/obtain_consent

@@ -1,0 +1,2 @@
+description: |
+  Organizational boundary for authorization server, consent, code, and token issuing concerns.

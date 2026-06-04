@@ -1,0 +1,2 @@
+description: |
+  An optional token artifact representing continued delegated access without modeling refresh-token rotation.

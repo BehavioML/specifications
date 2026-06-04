@@ -1,0 +1,6 @@
+description: |
+  Create and persist a short-lived authorization code for a consented authorization request.
+requires:
+  - oauth/authorization_code_store
+events:
+  - authorization_code_issued
