@@ -12,5 +12,10 @@ triggered_by:
   - consent_denied
 
 steps:
-  - oauth/reject_authorization_request
-  - oauth/redirect_with_authorization_denied
+  - from: authorization_server
+    capability: oauth/reject_authorization_request
+    label: Reject authorization request
+  - from: authorization_server
+    to: user_agent
+    capability: oauth/redirect_with_authorization_denied
+    label: Redirect with authorization denied

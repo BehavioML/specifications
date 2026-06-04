@@ -10,4 +10,7 @@ triggered_by:
   - tokens_issued
 
 steps:
-  - oauth/call_protected_resource
+  - from: client
+    to: resource_server
+    capability: oauth/call_protected_resource
+    label: Call protected resource

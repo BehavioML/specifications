@@ -126,6 +126,16 @@ Separate workflows were clearer and stayed aligned with BehavioML's scenario-ori
 
 This supports the current guidance that workflows should not become executable branch graphs.
 
+### Sequence-diagrammable workflow steps
+
+Converting the OAuth workflows from legacy string steps to object steps made the intended sequence-diagram shape much more explicit. A step with `from` and `to` worked naturally for redirects, incoming requests, callbacks, token exchanges, resource calls, and resource responses because those steps cross role boundaries. A step with only `from` worked well for local preparation, validation, issuance, and rejection responsibilities where the behavior belongs to one role even if the broader scenario involves other participants.
+
+The separate `label` field was useful. Capability references such as `oauth/receive_authorization_request` and `oauth/redirect_with_authorization_code` remain stable model responsibilities, while labels such as `Authorization request` or `Redirect with authorization code` can present the step in the language of this workflow. This should reduce generator guesswork because the model now says which role performs the step and whether another role is directly involved, instead of requiring a generator to infer messages from capability names.
+
+The main awkward cases were places where the current capability vocabulary combines local responsibility with a protocol response. `oauth/issue_access_token` and `oauth/issue_refresh_token` describe token issuance and persistence but not an explicit response back to the client, so they remain local authorization-server steps. Similarly, `oauth/redirect_with_authorization_code` and `oauth/redirect_with_authorization_denied` are modeled as authorization-server to user-agent redirects; a fuller HTTP-level model might also show the user agent following the redirect to the client, but this example has no separate callback-receive capability and should not infer that message. `oauth/validate_access_token` also stays local to the resource server because token introspection is not modeled explicitly.
+
+No capabilities were moved from workflow steps to `Capability.uses` in this experiment. The scoped change was limited to workflow step shape and documentation, and the existing steps still read as behaviorally meaningful scenario spines rather than exhaustive internal decomposition.
+
 ### Validator coverage observations
 
 The validator coverage output was useful but somewhat noisy:

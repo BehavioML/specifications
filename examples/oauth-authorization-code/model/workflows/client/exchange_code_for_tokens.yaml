@@ -10,4 +10,7 @@ triggered_by:
   - authorization_code_issued
 
 steps:
-  - oauth/exchange_code_for_tokens
+  - from: client
+    to: authorization_server
+    capability: oauth/exchange_code_for_tokens
+    label: Exchange code for tokens

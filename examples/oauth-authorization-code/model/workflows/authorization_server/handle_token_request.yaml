@@ -10,7 +10,16 @@ triggered_by:
   - token_request_received
 
 steps:
-  - oauth/receive_token_request
-  - oauth/validate_authorization_code
-  - oauth/issue_access_token
-  - oauth/issue_refresh_token
+  - from: client
+    to: authorization_server
+    capability: oauth/receive_token_request
+    label: Token request
+  - from: authorization_server
+    capability: oauth/validate_authorization_code
+    label: Validate authorization code
+  - from: authorization_server
+    capability: oauth/issue_access_token
+    label: Issue access token
+  - from: authorization_server
+    capability: oauth/issue_refresh_token
+    label: Issue refresh token

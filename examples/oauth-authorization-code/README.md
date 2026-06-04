@@ -4,6 +4,8 @@ This exploratory BehavioML example models the core OAuth 2.0 Authorization Code 
 
 The purpose is not to teach OAuth or implement the full RFC. The purpose is to stress-test BehavioML against a business/security protocol with redirects, consent, token issuance, and protected resource access.
 
+This example also uses the proposed sequence-diagrammable workflow step shape experimentally: workflow steps identify the acting role with `from`, optional cross-role recipients with `to`, the stable `capability`, and a contextual human-facing `label`.
+
 ## What this example models
 
 The model covers these behaviorally meaningful scenarios:
