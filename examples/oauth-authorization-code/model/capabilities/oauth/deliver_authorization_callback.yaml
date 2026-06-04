@@ -1,0 +1,4 @@
+description: |
+  Follow the authorization server redirect through the user agent and deliver the authorization result to the client's redirect URI.
+requires:
+  - oauth/authorization_endpoint

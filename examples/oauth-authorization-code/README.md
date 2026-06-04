@@ -15,12 +15,13 @@ The model covers these behaviorally meaningful scenarios:
 3. The authorization server authenticates or identifies the resource owner.
 4. The authorization server obtains consent or validates existing consent.
 5. The authorization server redirects back with an authorization code.
-6. The client exchanges the authorization code for tokens.
-7. The authorization server validates the authorization code.
-8. The authorization server issues tokens.
-9. The client calls the resource server with the access token.
-10. The resource server validates the token or authorization context.
-11. The resource server returns the protected resource.
+6. The user agent delivers the authorization callback to the client.
+7. The client exchanges the authorization code for tokens.
+8. The authorization server validates the authorization code and produces tokens internally.
+9. The authorization server returns the token response to the client.
+10. The client calls the resource server with the access token.
+11. The resource server validates the token or authorization context.
+12. The resource server returns the protected resource.
 
 It also includes two focused failure scenarios:
 

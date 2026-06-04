@@ -19,3 +19,7 @@ steps:
     to: user_agent
     capability: oauth/redirect_with_authorization_denied
     label: Redirect with authorization denied
+  - from: user_agent
+    to: client
+    capability: oauth/deliver_authorization_callback
+    label: Authorization denied callback

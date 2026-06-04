@@ -19,3 +19,7 @@ steps:
     to: user_agent
     capability: oauth/redirect_with_authorization_code
     label: Redirect with authorization code
+  - from: user_agent
+    to: client
+    capability: oauth/deliver_authorization_callback
+    label: Authorization callback
