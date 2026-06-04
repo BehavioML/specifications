@@ -251,6 +251,10 @@ A workflow owns:
 
 Workflows must not reference components directly.
 
+A workflow step should be used when the model must explain who does what with whom.
+
+Object workflow steps provide explicit role context through `from` and optional `to`.
+
 ### Workflow triggering
 
 `triggered_by` references events.
@@ -311,6 +315,18 @@ events:
 ### Capability composition
 
 `uses` references other capabilities.
+
+`uses` is ordered.
+
+The order of entries is meaningful and represents ordered decomposition within the execution context of the parent capability.
+
+A used capability should only be placed in `uses` when the parent capability and its workflow-step context are sufficient for an implementer or code generator to understand where the sub-capability belongs.
+
+If a sub-capability needs its own sender, receiver, observable message, callback, protocol exchange, externally meaningful local action, or role ownership that is not clear from the parent context, it should be represented as a workflow step instead.
+
+Do not use `Capability.uses` to hide role interactions.
+
+`uses` does not model branching, loops, retries, concurrency, exception handling, data flow, transaction boundaries, or runtime scheduling.
 
 ### Capability dependencies
 
@@ -559,6 +575,7 @@ Suggested initial checks:
 17. State machine transition target states, if validated, are scalar.
 18. Decision `affects` entries use typed references and resolve to existing model entities.
 19. `generated/` directories are ignored as source-of-truth input.
+20. Capability `uses` entries resolve under `capabilities/` and are treated as ordered decomposition.
 
 ---
 
