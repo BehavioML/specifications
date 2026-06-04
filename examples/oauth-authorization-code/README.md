@@ -16,17 +16,20 @@ The model covers these behaviorally meaningful scenarios:
 4. The authorization server obtains consent or validates existing consent.
 5. The authorization server redirects back with an authorization code.
 6. The user agent delivers the authorization callback to the client.
-7. The client exchanges the authorization code for tokens.
-8. The authorization server validates the authorization code and produces tokens internally.
-9. The authorization server returns the token response to the client.
-10. The client calls the resource server with the access token.
-11. The resource server validates the token or authorization context.
-12. The resource server returns the protected resource.
+7. The client-observed callback event triggers code exchange; the model does not infer this directly from server-side code issuance.
+8. The client exchanges the authorization code for tokens.
+9. The authorization server validates the authorization code and produces tokens internally.
+10. The authorization server returns the token response to the client.
+11. The client calls the resource server with the access token.
+12. The resource server validates the token or authorization context.
+13. The resource server returns the protected resource.
 
-It also includes two focused failure scenarios:
+It also includes focused failure scenarios:
 
 - authorization denied
 - invalid authorization code
+- invalid authorization request or rejected redirect URI
+- rejected access token and protected resource denial
 
 ## Model structure
 
@@ -57,6 +60,8 @@ Key behavioral workflows are grouped by primary role:
 - `workflows/resource_server/serve_protected_resource.yaml`
 - `workflows/authorization_server/deny_authorization.yaml`
 - `workflows/authorization_server/reject_invalid_code.yaml`
+- `workflows/authorization_server/reject_invalid_authorization_request.yaml`
+- `workflows/resource_server/deny_protected_resource.yaml`
 
 ## What this example intentionally does not model
 
@@ -65,7 +70,8 @@ This example intentionally excludes:
 - full OAuth RFC behavior
 - PKCE
 - OpenID Connect
-- refresh token rotation
+- resource-owner authentication failure handling beyond the successful authentication/identification path
+- refresh-token grant, rotation, revocation, and lifecycle behavior
 - JWT internals
 - HTTP request/response syntax
 - cryptographic details
@@ -74,7 +80,17 @@ This example intentionally excludes:
 - framework details
 - generated diagrams
 
-The model keeps tokens and authorization codes as behavioral artifacts, not as protocol wire formats.
+The model keeps tokens and authorization codes as behavioral artifacts, not as protocol wire formats. Refresh-token issuance is represented as an optional authorization-server policy outcome during token response production; this example does not model refresh-token use after issuance.
+
+## Behavioral readiness clarifications
+
+This pass tightens several implementation-scaffold boundaries without expanding into full RFC behavior:
+
+- Server-side `authorization_code_issued` is distinct from client-observed `authorization_code_received_by_client`; the client token-exchange workflow starts only after the user agent delivers the callback to the client.
+- Invalid authorization requests or rejected redirect URIs are modeled as safe authorization-server rejection behavior. The model intentionally does not redirect to an unvalidated URI or invent an unsafe callback.
+- Access-token rejection is modeled separately from successful token validation, and protected resource denial is an observable resource-server response.
+- Resource-owner authentication failure remains out of scope; the example models only successful authentication or identification before consent.
+- Refresh-token issuance remains optional by authorization-server policy and is represented only as an issuance artifact, not as a refresh-token grant or lifecycle model.
 
 ## Generated views
 

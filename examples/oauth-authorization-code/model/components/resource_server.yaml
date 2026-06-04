@@ -5,6 +5,7 @@ implements:
   capabilities:
     - oauth/validate_access_token
     - oauth/return_protected_resource
+    - oauth/deny_protected_resource
   interfaces:
     - oauth/resource_endpoint
 

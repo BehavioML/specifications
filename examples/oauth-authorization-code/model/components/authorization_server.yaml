@@ -12,6 +12,7 @@ implements:
     - oauth/receive_token_request
     - oauth/validate_authorization_code
     - oauth/reject_authorization_request
+    - oauth/return_authorization_request_rejection
     - oauth/reject_token_request
   interfaces:
     - oauth/authorization_endpoint

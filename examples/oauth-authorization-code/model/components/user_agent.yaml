@@ -4,5 +4,6 @@ description: |
 implements:
   capabilities:
     - oauth/redirect_to_authorization_server
+    - oauth/deliver_authorization_callback
 
 belongs_to: browser_runtime

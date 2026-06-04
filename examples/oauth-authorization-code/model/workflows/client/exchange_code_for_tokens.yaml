@@ -7,7 +7,7 @@ roles:
     - authorization_server
 
 triggered_by:
-  - authorization_code_issued
+  - authorization_code_received_by_client
 
 steps:
   - from: client

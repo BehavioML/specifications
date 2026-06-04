@@ -1,0 +1,16 @@
+description: |
+  The resource server denies the protected resource request when the presented access token or authorization context is rejected.
+
+roles:
+  primary: resource_server
+  participants:
+    - client
+
+triggered_by:
+  - access_token_rejected
+
+steps:
+  - from: resource_server
+    to: client
+    capability: oauth/deny_protected_resource
+    label: Deny protected resource

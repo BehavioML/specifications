@@ -1,0 +1,6 @@
+description: |
+  Deny the protected resource request when the presented access token or authorization context is not accepted.
+requires:
+  - oauth/resource_endpoint
+events:
+  - protected_resource_denied
