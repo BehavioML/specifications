@@ -334,6 +334,114 @@ If the validation or issuance actions are important enough to appear in the scen
 
 ---
 
+## Explicit interactions only
+
+Generators must not infer omitted interactions.
+
+If a protocol, runtime, browser, broker, or environment implies a follow-up exchange, that exchange must still be modeled as an explicit workflow step when it is relevant to the scenario.
+
+For example, an OAuth authorization server redirect can be modeled as:
+
+```yaml
+- from: authorization_server
+  to: user_agent
+  capability: oauth/redirect_with_authorization_code
+  label: Redirect with authorization code
+```
+
+A generator must not automatically invent the browser callback:
+
+```text
+user_agent -> client: Authorization callback
+```
+
+If the callback is relevant, the workflow should model it explicitly:
+
+```yaml
+- from: user_agent
+  to: client
+  capability: oauth/deliver_authorization_callback
+  label: Authorization callback
+```
+
+This keeps the model as the source of truth.
+
+The same rule applies to webhooks, message-broker deliveries, retries, redirects, async notifications, and protocol-specific follow-up exchanges.
+
+---
+
+## Response production versus response delivery
+
+A capability may produce a result without modeling the delivery of that result across a role boundary.
+
+For example:
+
+```yaml
+- from: authorization_server
+  capability: oauth/issue_access_token
+  label: Issue access token
+```
+
+This models token issuance as local work by the authorization server.
+
+It does not necessarily model a token response being sent to the client.
+
+If response delivery matters to the scenario, model it explicitly:
+
+```yaml
+- from: authorization_server
+  to: client
+  capability: oauth/return_token_response
+  label: Token response
+```
+
+Alternatively, a higher-level capability can represent the observable response and decompose internally:
+
+```yaml
+- from: authorization_server
+  to: client
+  capability: oauth/issue_tokens_response
+  label: Token response
+```
+
+with:
+
+```yaml
+uses:
+  - oauth/validate_authorization_code
+  - oauth/issue_access_token
+  - oauth/issue_refresh_token
+```
+
+This avoids confusing internal production with observable delivery.
+
+---
+
+## Workflow steps versus Capability.uses
+
+Use `Workflow.steps` for the ordered observable scenario spine.
+
+Use `Capability.uses` for internal decomposition that supports a step but does not need to appear as a top-level scenario action.
+
+A capability should usually be a workflow step when:
+
+- it is needed to understand the scenario sequence
+- it changes which role is acting or receiving
+- it is an observable exchange between roles
+- it is a local action important enough to appear in the human-facing sequence diagram
+- it produces an event that triggers another workflow or state transition relevant to the scenario
+
+A capability should usually move to `Capability.uses` when:
+
+- it is internal validation, preparation, persistence, lookup, or transformation
+- it is only one sub-responsibility of a higher-level scenario action
+- rendering it as a sequence note makes the workflow too verbose
+- the scenario remains understandable without showing it directly
+
+This boundary is modeling judgment, not a purely mechanical rule.
+
+---
+
 ## Design principle
 
 `Workflow.steps` should be sequence-diagrammable.
@@ -448,3 +556,5 @@ Do not add a separate `interactions` list.
 Do not add inline branching, conditions, loops, `alt`, `opt`, or executable workflow logic.
 
 Do not infer role-to-role messages from capability names.
+
+Do not infer omitted interactions from protocol or domain knowledge.
