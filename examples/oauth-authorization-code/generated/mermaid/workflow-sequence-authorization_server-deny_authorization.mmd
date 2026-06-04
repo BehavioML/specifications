@@ -4,6 +4,5 @@ sequenceDiagram
   participant client as Client
   participant user_agent as User Agent
 
-  Note over authorization_server: Reject authorization request
   authorization_server->>user_agent: Redirect with authorization denied
   user_agent->>client: Authorization denied callback
