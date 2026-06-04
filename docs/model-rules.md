@@ -33,6 +33,24 @@ Only model directories contain source-of-truth information.
 
 `generated/` contains derived artifacts and should not be treated as source of truth.
 
+Optional implementation guidance may live beside a model, but not inside the model root.
+
+For example:
+
+```text
+example/
+├── model/
+├── generated/
+└── implementation/
+    ├── README.md
+    ├── AGENTS.md
+    └── codegen-profile.yaml
+```
+
+Implementation guidance may configure, constrain, or instruct implementation/code-generation work, but it must not define behavior that is missing from or contradictory to the BehavioML model.
+
+If behavior is required for correctness, it belongs in the BehavioML model.
+
 ---
 
 ## Identity rules
@@ -473,6 +491,46 @@ Generated artifacts are derived from the model.
 They are not source of truth.
 
 Validators should ignore `generated/` directories unless explicitly validating generated output.
+
+---
+
+## Implementation guidance
+
+Implementation guidance may live beside a BehavioML model.
+
+It is not part of the behavior-first source model.
+
+Implementation guidance may include:
+
+- human-facing implementation notes
+- `AGENTS.md` instructions for code-generation agents
+- code-generation profiles
+- OpenAPI, AsyncAPI, JSON Schema, protobuf, or other technical contracts
+- framework, language, runtime, or storage choices
+- security or deployment guidance
+
+Recommended shape:
+
+```text
+implementation/
+├── README.md
+├── AGENTS.md
+├── codegen-profile.yaml
+└── contracts/
+    └── openapi.yaml
+```
+
+`README.md` explains the implementation guidance package to humans.
+
+`AGENTS.md` instructs code-generation agents.
+
+`codegen-profile.yaml` captures structured implementation choices.
+
+Technical contracts may define HTTP routes, payload schemas, message schemas, or service contracts.
+
+Implementation guidance must not become a hidden behavior model.
+
+If guidance needs behavior that is missing from the BehavioML model, the behavior should either be added to the model or explicitly marked as out of scope.
 
 ---
 
