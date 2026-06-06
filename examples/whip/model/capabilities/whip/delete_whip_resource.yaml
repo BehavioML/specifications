@@ -1,4 +1,0 @@
-description: |
-  Delete the WHIP resource so subsequent PATCH or DELETE requests to that Location are rejected as unknown or expired.
-events:
-  - session_terminated

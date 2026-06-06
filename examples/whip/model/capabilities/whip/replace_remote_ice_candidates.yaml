@@ -1,4 +1,0 @@
-description: |
-  Replace the previously stored remote ICE candidates with the candidates from the ICE restart offer.
-events:
-  - remote_ice_candidates_replaced

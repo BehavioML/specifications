@@ -1,4 +1,0 @@
-description: |
-  Apply an accepted remote ICE candidate to the active WHIP session.
-events:
-  - remote_ice_candidate_applied

@@ -1,2 +1,0 @@
-description: |
-  Send a PATCH or DELETE request to a WHIP resource Location that is unknown or expired from the endpoint's perspective.

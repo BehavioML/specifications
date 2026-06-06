@@ -1,4 +1,0 @@
-description: |
-  Generate an SDP answer for session creation or ICE restart without modeling SDP grammar.
-requires:
-  - webrtc/sdp_answer_generation

@@ -1,4 +1,0 @@
-description: |
-  Include ICE server discovery metadata as Link rel=ice-server response headers when available.
-events:
-  - ice_server_link_received
