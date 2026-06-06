@@ -299,35 +299,6 @@ Do not use modules as semantic behavior areas.
 
 Do not use semantic areas as implementation packages.
 
-### Semantic top-down modeling
-
-For complex source-backed modeling, prefer semantic top-down modeling.
-
-Recommended process:
-
-```text
-1. Survey the source corpus.
-2. Identify semantic areas.
-3. Identify behaviorally relevant entities and state owners.
-4. Identify relationships and dependencies between areas and concepts.
-5. Identify roles and protocol/system participants.
-6. Identify lifecycle constraints and state machines.
-7. Define behaviorally meaningful workflows owned by semantic areas.
-8. Define capabilities as stable responsibilities under workflow context.
-9. Add events only for meaningful observable occurrences.
-10. Add decisions for modeling boundaries, tradeoffs, and rationale.
-11. Add external traceability from source evidence to model elements.
-12. Review area-level gaps and generation readiness.
-```
-
-Do not start by turning every source section, paragraph, requirement, or normative sentence into a workflow or capability.
-
-Source sections are evidence and traceability anchors.
-
-They are not the primary model decomposition unit.
-
-Section-level modeling remains useful later as a deepening, audit, and traceability refinement step.
-
 ---
 
 ## Workflow rules
