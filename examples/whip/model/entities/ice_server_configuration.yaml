@@ -1,0 +1,4 @@
+description: |
+  STUN or TURN server configuration advertised to the WHIP client for ICE
+  gathering, without modeling STUN/TURN protocol behavior or credential
+  generation internals.

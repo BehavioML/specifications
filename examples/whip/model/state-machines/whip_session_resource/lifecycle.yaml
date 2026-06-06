@@ -1,0 +1,9 @@
+entity: whip_session_resource
+
+states:
+  - absent
+  - allocated
+  - active
+  - removing
+  - removed
+  - unavailable

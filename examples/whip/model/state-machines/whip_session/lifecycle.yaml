@@ -1,0 +1,9 @@
+entity: whip_session
+
+states:
+  - not_created
+  - establishing
+  - active
+  - terminating
+  - terminated
+  - failed

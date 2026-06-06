@@ -1,0 +1,3 @@
+description: |
+  Optional error-detail information that may accompany failed WHIP HTTP
+  responses, without modeling the RFC 9457 payload schema.

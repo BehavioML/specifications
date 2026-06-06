@@ -1,0 +1,3 @@
+description: |
+  The allocated HTTP resource identified by the Location response header and
+  used by the WHIP client as the target for session PATCH and DELETE requests.

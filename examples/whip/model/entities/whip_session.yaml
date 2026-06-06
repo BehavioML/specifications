@@ -1,0 +1,4 @@
+description: |
+  A lifecycle-bearing WHIP ingest session established from the initial offer and
+  answer exchange and later terminated explicitly or by media/session failure
+  boundaries.

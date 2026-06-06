@@ -1,0 +1,3 @@
+description: |
+  Authentication material that can authorize WHIP requests when bearer-token
+  authentication is used, without modeling token syntax, storage, or distribution.
