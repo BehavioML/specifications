@@ -1,0 +1,136 @@
+source:
+  id: rfc9725
+  title: WebRTC-HTTP Ingestion Protocol (WHIP)
+  artifact: examples/whip/sources/rfc9725.md
+  origin: https://www.ietf.org/rfc/rfc9725.txt
+
+anchors:
+  overview:
+    section: RFC 9725 §3
+    lines: 145-239
+    supports:
+      - roles:whip_client
+      - roles:whip_endpoint
+      - roles:media_server
+      - entities:whip_session
+      - entities:whip_session_resource
+      - workflows:client/create_session
+      - workflows:client/terminate_session
+      - state-machines:whip_session/lifecycle
+      - state-machines:whip_session_resource/lifecycle
+  http_usage:
+    section: RFC 9725 §4.1
+    lines: 242-258
+    supports:
+      - capabilities:whip/return_failed_response
+      - entities:problem_response
+      - decisions:keep_protocol_payloads_out_of_capabilities
+  ingest_session_setup:
+    section: RFC 9725 §4.2
+    lines: 260-399
+    supports:
+      - semantic-areas:session-establishment
+      - workflows:client/create_session
+      - workflows:endpoint/reject_invalid_offer
+      - workflows:client/terminate_session
+      - capabilities:whip/send_sdp_offer
+      - capabilities:whip/accept_sdp_offer
+      - capabilities:whip/validate_sdp_offer
+      - capabilities:whip/generate_sdp_answer
+      - capabilities:whip/create_session_resource
+      - capabilities:whip/return_session_created
+      - capabilities:whip/reject_invalid_offer
+      - capabilities:whip/send_delete_request
+      - capabilities:whip/remove_session_resource
+      - capabilities:whip/return_session_terminated
+      - events:session_setup_requested
+      - events:session_resource_created
+      - events:session_established
+      - events:session_setup_rejected
+      - events:session_termination_requested
+      - events:session_terminated
+  patch_usage:
+    section: RFC 9725 §4.3.1
+    lines: 421-458
+    supports:
+      - workflows:session/reject_invalid_ice_patch
+      - capabilities:whip/reject_invalid_ice_patch
+      - capabilities:whip/include_ice_session_tag
+      - events:ice_patch_rejected
+  trickle_ice:
+    section: RFC 9725 §4.3.2
+    lines: 459-543
+    supports:
+      - semantic-areas:ice-candidate-trickle
+      - workflows:client/trickle_ice_candidates
+      - capabilities:whip/send_trickle_ice_patch
+      - capabilities:whip/apply_trickle_ice_update
+      - capabilities:whip/validate_trickle_ice_patch
+      - capabilities:whip/update_remote_ice_candidates
+      - capabilities:whip/return_trickle_ice_accepted
+      - events:remote_ice_candidates_updated
+  ice_restart:
+    section: RFC 9725 §4.3.3
+    lines: 545-659
+    supports:
+      - semantic-areas:ice-restart
+      - workflows:client/restart_ice
+      - workflows:session/reject_failed_ice_restart
+      - capabilities:whip/send_ice_restart_patch
+      - capabilities:whip/apply_ice_restart
+      - capabilities:whip/validate_ice_restart
+      - capabilities:whip/replace_remote_ice_candidates
+      - capabilities:whip/return_ice_restart_answer
+      - capabilities:whip/reject_ice_restart
+      - capabilities:whip/preserve_existing_ice_session
+      - events:ice_restart_requested
+      - events:remote_ice_candidates_replaced
+      - events:ice_restart_applied
+      - events:ice_restart_rejected
+  webrtc_constraints:
+    section: RFC 9725 §4.4
+    lines: 661-733
+    supports:
+      - capabilities:whip/validate_sdp_offer
+      - workflows:endpoint/reject_invalid_offer
+      - decisions:keep_protocol_payloads_out_of_capabilities
+  redirects_and_overload:
+    section: RFC 9725 §4.5
+    lines: 734-756
+    supports:
+      - semantic-areas:redirect-and-overload-handling
+      - workflows:client/follow_setup_redirect
+      - workflows:endpoint/defer_overloaded_setup
+      - capabilities:whip/return_setup_redirect
+      - capabilities:whip/follow_setup_redirect
+      - capabilities:whip/defer_overloaded_setup
+      - events:setup_redirect_returned
+      - events:setup_overload_deferred
+  ice_server_configuration:
+    section: RFC 9725 §4.6
+    lines: 757-829
+    supports:
+      - entities:ice_server_configuration
+      - capabilities:whip/include_ice_server_configuration
+      - decisions:refine_auxiliary_response_metadata_under_setup
+  authentication_authorization:
+    section: RFC 9725 §4.7
+    lines: 840-873
+    supports:
+      - semantic-areas:authorization-and-rejection
+      - workflows:endpoint/reject_unauthorized_request
+      - entities:authorization_token
+      - capabilities:whip/evaluate_request_authorization
+      - capabilities:whip/reject_unauthorized_request
+      - events:request_authorization_rejected
+  security_considerations:
+    section: RFC 9725 §5
+    lines: 939-994
+    supports:
+      - decisions:keep_protocol_payloads_out_of_capabilities
+      - decisions:keep_lifecycle_transitions_in_state_machines
+
+notes:
+  - Source sections are evidence anchors only; semantic areas and workflows are behavior-first and are not decomposed by RFC section boundaries.
+  - The previous WHIP BehavioML model is intentionally not a behavioral source for this remodel.
+  - Payload grammar, HTTP schemas, OpenAPI, SDP grammar, ICE candidate grammar, RFC 9457 schemas, STUN/TURN behavior, and implementation mechanics remain outside the core BehavioML model.

@@ -2,10 +2,10 @@
 
 ## Current phase status
 
-- Current phase: Phase 6 — Refine events, state machines, and decisions.
+- Current phase: Phase 7 — Add traceability and final documentation.
 - Status: Complete.
-- Summary: Meaningful WHIP events were added as observable occurrences, capability/workflow event references were connected, WHIP session and session-resource lifecycle skeletons were given event-driven transitions, and two decisions captured the event/lifecycle modeling boundaries.
-- Next phase safe to run: Yes, after human confirmation. Phase 7 may add traceability and final documentation after this semantic model structure exists.
+- Summary: External RFC traceability, final WHIP example documentation, and the final semantic top-down remodel report were added after the semantic model existed. The README now describes the rebuilt model and points to source, traceability, progress, and final report artifacts.
+- Next phase safe to run: No further remodel phase is defined. Follow-up work should be explicitly requested and should start from the completed Phase 7 report.
 
 ## Commits made
 
@@ -16,7 +16,8 @@
 - Phase 4: `f2758cd` — `docs(whip): add semantic area workflows`
 - Phase 4 review: `01372d0` — `docs(whip): adjust semantic workflow granularity`
 - Phase 5: `97cd742` — `docs(whip): refine capabilities under workflow context`
-- Phase 6: current commit — `docs(whip): refine events lifecycle and decisions`
+- Phase 6: `b410177` — `docs(whip): refine events lifecycle and decisions`
+- Phase 7: current commit — `docs(whip): document semantic top-down rebuild`
 
 ## Files changed per phase
 
@@ -216,6 +217,25 @@ Updated:
 
 No semantic areas, roles, entities, components, modules, interfaces, traceability files, or workflow step spines were created or changed in Phase 6.
 
+### Phase 7 — Add traceability and final documentation
+
+Added traceability:
+
+- `examples/whip/traceability/source-map.yaml`
+
+Added final report:
+
+- `examples/whip/generated/reports/semantic-top-down-remodel-report.md`
+
+Updated documentation:
+
+- `examples/whip/README.md`
+- `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
+
+The traceability map uses RFC/source sections as evidence anchors for existing model elements. It does not decompose the model by RFC section.
+
+No model source files under `examples/whip/model/` were changed in Phase 7.
+
 ## Source material available
 
 - Local RFC source artifact: `examples/whip/sources/rfc9725.md`.
@@ -364,7 +384,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 3. Phase 4: complete and reviewed. Added sequence-diagrammable workflows owned by semantic areas, then removed standalone problem-response and ICE-server-configuration workflows and narrowed setup to the WHIP HTTP exchange before Phase 5.
 4. Phase 5: complete. Refined capabilities under workflow context with ordered internal decomposition, added capability-boundary decisions, and kept protocol grammar, schemas, and implementation mechanics out of the model.
 5. Phase 6: complete. Added observable events, wired capability/workflow event references, added lifecycle transitions to WHIP session and session-resource state machines, and captured event/lifecycle modeling boundaries with decisions.
-6. Phase 7: add traceability and final documentation after the semantic model exists.
+6. Phase 7: complete. Added external RFC traceability, updated the WHIP README, and created the final semantic top-down remodel report after the semantic model existed.
 
 ## Open questions
 
@@ -383,11 +403,12 @@ Resolved for Phase 3 based on human feedback:
 
 - `curl -L --fail --show-error https://www.ietf.org/rfc/rfc9725.txt -o examples/whip/sources/rfc9725.md`: Passed.
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
-- `git status --short`: Run after Phase 6 changes.
-- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 6 changes.
-- `npm run validate:models`: Passed for Phase 6. Expected coverage notes remain because workflow triggers are not modeled yet for root scenarios, many capabilities intentionally have no observable events, and several supporting entities do not own lifecycle state machines: 10 workflows without explicit trigger, 18 capabilities without events, and 5 entities without state machine.
+- `git status --short`: Run after Phase 7 changes.
+- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 7 changes.
+- `npm run validate:models`: Passed for Phase 7. Expected coverage notes remain: 10 workflows without explicit trigger, 18 capabilities without events, and 5 entities without state machine.
+- `git diff --check`: Passed for Phase 7.
 
 ## Phase gate
 
-- Stopped after Phase 6.
-- Do not proceed to Phase 7 until a human explicitly confirms continuation.
+- Stopped after Phase 7.
+- The semantic top-down remodel phase list is complete. Do not start additional follow-up work unless a human explicitly requests it.
