@@ -1,2 +1,2 @@
 description: |
-  Repeat the setup request at the redirected WHIP endpoint target.
+  Repeat the setup request at the redirected WHIP endpoint target while preserving the setup method semantics.

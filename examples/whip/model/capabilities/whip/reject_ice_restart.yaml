@@ -1,2 +1,6 @@
 description: |
-  Reject an ICE restart request that cannot be satisfied while keeping the existing WHIP session boundary intact.
+  Reject an ICE restart request that cannot be satisfied while preserving the existing WHIP session boundary.
+
+uses:
+  - whip/preserve_existing_ice_session
+  - whip/return_failed_response

@@ -1,0 +1,2 @@
+description: |
+  Return failed-request information using HTTP failure semantics and optional problem details without modeling status-code taxonomy or RFC 9457 payload schema.

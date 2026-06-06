@@ -1,0 +1,2 @@
+description: |
+  Validate that a PATCH request carries acceptable Trickle ICE information for the current WHIP session without modeling SDP fragment or candidate grammar.

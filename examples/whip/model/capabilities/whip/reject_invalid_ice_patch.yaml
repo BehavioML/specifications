@@ -1,2 +1,5 @@
 description: |
-  Reject a PATCH request whose ICE fragment or PATCH operation cannot be accepted by the WHIP session.
+  Reject a PATCH request whose ICE fragment, conditional request context, media type, or requested ICE operation cannot be accepted by the WHIP session.
+
+uses:
+  - whip/return_failed_response

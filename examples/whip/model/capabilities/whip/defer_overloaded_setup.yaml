@@ -1,2 +1,5 @@
 description: |
   Return an overload response that defers WHIP setup rather than creating a session resource.
+
+uses:
+  - whip/return_failed_response

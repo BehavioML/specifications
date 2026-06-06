@@ -1,2 +1,6 @@
 description: |
-  Accept the initial SDP offer for WHIP session establishment without modeling SDP grammar or JSEP internals.
+  Accept the initial SDP offer for WHIP session establishment by validating the setup request and preparing the answer, without modeling SDP grammar or JSEP internals.
+
+uses:
+  - whip/validate_sdp_offer
+  - whip/generate_sdp_answer

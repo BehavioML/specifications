@@ -1,2 +1,5 @@
 description: |
-  Return the successful ICE restart response with updated ICE information and entity-tag identity.
+  Return the successful ICE restart response with updated ICE information and the new ICE session entity-tag identity.
+
+uses:
+  - whip/include_ice_session_tag

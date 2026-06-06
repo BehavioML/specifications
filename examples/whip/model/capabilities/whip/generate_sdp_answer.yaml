@@ -1,0 +1,2 @@
+description: |
+  Prepare the SDP answer for an accepted initial WHIP offer without modeling the answer grammar or media-server implementation internals.

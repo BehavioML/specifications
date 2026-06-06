@@ -1,0 +1,2 @@
+description: |
+  Include WHIP-advertised STUN or TURN server configuration in a setup response when available, without modeling the Link header schema, STUN/TURN behavior, or credential generation internals.

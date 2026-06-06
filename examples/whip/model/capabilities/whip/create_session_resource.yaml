@@ -1,2 +1,2 @@
 description: |
-  Create the WHIP session resource that will be identified by the setup response Location value.
+  Allocate the WHIP session resource that will become the Location target for later PATCH and DELETE requests.

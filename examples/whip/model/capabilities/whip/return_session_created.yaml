@@ -1,2 +1,7 @@
 description: |
-  Return the successful WHIP setup response with the SDP answer and newly allocated session resource location.
+  Return the successful WHIP setup response with the SDP answer and session metadata needed by later WHIP behavior.
+
+uses:
+  - whip/include_session_resource_location
+  - whip/include_ice_session_tag
+  - whip/include_ice_server_configuration

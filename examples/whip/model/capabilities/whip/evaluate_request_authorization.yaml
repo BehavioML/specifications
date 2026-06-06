@@ -1,0 +1,2 @@
+description: |
+  Determine whether request authentication and authorization are acceptable for the requested WHIP endpoint or session behavior without modeling token syntax, storage, or distribution.

@@ -1,2 +1,6 @@
 description: |
   Reject a WHIP request that is not authenticated or authorized for the endpoint or session resource.
+
+uses:
+  - whip/evaluate_request_authorization
+  - whip/return_failed_response

@@ -1,0 +1,16 @@
+description: |
+  Keep SDP, ICE candidate, HTTP header, and problem-details payload grammar out of WHIP capability refinement.
+
+rationale: |
+  Phase 5 refines responsibilities under workflow context, but the WHIP RFC's payload formats and HTTP schemas would turn the core BehavioML model into protocol contract documentation. The model should name responsibilities such as validating offers, including session location, and returning failed responses without expanding wire-format grammar.
+
+consequences: |
+  Capabilities remain stable behavioral responsibilities. Detailed payload and status-code evidence can be covered later by traceability or external contract documentation rather than by BehavioML workflow or capability decomposition.
+
+affects:
+  - capabilities:whip/validate_sdp_offer
+  - capabilities:whip/validate_trickle_ice_patch
+  - capabilities:whip/validate_ice_restart
+  - capabilities:whip/include_session_resource_location
+  - capabilities:whip/include_ice_session_tag
+  - capabilities:whip/return_failed_response

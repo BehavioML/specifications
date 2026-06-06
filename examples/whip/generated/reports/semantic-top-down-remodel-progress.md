@@ -2,10 +2,10 @@
 
 ## Current phase status
 
-- Current phase: Phase 4 review — Adjust semantic workflow granularity.
+- Current phase: Phase 5 — Refine capabilities under workflow context.
 - Status: Complete.
-- Summary: Phase 4 workflows were reviewed for granularity before Phase 5. The setup workflow was narrowed to the WHIP HTTP POST / 201 Created exchange, standalone generic problem-response handling was removed as a workflow, and standalone ICE server configuration receipt was removed as a workflow for later capability refinement under setup response behavior.
-- Next phase safe to run: Yes, after human confirmation. Phase 5 may refine capabilities under workflow context without turning protocol payload grammar, generic error fallback, ICE server discovery mechanics, or implementation details into standalone workflow spines.
+- Summary: Capabilities were refined under the existing Phase 4 workflow context. Ordered `uses` decomposition was added only for internal endpoint/session responsibilities, protocol payload grammar and implementation mechanics remained outside the core model, and two decisions captured the capability-refinement boundaries.
+- Next phase safe to run: Yes, after human confirmation. Phase 6 may refine events, state machines, and decisions once the capability responsibilities and workflow context are stable.
 
 ## Commits made
 
@@ -14,7 +14,8 @@
 - Phase 2: `e1ac969` — `docs(whip): add semantic area skeleton`
 - Phase 3: `85f7281` — `docs(whip): add semantic vocabulary skeleton`
 - Phase 4: `f2758cd` — `docs(whip): add semantic area workflows`
-- Phase 4 review: current commit — `docs(whip): adjust semantic workflow granularity`
+- Phase 4 review: `01372d0` — `docs(whip): adjust semantic workflow granularity`
+- Phase 5: current commit — `docs(whip): refine capabilities under workflow context`
 
 ## Files changed per phase
 
@@ -135,6 +136,42 @@ Reviewed and adjusted before Phase 5:
 - Removed now-unreferenced capability stubs that only existed for the removed workflows or removed media transport setup step.
 
 No events, state transitions, decisions, components, modules, interfaces, or traceability files were created during the review.
+
+### Phase 5 — Refine capabilities under workflow context
+
+Updated capabilities:
+
+- Added ordered internal decomposition to setup, Trickle ICE, ICE restart, rejection, overload, and setup-response capabilities where the parent workflow-step context is sufficient.
+- Kept role-to-role protocol interactions in workflows rather than hiding them inside `Capability.uses`.
+- Kept SDP grammar, ICE candidate grammar, SDP fragment grammar, HTTP header schemas, RFC 9457 problem-details schema, token internals, STUN/TURN behavior, and implementation mechanics out of capability decomposition.
+- Reintroduced ICE server configuration only as setup-response capability refinement, not as a standalone workflow or semantic area.
+- Represented generic failed-response handling as `whip/return_failed_response` used by concrete rejection/defer capabilities, not as a standalone workflow.
+
+Added capabilities:
+
+- `examples/whip/model/capabilities/whip/validate_sdp_offer.yaml`
+- `examples/whip/model/capabilities/whip/generate_sdp_answer.yaml`
+- `examples/whip/model/capabilities/whip/include_session_resource_location.yaml`
+- `examples/whip/model/capabilities/whip/include_ice_session_tag.yaml`
+- `examples/whip/model/capabilities/whip/include_ice_server_configuration.yaml`
+- `examples/whip/model/capabilities/whip/validate_trickle_ice_patch.yaml`
+- `examples/whip/model/capabilities/whip/update_remote_ice_candidates.yaml`
+- `examples/whip/model/capabilities/whip/validate_ice_restart.yaml`
+- `examples/whip/model/capabilities/whip/replace_remote_ice_candidates.yaml`
+- `examples/whip/model/capabilities/whip/preserve_existing_ice_session.yaml`
+- `examples/whip/model/capabilities/whip/evaluate_request_authorization.yaml`
+- `examples/whip/model/capabilities/whip/return_failed_response.yaml`
+
+Added decisions:
+
+- `examples/whip/model/decisions/keep_protocol_payloads_out_of_capabilities.yaml`
+- `examples/whip/model/decisions/refine_auxiliary_response_metadata_under_setup.yaml`
+
+Updated:
+
+- `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
+
+No workflows, semantic areas, roles, entities, events, state-machine transitions, components, modules, interfaces, or traceability files were created or changed in Phase 5.
 
 ## Source material available
 
@@ -282,7 +319,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 1. Phase 2: complete. Created semantic-area skeletons for session establishment, session resource lifecycle, ICE candidate trickle, ICE restart, authorization and rejection, redirect and overload handling, ICE server discovery, and problem response handling. Extension discovery and non-recommended OPTIONS-based ICE server discovery are intentionally not modeled in this core rebuild.
 2. Phase 3: complete. Added high-level vocabulary required before workflows: WHIP client, WHIP endpoint, and media server roles; WHIP session/resource, ICE session, remote candidate set, authorization token, problem response, and ICE server configuration entities; and state-only lifecycle skeletons for WHIP session and WHIP session resource.
 3. Phase 4: complete and reviewed. Added sequence-diagrammable workflows owned by semantic areas, then removed standalone problem-response and ICE-server-configuration workflows and narrowed setup to the WHIP HTTP exchange before Phase 5.
-4. Phase 5: refine capabilities under workflow context, keeping protocol grammar, schemas, and implementation mechanics out of the model.
+4. Phase 5: complete. Refined capabilities under workflow context with ordered internal decomposition, added capability-boundary decisions, and kept protocol grammar, schemas, and implementation mechanics out of the model.
 5. Phase 6: refine events, state machines, and decisions once workflows and responsibilities show which occurrences and lifecycle constraints are meaningful.
 6. Phase 7: add traceability and final documentation after the semantic model exists.
 
@@ -303,11 +340,11 @@ Resolved for Phase 3 based on human feedback:
 
 - `curl -L --fail --show-error https://www.ietf.org/rfc/rfc9725.txt -o examples/whip/sources/rfc9725.md`: Passed.
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
-- `git status --short`: Run after Phase 4 review changes.
-- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 4 review changes.
-- `npm run validate:models`: Passed after Phase 4 review adjustments. Expected coverage notes remain because triggers, events, transitions, and capability event associations are intentionally deferred: 10 workflows without explicit trigger, 21 capabilities without events, 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
+- `git status --short`: Run after Phase 5 changes.
+- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 5 changes.
+- `npm run validate:models`: Passed for Phase 5. Expected coverage notes remain because triggers, events, transitions, and capability event associations are intentionally deferred: 10 workflows without explicit trigger, 33 capabilities without events, 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
 
 ## Phase gate
 
-- Stopped after Phase 4 review.
-- Do not proceed to Phase 5 until a human explicitly confirms continuation.
+- Stopped after Phase 5.
+- Do not proceed to Phase 6 until a human explicitly confirms continuation.

@@ -1,2 +1,2 @@
 description: |
-  Return the successful no-content response for accepted Trickle ICE candidate information.
+  Return the successful no-content response for accepted Trickle ICE candidate information without returning a new ICE session entity tag.

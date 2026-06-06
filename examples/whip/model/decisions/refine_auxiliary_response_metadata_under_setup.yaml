@@ -1,0 +1,15 @@
+description: |
+  Model ICE server configuration and related setup response metadata as capability refinement rather than standalone workflows.
+
+rationale: |
+  ICE server links and setup response metadata are behaviorally relevant, but they do not create an independent sequence-diagrammable behavior spine in the core WHIP model. Keeping them under the successful setup response capability preserves the setup workflow shape while leaving room for traceability and audit notes.
+
+consequences: |
+  The `client/create_session` workflow stays focused on the WHIP HTTP POST / 201 Created exchange. Phase 5 capability decomposition can still show that the setup response includes the session resource location, ICE session tag, and optional ICE server configuration without reintroducing a standalone discovery workflow.
+
+affects:
+  - workflows:client/create_session
+  - capabilities:whip/return_session_created
+  - capabilities:whip/include_session_resource_location
+  - capabilities:whip/include_ice_session_tag
+  - capabilities:whip/include_ice_server_configuration
