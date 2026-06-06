@@ -337,6 +337,12 @@ A workflow owns:
 - participating roles
 - optional triggering events
 
+Workflows do not own emitted events.
+
+A workflow must not declare top-level event-emission fields such as `emits`, `may_emit`, `observes`, `outcomes`, `success`, or `failure`.
+
+Observable occurrences associated with behavior may be declared by capabilities through `events`, consumed by state machines through transitions, used as workflow triggers through `triggered_by`, or linked externally through traceability.
+
 ### Workflow steps
 
 `steps` references capabilities.
@@ -439,6 +445,10 @@ Capability-declared events do not imply:
 - success/failure classification
 - single receiver
 
+A capability event should still be a meaningful observable occurrence.
+
+Do not use capability events merely to record helper completions, local return values, branch outcomes, or generic success/failure results.
+
 ---
 
 ## Role rules
@@ -510,18 +520,50 @@ Components may belong to modules.
 
 ## Event rules
 
-An event represents something observable that happened in the system.
+An event represents a meaningful observable occurrence that happened in the system.
 
 Events may be consumed by:
 
-- workflows
-- state machines
+- workflows through `triggered_by`
+- capabilities through `events`
+- state machines through transitions
 - monitoring
 - other behavior
 
-Failures, timeouts, cancellations, and recovery signals that matter at system behavior level may be modeled as events.
+Good event candidates include:
+
+- occurrences that make another workflow behaviorally eligible to start;
+- occurrences that drive a lifecycle transition;
+- protocol or domain occurrences relevant to audit, monitoring, recovery, or coordination;
+- failures, timeouts, cancellations, and recovery signals when they matter at system behavior level.
+
+Events should not exist merely to represent:
+
+- return values
+- generic success labels
+- generic failure labels
+- branch names
+- status-code labels
+- generic rejection labels
+- generic result labels
+- helper completions
+- local validation outcomes
+- local implementation exceptions
+- response payload names
+
+Failures, rejections, timeouts, cancellations, and recovery signals may be modeled as events only when the occurrence itself is behaviorally meaningful and observable at the system level.
+
+Do not create events only because a workflow step exists, a capability returned, a branch was selected, a response was formatted, or a technical status code exists.
 
 Technical exceptions local to implementation code should not be modeled directly.
+
+Suspicious event names should be reviewed before being added to a model.
+
+Names ending in generic result words such as `_succeeded`, `_failed`, `_rejected`, `_returned`, `_completed`, or `_handled` are not automatically invalid, but they often indicate an outcome label rather than a true occurrence.
+
+When such an event is used, the model should make clear why the occurrence is observable and behaviorally meaningful rather than merely a result label.
+
+When unsure, prefer a capability, decision, traceability note, test gap, or out-of-scope note instead of creating an event.
 
 ---
 
@@ -662,19 +704,21 @@ Suggested initial checks:
 8. Workflow `steps` references resolve under `capabilities/`.
 9. Workflow `triggered_by` references resolve under `events/`.
 10. Workflows do not reference components directly.
-11. Capability `uses` references resolve under `capabilities/`.
-12. Capability `requires` references resolve under `interfaces/`.
-13. Capability `events` references resolve under `events/`.
-14. Component implemented capabilities resolve under `capabilities/`.
-15. Component implemented interfaces resolve under `interfaces/`.
-16. Component `belongs_to` resolves under `modules/`.
-17. State machine `entity` resolves under `entities/`.
-18. State machine transition events resolve under `events/`.
-19. State machine transition source states, if validated, may be scalar or array-valued.
-20. State machine transition target states, if validated, are scalar.
-21. Decision `affects` entries use typed references and resolve to existing model entities.
-22. `generated/` directories are ignored as source-of-truth input.
-23. Capability `uses` entries resolve under `capabilities/` and are treated as ordered decomposition.
+11. Workflow files do not use top-level event-emission fields such as `emits`, `may_emit`, `observes`, `outcomes`, `success`, or `failure`.
+12. Capability `uses` references resolve under `capabilities/`.
+13. Capability `requires` references resolve under `interfaces/`.
+14. Capability `events` references resolve under `events/`.
+15. Event files are reviewed or warned when names appear to be generic outcomes, status labels, helper completions, or branch labels rather than meaningful observable occurrences.
+16. Component implemented capabilities resolve under `capabilities/`.
+17. Component implemented interfaces resolve under `interfaces/`.
+18. Component `belongs_to` resolves under `modules/`.
+19. State machine `entity` resolves under `entities/`.
+20. State machine transition events resolve under `events/`.
+21. State machine transition source states, if validated, may be scalar or array-valued.
+22. State machine transition target states, if validated, are scalar.
+23. Decision `affects` entries use typed references and resolve to existing model entities.
+24. `generated/` directories are ignored as source-of-truth input.
+25. Capability `uses` entries resolve under `capabilities/` and are treated as ordered decomposition.
 
 ---
 
@@ -691,6 +735,7 @@ The initial validator should not enforce:
 - whether every workflow must be reachable from another workflow
 - whether every workflow must be listed by a semantic area
 - whether workflow directories imply a formal scenario entity
+- complete semantic correctness of every event name
 - implementation-specific behavior
 
 These may be explored later.
