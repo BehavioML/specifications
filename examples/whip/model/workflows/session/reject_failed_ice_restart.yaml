@@ -15,7 +15,3 @@ steps:
     to: whip_client
     capability: whip/reject_ice_restart
     label: ICE restart rejection response
-
-emits:
-  - ice_restart_requested
-  - ice_restart_rejected

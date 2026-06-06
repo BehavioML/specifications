@@ -18,8 +18,3 @@ steps:
     to: whip_client
     capability: whip/return_ice_restart_answer
     label: 200 OK with updated ICE information
-
-emits:
-  - ice_restart_requested
-  - remote_ice_candidates_replaced
-  - ice_restart_applied

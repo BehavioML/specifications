@@ -15,6 +15,3 @@ steps:
     to: whip_client
     capability: whip/reject_unauthorized_request
     label: Authorization rejection response
-
-emits:
-  - request_authorization_rejected

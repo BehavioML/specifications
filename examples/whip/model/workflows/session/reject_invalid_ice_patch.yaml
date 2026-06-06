@@ -15,6 +15,3 @@ steps:
     to: whip_client
     capability: whip/reject_invalid_ice_patch
     label: PATCH rejection response
-
-emits:
-  - ice_patch_rejected

@@ -5,7 +5,7 @@ rationale: |
   Workflows describe observable protocol scenarios, while state machines own lifecycle validity for WHIP session and session resource entities. Keeping transitions out of workflow steps avoids mixing sequence-diagrammable behavior with state-control notation.
 
 consequences: |
-  Workflow files can emit or reference meaningful occurrences, and the lifecycle state machines decide how those occurrences move WHIP session and resource state. Later refinement can add lifecycle evidence without adding branches or state transitions to workflow steps.
+  Capabilities declare meaningful observable occurrences, and the lifecycle state machines decide how those occurrences move WHIP session and resource state. Workflow files do not declare emitted events; later refinement can add lifecycle evidence without adding branches or state transitions to workflow steps.
 
 affects:
   - state-machines:whip_session/lifecycle

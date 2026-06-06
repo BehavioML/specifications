@@ -15,6 +15,3 @@ steps:
     to: whip_client
     capability: whip/defer_overloaded_setup
     label: Service unavailable response
-
-emits:
-  - setup_overload_deferred

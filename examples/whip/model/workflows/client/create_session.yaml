@@ -21,8 +21,3 @@ steps:
     to: whip_client
     capability: whip/return_session_created
     label: 201 Created with SDP answer and Location
-
-emits:
-  - session_setup_requested
-  - session_resource_created
-  - session_established

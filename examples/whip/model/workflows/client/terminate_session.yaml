@@ -23,7 +23,3 @@ steps:
     to: whip_client
     capability: whip/return_session_terminated
     label: Termination success response
-
-emits:
-  - session_termination_requested
-  - session_terminated

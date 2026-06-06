@@ -2,10 +2,10 @@
 
 ## Current phase status
 
-- Current phase: Phase 7 — Add traceability and final documentation.
+- Current phase: Post-Phase 7 review — Align events with model rules.
 - Status: Complete.
-- Summary: External RFC traceability, final WHIP example documentation, and the final semantic top-down remodel report were added after the semantic model existed. The README now describes the rebuilt model and points to source, traceability, progress, and final report artifacts.
-- Next phase safe to run: No further remodel phase is defined. Follow-up work should be explicitly requested and should start from the completed Phase 7 report.
+- Summary: Removed unsupported top-level `emits` fields from WHIP workflow files and aligned Phase 6 documentation with current model rules. Events remain represented through `Capability.events`, `StateMachine.transitions[].on`, decisions, and external traceability.
+- Next phase safe to run: No further remodel phase is defined. Follow-up work should be explicitly requested and should start from the completed Phase 7 report and this post-Phase 7 model-rule alignment.
 
 ## Commits made
 
@@ -17,7 +17,8 @@
 - Phase 4 review: `01372d0` — `docs(whip): adjust semantic workflow granularity`
 - Phase 5: `97cd742` — `docs(whip): refine capabilities under workflow context`
 - Phase 6: `b410177` — `docs(whip): refine events lifecycle and decisions`
-- Phase 7: current commit — `docs(whip): document semantic top-down rebuild`
+- Phase 7: `a13f9b9` — `docs(whip): document semantic top-down rebuild`
+- Post-Phase 7 review: current commit — `docs(whip): align events with model rules`
 
 ## Files changed per phase
 
@@ -201,10 +202,11 @@ Updated lifecycle state machines:
 - `examples/whip/model/state-machines/whip_session/lifecycle.yaml`
 - `examples/whip/model/state-machines/whip_session_resource/lifecycle.yaml`
 
-Updated capability/workflow event references:
+Updated event references:
 
 - Added `events` to capabilities only where the capability behavior is associated with a meaningful observable occurrence.
-- Added workflow `emits` for the same observable occurrences without adding branches, guards, retries, or state-control logic.
+- Lifecycle state machines reference those event files through `transitions[].on`.
+- Workflow event declarations are intentionally absent because current BehavioML model rules do not define `Workflow.emits`.
 
 Added decisions:
 
@@ -235,6 +237,19 @@ Updated documentation:
 The traceability map uses RFC/source sections as evidence anchors for existing model elements. It does not decompose the model by RFC section.
 
 No model source files under `examples/whip/model/` were changed in Phase 7.
+
+### Post-Phase 7 review — Align events with model rules
+
+Updated workflows:
+
+- Removed unsupported top-level `emits` fields from all WHIP workflow files.
+
+Updated documentation/rationale:
+
+- `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
+- `examples/whip/model/decisions/keep_lifecycle_transitions_in_state_machines.yaml`
+
+No semantic areas, workflow steps, capabilities, traceability entries, roles, entities, state-machine transitions, components, modules, or interfaces were changed. Lifecycle transition events remain defined under `examples/whip/model/events/`, and relevant capabilities continue to declare observable events with `Capability.events`.
 
 ## Source material available
 
@@ -383,7 +398,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 2. Phase 3: complete. Added high-level vocabulary required before workflows: WHIP client, WHIP endpoint, and media server roles; WHIP session/resource, ICE session, remote candidate set, authorization token, problem response, and ICE server configuration entities; and state-only lifecycle skeletons for WHIP session and WHIP session resource.
 3. Phase 4: complete and reviewed. Added sequence-diagrammable workflows owned by semantic areas, then removed standalone problem-response and ICE-server-configuration workflows and narrowed setup to the WHIP HTTP exchange before Phase 5.
 4. Phase 5: complete. Refined capabilities under workflow context with ordered internal decomposition, added capability-boundary decisions, and kept protocol grammar, schemas, and implementation mechanics out of the model.
-5. Phase 6: complete. Added observable events, wired capability/workflow event references, added lifecycle transitions to WHIP session and session-resource state machines, and captured event/lifecycle modeling boundaries with decisions.
+5. Phase 6: complete and aligned. Added observable events, wired supported capability event references, added lifecycle transitions to WHIP session and session-resource state machines, and captured event/lifecycle modeling boundaries with decisions.
 6. Phase 7: complete. Added external RFC traceability, updated the WHIP README, and created the final semantic top-down remodel report after the semantic model existed.
 
 ## Open questions
@@ -405,10 +420,10 @@ Resolved for Phase 3 based on human feedback:
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
 - `git status --short`: Run after Phase 7 changes.
 - `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 7 changes.
-- `npm run validate:models`: Passed for Phase 7. Expected coverage notes remain: 10 workflows without explicit trigger, 18 capabilities without events, and 5 entities without state machine.
-- `git diff --check`: Passed for Phase 7.
+- `npm run validate:models`: Passed after post-Phase 7 event alignment; WHIP summary remains 10 workflows, 33 capabilities, 16 events, 7 entities, 2 state machines, 4 decisions, and zero missing references. Expected coverage notes remain for intentionally triggerless WHIP workflows, eventless supporting capabilities, and entities without state machines.
+- `git diff --check`: Passed after post-Phase 7 event alignment.
 
 ## Phase gate
 
-- Stopped after Phase 7.
+- Stopped after post-Phase 7 event alignment.
 - The semantic top-down remodel phase list is complete. Do not start additional follow-up work unless a human explicitly requests it.
