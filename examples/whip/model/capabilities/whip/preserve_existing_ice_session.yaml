@@ -1,0 +1,2 @@
+description: |
+  Keep the existing ICE session active when a requested ICE restart cannot be satisfied and the RFC does not require immediate session termination.

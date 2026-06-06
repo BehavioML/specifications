@@ -1,0 +1,2 @@
+description: |
+  Include the entity-tag identity for the current ICE session when the response must identify the ICE session for later conditional PATCH behavior.

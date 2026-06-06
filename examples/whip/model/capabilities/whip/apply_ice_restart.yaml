@@ -1,2 +1,6 @@
 description: |
-  Apply an accepted ICE restart and establish the new ICE session information without modeling SDP fragment grammar.
+  Apply an accepted ICE restart by validating restart information and replacing the session's ICE context without modeling SDP fragment grammar, retry algorithms, or out-of-order response algorithms.
+
+uses:
+  - whip/validate_ice_restart
+  - whip/replace_remote_ice_candidates

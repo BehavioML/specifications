@@ -1,0 +1,2 @@
+description: |
+  Validate that a PATCH request represents an acceptable ICE restart for the current WHIP session without expanding ICE credential or SDP fragment grammar.

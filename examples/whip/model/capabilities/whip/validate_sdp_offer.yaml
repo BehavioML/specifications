@@ -1,0 +1,2 @@
+description: |
+  Validate that the initial setup request and SDP offer can be accepted for WHIP session establishment without expanding SDP grammar, HTTP schema, or WebRTC API details.

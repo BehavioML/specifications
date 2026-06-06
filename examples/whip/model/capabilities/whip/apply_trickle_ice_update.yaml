@@ -1,2 +1,6 @@
 description: |
-  Apply accepted Trickle ICE information to the WHIP session without modeling candidate grammar or silent local candidate discard as a separate behavior spine.
+  Apply accepted Trickle ICE information to the WHIP session. Silent discard of unusable candidates remains RFC-defined local processing and is not modeled as a separate workflow, event, state transition, branch, guard, algorithmic step, or failure state.
+
+uses:
+  - whip/validate_trickle_ice_patch
+  - whip/update_remote_ice_candidates
