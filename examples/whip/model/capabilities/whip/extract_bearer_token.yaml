@@ -1,2 +1,0 @@
-description: |
-  Extract the bearer token from request authorization metadata without modeling the full HTTP header schema.

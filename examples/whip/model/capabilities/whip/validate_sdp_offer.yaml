@@ -1,5 +1,0 @@
-description: |
-  Validate that an SDP offer is acceptable for WHIP session creation without modeling SDP grammar in detail.
-events:
-  - session_creation_requested
-  - session_creation_failed

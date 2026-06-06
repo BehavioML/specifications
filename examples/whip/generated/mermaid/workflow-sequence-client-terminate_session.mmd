@@ -1,8 +1,0 @@
-sequenceDiagram
-  participant whip_client as Whip Client
-  participant whip_endpoint as Whip Endpoint
-
-  whip_client->>whip_endpoint: DELETE WHIP resource
-  Note over whip_endpoint: Release ingest session and delete resource
-  Note over whip_endpoint: 1. Authorize Request<br/>2. Validate Resource Location<br/>3. Release Ingest Session<br/>4. Delete Whip Resource
-  whip_endpoint->>whip_client: Termination response

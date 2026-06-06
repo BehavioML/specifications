@@ -1,5 +1,0 @@
-description: |
-  Reject an invalid SDP offer or unsupported media/session request before creating a WHIP resource.
-events:
-  - invalid_offer_rejected
-  - session_creation_failed

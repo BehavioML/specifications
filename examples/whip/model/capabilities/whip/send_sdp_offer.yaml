@@ -1,2 +1,0 @@
-description: |
-  Send an HTTP POST containing an SDP offer to request creation of a WHIP ingest session.

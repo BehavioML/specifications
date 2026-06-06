@@ -1,4 +1,0 @@
-description: |
-  Validate that a PATCH or DELETE request targets a known, active WHIP resource Location.
-events:
-  - unknown_resource_rejected

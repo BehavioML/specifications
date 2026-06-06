@@ -1,8 +1,0 @@
-sequenceDiagram
-  participant whip_endpoint as Whip Endpoint
-  participant whip_client as Whip Client
-
-  whip_client->>whip_endpoint: WHIP request without valid bearer token
-  Note over whip_endpoint: Extract and validate bearer token
-  Note over whip_endpoint: 1. Extract Bearer Token<br/>2. Validate Bearer Token
-  whip_endpoint->>whip_client: 401 or 403 problem response

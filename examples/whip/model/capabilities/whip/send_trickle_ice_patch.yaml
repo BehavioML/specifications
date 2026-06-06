@@ -1,2 +1,0 @@
-description: |
-  Send an HTTP PATCH containing a trickled ICE candidate fragment to an existing WHIP resource.

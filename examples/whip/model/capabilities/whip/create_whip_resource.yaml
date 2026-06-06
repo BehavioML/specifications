@@ -1,4 +1,0 @@
-description: |
-  Create the WHIP HTTP resource that becomes the Location target for subsequent PATCH and DELETE requests.
-events:
-  - session_resource_created

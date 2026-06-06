@@ -1,4 +1,0 @@
-description: |
-  Include the Location reference for the newly created WHIP resource in the creation response.
-events:
-  - session_resource_created

@@ -1,2 +1,0 @@
-description: |
-  Send an HTTP PATCH containing an ICE restart SDP offer to the WHIP resource.

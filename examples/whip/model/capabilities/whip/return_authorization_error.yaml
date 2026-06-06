@@ -1,6 +1,0 @@
-description: |
-  Return a 401 or 403 problem response when bearer-token authorization fails.
-events:
-  - authorization_failed
-  - request_rejected
-  - problem_response_returned

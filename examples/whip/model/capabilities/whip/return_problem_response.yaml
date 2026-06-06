@@ -1,5 +1,0 @@
-description: |
-  Return an HTTP problem response for an invalid, unsupported, unknown, or expired WHIP request without modeling RFC 9457 payload fields.
-events:
-  - request_rejected
-  - problem_response_returned

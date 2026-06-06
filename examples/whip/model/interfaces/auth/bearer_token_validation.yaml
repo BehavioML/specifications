@@ -1,2 +1,0 @@
-description: |
-  Architectural dependency point for validating bearer tokens carried by WHIP HTTP requests.

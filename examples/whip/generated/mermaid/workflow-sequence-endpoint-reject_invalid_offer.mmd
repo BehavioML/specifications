@@ -1,7 +1,0 @@
-sequenceDiagram
-  participant whip_endpoint as Whip Endpoint
-  participant whip_client as Whip Client
-
-  whip_client->>whip_endpoint: POST invalid SDP offer
-  Note over whip_endpoint: 1. Authorize Request<br/>2. Validate Sdp Offer<br/>3. Reject Invalid Sdp Offer
-  whip_endpoint->>whip_client: Problem response

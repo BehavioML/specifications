@@ -1,4 +1,0 @@
-description: |
-  Receive an HTTP 307 Temporary Redirect response while preserving the original WHIP request semantics.
-events:
-  - redirect_response_received

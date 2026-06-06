@@ -1,2 +1,0 @@
-description: |
-  Architectural dependency point for allocating and releasing media ingest session capacity without modeling media pipeline internals.

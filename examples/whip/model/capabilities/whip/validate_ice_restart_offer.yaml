@@ -1,4 +1,0 @@
-description: |
-  Validate that a PATCH SDP offer represents an acceptable ICE restart for the targeted WHIP resource.
-events:
-  - ice_restart_requested

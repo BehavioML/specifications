@@ -1,8 +1,0 @@
-sequenceDiagram
-  participant whip_client as Whip Client
-  participant whip_endpoint as Whip Endpoint
-
-  whip_client->>whip_endpoint: PATCH trickle ICE candidate
-  Note over whip_endpoint: Validate resource and apply ICE candidate
-  Note over whip_endpoint: 1. Authorize Request<br/>2. Validate Resource Location<br/>3. Validate Ice Candidate Fragment<br/>4. Apply Remote Ice Candidate
-  whip_endpoint->>whip_client: 204 No Content
