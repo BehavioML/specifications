@@ -3,3 +3,6 @@ description: |
 
 uses:
   - whip/return_failed_response
+
+events:
+  - ice_patch_rejected

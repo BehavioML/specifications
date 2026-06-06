@@ -4,3 +4,6 @@ description: |
 uses:
   - whip/preserve_existing_ice_session
   - whip/return_failed_response
+
+events:
+  - ice_restart_rejected

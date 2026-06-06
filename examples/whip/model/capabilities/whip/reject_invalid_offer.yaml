@@ -3,3 +3,6 @@ description: |
 
 uses:
   - whip/return_failed_response
+
+events:
+  - session_setup_rejected

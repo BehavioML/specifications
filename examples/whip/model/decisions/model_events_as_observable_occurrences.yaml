@@ -1,0 +1,16 @@
+description: |
+  Model WHIP events only as observable occurrences rather than response labels, branch names, or helper outcomes.
+
+rationale: |
+  Phase 6 adds events to support lifecycle constraints and workflow observability. Events such as session establishment, resource creation, ICE restart request, and candidate replacement describe things that happened in the modeled system. HTTP status names, generic success labels, and local helper completions would make the model look like executable control flow or a status taxonomy.
+
+consequences: |
+  Rejection and deferral capabilities may declare events for observable protocol outcomes, but the model avoids event names that merely mirror HTTP status codes, problem-detail payloads, or internal helper return values.
+
+affects:
+  - events:session_established
+  - events:session_resource_created
+  - events:remote_ice_candidates_replaced
+  - capabilities:whip/return_failed_response
+  - workflows:client/create_session
+  - workflows:client/restart_ice

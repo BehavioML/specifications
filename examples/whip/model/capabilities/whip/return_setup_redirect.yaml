@@ -1,2 +1,5 @@
 description: |
   Return a setup redirect that preserves the setup request method for load-balancing behavior.
+
+events:
+  - setup_redirect_returned

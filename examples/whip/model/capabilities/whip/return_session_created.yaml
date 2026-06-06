@@ -5,3 +5,6 @@ uses:
   - whip/include_session_resource_location
   - whip/include_ice_session_tag
   - whip/include_ice_server_configuration
+
+events:
+  - session_established

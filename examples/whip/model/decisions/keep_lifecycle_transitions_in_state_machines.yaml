@@ -1,0 +1,17 @@
+description: |
+  Keep WHIP lifecycle transitions in state machines instead of encoding lifecycle movement in workflows.
+
+rationale: |
+  Workflows describe observable protocol scenarios, while state machines own lifecycle validity for WHIP session and session resource entities. Keeping transitions out of workflow steps avoids mixing sequence-diagrammable behavior with state-control notation.
+
+consequences: |
+  Workflow files can emit or reference meaningful occurrences, and the lifecycle state machines decide how those occurrences move WHIP session and resource state. Later refinement can add lifecycle evidence without adding branches or state transitions to workflow steps.
+
+affects:
+  - state-machines:whip_session/lifecycle
+  - state-machines:whip_session_resource/lifecycle
+  - workflows:client/create_session
+  - workflows:client/terminate_session
+  - events:session_setup_requested
+  - events:session_established
+  - events:session_terminated

@@ -7,3 +7,24 @@ states:
   - removing
   - removed
   - unavailable
+
+transitions:
+  - from: absent
+    on: session_resource_created
+    to: allocated
+
+  - from: allocated
+    on: session_established
+    to: active
+
+  - from: active
+    on: session_termination_requested
+    to: removing
+
+  - from: removing
+    on: session_terminated
+    to: removed
+
+  - from: active
+    on: session_consent_expired
+    to: unavailable

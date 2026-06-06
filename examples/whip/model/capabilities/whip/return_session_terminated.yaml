@@ -1,2 +1,5 @@
 description: |
   Return the successful response confirming explicit WHIP session termination.
+
+events:
+  - session_terminated

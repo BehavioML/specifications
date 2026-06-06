@@ -1,2 +1,5 @@
 description: |
   Send the initial WHIP setup request carrying the client's SDP offer to the WHIP endpoint.
+
+events:
+  - session_setup_requested
