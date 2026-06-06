@@ -1,2 +1,0 @@
-description: |
-  Handle a failed WHIP response using generic HTTP status semantics and any optional problem details.

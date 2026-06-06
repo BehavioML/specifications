@@ -5,7 +5,6 @@ roles:
   primary: whip_client
   participants:
     - whip_endpoint
-    - media_server
 
 steps:
   - from: whip_client
@@ -22,7 +21,3 @@ steps:
     to: whip_client
     capability: whip/return_session_created
     label: 201 Created with SDP answer and Location
-  - from: whip_client
-    to: media_server
-    capability: whip/establish_media_transport
-    label: ICE, DTLS, and media transport established
