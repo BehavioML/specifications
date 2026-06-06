@@ -54,10 +54,10 @@ Examples:
 
 ```text
 session establishment
-session resource lifecycle
-ICE candidate trickle
-ICE restart
+resource lifecycle
 authorization and rejection
+redirect handling
+configuration discovery
 packet protection
 protected packet receive
 key update
@@ -69,6 +69,8 @@ Semantic areas should be named after stable behavior or protocol concepts, not a
 Create `model/semantic-areas/` files when the area is stable enough to guide modeling work.
 
 Each semantic area should directly list the workflows it owns.
+
+Semantic area files should stay intentionally small. Related roles, capabilities, interfaces, entities, events, state machines, and decisions should be discovered through owned workflows and ordinary model references rather than repeated in semantic area files.
 
 ### 3. Identify entities and state owners
 
@@ -100,9 +102,9 @@ Identify state machines only for coherent entities with meaningful lifecycle con
 
 Do not use state machines to collect miscellaneous status labels, UI states, branch names, implementation flags, or planning states.
 
-### 7. Define workflows owned by semantic areas
+### 7. Review workflow candidates
 
-Define workflows only when there is a behaviorally meaningful scenario.
+Before creating workflow files, review candidate workflows by semantic area.
 
 A workflow should answer:
 
@@ -110,13 +112,51 @@ A workflow should answer:
 Who does what, with whom, in what observable or architecturally meaningful order?
 ```
 
+Candidate workflows from a source survey are hypotheses, not approval to create workflow files.
+
+Classify each candidate before materializing it:
+
+- accept;
+- needs review;
+- demote to capability;
+- demote to decision;
+- demote to traceability or audit note;
+- demote to state/event review;
+- contract gap;
+- implementation guidance gap;
+- test gap;
+- out of scope.
+
+Create a workflow only when it is high confidence.
+
+High-confidence workflow candidates have:
+
+- clear semantic area ownership;
+- clear primary role;
+- clear participants;
+- clear ordered scenario spine;
+- clear observable interaction or lifecycle impact;
+- no need for hidden role inference;
+- no dependence on executable control flow;
+- no source-section-shaped structure.
+
+Medium-confidence candidates should remain in a progress or review report until human review resolves them.
+
+Low-confidence candidates should be demoted and not materialized as workflows.
+
+### 8. Define workflows owned by semantic areas
+
+Define workflows only when there is a behaviorally meaningful scenario and the candidate has passed workflow review.
+
 Workflows should be owned by semantic areas.
 
 A workflow should not be created merely because a source section exists.
 
 Algorithmic local mechanics should not automatically become workflows.
 
-### 8. Define capabilities under workflow context
+Do not create workflows for generic response handling, payload parsing, schema validation, status-code handling without domain or protocol meaning, implementation algorithms, helper completion, or test obligations.
+
+### 9. Define capabilities under workflow context
 
 Define capabilities after the higher-level behavior is understood.
 
@@ -128,17 +168,21 @@ Use `Capability.uses` for ordered internal decomposition only when the parent ca
 
 Do not create one capability per normative sentence, helper, return value, branch, implementation step, or source paragraph.
 
-### 9. Add events and decisions deliberately
+Demote behavior to a capability when it happens inside an already modeled workflow, is reusable response preparation, is local processing by one role, or is ordered internal responsibility under a clear parent capability context.
+
+### 10. Add events and decisions deliberately
 
 Add events only for meaningful observable occurrences that happened in the system.
 
 Do not use events merely as success labels, failure labels, branch names, return values, helper completions, or status-code aliases.
 
+If a candidate is primarily lifecycle-related, review whether it belongs as an event-triggered state-machine transition rather than a workflow.
+
 Add decisions for modeling boundaries, rationale, tradeoffs, exclusions, or important interpretation choices.
 
 Decisions should explain why, not restate what.
 
-### 10. Add external traceability
+### 11. Add external traceability
 
 Add traceability after the model has semantic structure.
 
@@ -156,7 +200,7 @@ Which model file did this source heading create?
 
 Keep traceability external unless the metamodel deliberately changes.
 
-### 11. Review gaps and readiness
+### 12. Review gaps and readiness
 
 Review the model by semantic area.
 
@@ -164,14 +208,67 @@ Classify missing information before adding detail to the wrong layer.
 
 Typical findings include:
 
-- source gaps
-- modeling gaps
-- contract gaps
-- implementation guidance gaps
-- test gaps
-- out-of-scope details
+- source gaps;
+- modeling gaps;
+- contract gaps;
+- implementation guidance gaps;
+- test gaps;
+- out-of-scope details.
 
 Do not hide missing behavior in implementation guidance, technical contracts, prompts, generated reports, or code.
+
+---
+
+## Workflow candidate gate
+
+Use this gate before creating workflows.
+
+Create a workflow only if at least one of these is strongly true:
+
+- it is an observable role-to-role interaction;
+- it changes which role acts or receives in a behaviorally meaningful order;
+- it represents a system-level failure, rejection, recovery, timeout, or cancellation scenario;
+- it changes, constrains, or explains lifecycle state;
+- omitting it would make sequence diagrams or human review misleading;
+- it is needed to make a semantic area's behavior understandable.
+
+Do not create a workflow if the behavior is only:
+
+- local processing by one role;
+- reusable response preparation;
+- generic client-side handling;
+- generic server-side handling;
+- payload parsing;
+- schema validation;
+- status-code handling without domain or protocol-specific behavior;
+- implementation algorithm;
+- source section heading;
+- normative sentence;
+- capability decomposition;
+- traceability evidence;
+- test obligation.
+
+Ambiguous workflow candidates should be recorded as `needs review` instead of being materialized.
+
+---
+
+## Demotion guidance
+
+Semantic top-down modeling should preserve uncertainty instead of forcing every source detail into the model.
+
+Demote a candidate to capability when the behavior is an internal responsibility within an already modeled workflow.
+
+Demote a candidate to decision when the important information is a modeling boundary, tradeoff, or exclusion rationale.
+
+Demote a candidate to traceability or audit note when the source requires behavior but the behavior creates no separate observable scenario spine.
+
+Demote a candidate to state/event review when the behavior is primarily lifecycle-related and should wait for event discipline.
+
+Mark a candidate as a contract gap when behavior exists but missing detail belongs in a route, payload, schema, message, protocol field, or status mapping.
+
+Mark a candidate as an implementation guidance gap when behavior exists but missing detail belongs in runtime, framework, storage, deployment, scheduling, retry policy, or security policy.
+
+Mark a candidate as out of scope when it belongs outside the intended model boundary.
 
 ---
 
@@ -202,6 +299,9 @@ Avoid these patterns:
 - semantic areas are used as modules or implementation packages;
 - semantic areas are treated as use cases, epics, user stories, or requirements groups;
 - workflows are created for local algorithmic mechanics;
+- workflows are created for generic response handling;
+- workflows are created for payload parsing or schema validation;
+- workflows are created for status-code handling without domain or protocol meaning;
 - capabilities hide role-to-role interactions;
 - events represent generic outcomes instead of observable occurrences;
 - traceability drives model creation instead of supporting model review;
@@ -215,6 +315,7 @@ A semantic top-down BehavioML model should make it clear:
 
 - which semantic areas organize the behavior;
 - which workflows each semantic area owns;
+- which candidate workflows were accepted, deferred, or demoted;
 - which entities and state machines carry lifecycle meaning;
 - which roles participate in behavior;
 - which capabilities express stable responsibilities;
