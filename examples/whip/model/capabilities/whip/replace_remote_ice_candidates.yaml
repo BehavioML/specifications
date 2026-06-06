@@ -1,2 +1,5 @@
 description: |
   Replace the previous remote ICE candidate set with the candidate set associated with a successful ICE restart.
+
+events:
+  - remote_ice_candidates_replaced

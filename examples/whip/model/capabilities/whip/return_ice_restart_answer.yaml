@@ -3,3 +3,6 @@ description: |
 
 uses:
   - whip/include_ice_session_tag
+
+events:
+  - ice_restart_applied

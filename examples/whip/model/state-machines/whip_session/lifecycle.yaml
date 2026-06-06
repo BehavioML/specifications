@@ -7,3 +7,28 @@ states:
   - terminating
   - terminated
   - failed
+
+transitions:
+  - from: not_created
+    on: session_setup_requested
+    to: establishing
+
+  - from: establishing
+    on: session_established
+    to: active
+
+  - from: establishing
+    on: session_setup_rejected
+    to: failed
+
+  - from: active
+    on: session_termination_requested
+    to: terminating
+
+  - from: terminating
+    on: session_terminated
+    to: terminated
+
+  - from: active
+    on: session_consent_expired
+    to: failed

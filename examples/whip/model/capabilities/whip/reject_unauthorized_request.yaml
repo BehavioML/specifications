@@ -4,3 +4,6 @@ description: |
 uses:
   - whip/evaluate_request_authorization
   - whip/return_failed_response
+
+events:
+  - request_authorization_rejected

@@ -1,2 +1,5 @@
 description: |
   Allocate the WHIP session resource that will become the Location target for later PATCH and DELETE requests.
+
+events:
+  - session_resource_created

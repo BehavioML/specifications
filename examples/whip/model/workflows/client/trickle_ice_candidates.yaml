@@ -18,3 +18,6 @@ steps:
     to: whip_client
     capability: whip/return_trickle_ice_accepted
     label: 204 No Content
+
+emits:
+  - remote_ice_candidates_updated

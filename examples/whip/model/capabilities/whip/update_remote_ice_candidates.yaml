@@ -1,2 +1,5 @@
 description: |
   Add accepted remote ICE candidate information to the session's remote candidate set without modeling individual candidate parsing or transport-address resolution mechanics.
+
+events:
+  - remote_ice_candidates_updated

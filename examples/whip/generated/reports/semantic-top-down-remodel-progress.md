@@ -2,10 +2,10 @@
 
 ## Current phase status
 
-- Current phase: Phase 5 — Refine capabilities under workflow context.
+- Current phase: Phase 6 — Refine events, state machines, and decisions.
 - Status: Complete.
-- Summary: Capabilities were refined under the existing Phase 4 workflow context. Ordered `uses` decomposition was added only for internal endpoint/session responsibilities, protocol payload grammar and implementation mechanics remained outside the core model, and two decisions captured the capability-refinement boundaries.
-- Next phase safe to run: Yes, after human confirmation. Phase 6 may refine events, state machines, and decisions once the capability responsibilities and workflow context are stable.
+- Summary: Meaningful WHIP events were added as observable occurrences, capability/workflow event references were connected, WHIP session and session-resource lifecycle skeletons were given event-driven transitions, and two decisions captured the event/lifecycle modeling boundaries.
+- Next phase safe to run: Yes, after human confirmation. Phase 7 may add traceability and final documentation after this semantic model structure exists.
 
 ## Commits made
 
@@ -15,7 +15,8 @@
 - Phase 3: `85f7281` — `docs(whip): add semantic vocabulary skeleton`
 - Phase 4: `f2758cd` — `docs(whip): add semantic area workflows`
 - Phase 4 review: `01372d0` — `docs(whip): adjust semantic workflow granularity`
-- Phase 5: current commit — `docs(whip): refine capabilities under workflow context`
+- Phase 5: `97cd742` — `docs(whip): refine capabilities under workflow context`
+- Phase 6: current commit — `docs(whip): refine events lifecycle and decisions`
 
 ## Files changed per phase
 
@@ -173,6 +174,48 @@ Updated:
 
 No workflows, semantic areas, roles, entities, events, state-machine transitions, components, modules, interfaces, or traceability files were created or changed in Phase 5.
 
+### Phase 6 — Refine events, state machines, and decisions
+
+Added events:
+
+- `examples/whip/model/events/session_setup_requested.yaml`
+- `examples/whip/model/events/session_resource_created.yaml`
+- `examples/whip/model/events/session_established.yaml`
+- `examples/whip/model/events/session_setup_rejected.yaml`
+- `examples/whip/model/events/session_termination_requested.yaml`
+- `examples/whip/model/events/session_terminated.yaml`
+- `examples/whip/model/events/session_consent_expired.yaml`
+- `examples/whip/model/events/remote_ice_candidates_updated.yaml`
+- `examples/whip/model/events/ice_patch_rejected.yaml`
+- `examples/whip/model/events/ice_restart_requested.yaml`
+- `examples/whip/model/events/remote_ice_candidates_replaced.yaml`
+- `examples/whip/model/events/ice_restart_applied.yaml`
+- `examples/whip/model/events/ice_restart_rejected.yaml`
+- `examples/whip/model/events/request_authorization_rejected.yaml`
+- `examples/whip/model/events/setup_redirect_returned.yaml`
+- `examples/whip/model/events/setup_overload_deferred.yaml`
+
+Updated lifecycle state machines:
+
+- `examples/whip/model/state-machines/whip_session/lifecycle.yaml`
+- `examples/whip/model/state-machines/whip_session_resource/lifecycle.yaml`
+
+Updated capability/workflow event references:
+
+- Added `events` to capabilities only where the capability behavior is associated with a meaningful observable occurrence.
+- Added workflow `emits` for the same observable occurrences without adding branches, guards, retries, or state-control logic.
+
+Added decisions:
+
+- `examples/whip/model/decisions/model_events_as_observable_occurrences.yaml`
+- `examples/whip/model/decisions/keep_lifecycle_transitions_in_state_machines.yaml`
+
+Updated:
+
+- `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
+
+No semantic areas, roles, entities, components, modules, interfaces, traceability files, or workflow step spines were created or changed in Phase 6.
+
 ## Source material available
 
 - Local RFC source artifact: `examples/whip/sources/rfc9725.md`.
@@ -320,7 +363,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 2. Phase 3: complete. Added high-level vocabulary required before workflows: WHIP client, WHIP endpoint, and media server roles; WHIP session/resource, ICE session, remote candidate set, authorization token, problem response, and ICE server configuration entities; and state-only lifecycle skeletons for WHIP session and WHIP session resource.
 3. Phase 4: complete and reviewed. Added sequence-diagrammable workflows owned by semantic areas, then removed standalone problem-response and ICE-server-configuration workflows and narrowed setup to the WHIP HTTP exchange before Phase 5.
 4. Phase 5: complete. Refined capabilities under workflow context with ordered internal decomposition, added capability-boundary decisions, and kept protocol grammar, schemas, and implementation mechanics out of the model.
-5. Phase 6: refine events, state machines, and decisions once workflows and responsibilities show which occurrences and lifecycle constraints are meaningful.
+5. Phase 6: complete. Added observable events, wired capability/workflow event references, added lifecycle transitions to WHIP session and session-resource state machines, and captured event/lifecycle modeling boundaries with decisions.
 6. Phase 7: add traceability and final documentation after the semantic model exists.
 
 ## Open questions
@@ -340,11 +383,11 @@ Resolved for Phase 3 based on human feedback:
 
 - `curl -L --fail --show-error https://www.ietf.org/rfc/rfc9725.txt -o examples/whip/sources/rfc9725.md`: Passed.
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
-- `git status --short`: Run after Phase 5 changes.
-- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 5 changes.
-- `npm run validate:models`: Passed for Phase 5. Expected coverage notes remain because triggers, events, transitions, and capability event associations are intentionally deferred: 10 workflows without explicit trigger, 33 capabilities without events, 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
+- `git status --short`: Run after Phase 6 changes.
+- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 6 changes.
+- `npm run validate:models`: Passed for Phase 6. Expected coverage notes remain because workflow triggers are not modeled yet for root scenarios, many capabilities intentionally have no observable events, and several supporting entities do not own lifecycle state machines: 10 workflows without explicit trigger, 18 capabilities without events, and 5 entities without state machine.
 
 ## Phase gate
 
-- Stopped after Phase 5.
-- Do not proceed to Phase 6 until a human explicitly confirms continuation.
+- Stopped after Phase 6.
+- Do not proceed to Phase 7 until a human explicitly confirms continuation.

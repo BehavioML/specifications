@@ -15,3 +15,6 @@ steps:
     to: whip_endpoint
     capability: whip/follow_setup_redirect
     label: Repeat setup request at redirected endpoint
+
+emits:
+  - setup_redirect_returned
