@@ -2,10 +2,10 @@
 
 ## Current phase status
 
-- Current phase: Phase 4 — Add workflows owned by semantic areas.
+- Current phase: Phase 4 review — Adjust semantic workflow granularity.
 - Status: Complete.
-- Summary: Behaviorally meaningful workflows were added under `examples/whip/model/workflows/`, semantic-area workflow ownership lists were populated, and coarse responsibility-shaped capability stubs were added only to satisfy workflow step references. No components, modules, interfaces, events, decisions, or traceability files were created in Phase 4.
-- Next phase safe to run: Yes, after human confirmation. Phase 5 may refine capabilities under workflow context without turning protocol payload grammar or implementation mechanics into the core model.
+- Summary: Phase 4 workflows were reviewed for granularity before Phase 5. The setup workflow was narrowed to the WHIP HTTP POST / 201 Created exchange, standalone generic problem-response handling was removed as a workflow, and standalone ICE server configuration receipt was removed as a workflow for later capability refinement under setup response behavior.
+- Next phase safe to run: Yes, after human confirmation. Phase 5 may refine capabilities under workflow context without turning protocol payload grammar, generic error fallback, ICE server discovery mechanics, or implementation details into standalone workflow spines.
 
 ## Commits made
 
@@ -13,7 +13,8 @@
 - Phase 1: `f4acc6d` — `docs(whip): survey RFC for semantic top-down model`
 - Phase 2: `e1ac969` — `docs(whip): add semantic area skeleton`
 - Phase 3: `85f7281` — `docs(whip): add semantic vocabulary skeleton`
-- Phase 4: current commit — `docs(whip): add semantic area workflows`
+- Phase 4: `f2758cd` — `docs(whip): add semantic area workflows`
+- Phase 4 review: current commit — `docs(whip): adjust semantic workflow granularity`
 
 ## Files changed per phase
 
@@ -106,8 +107,6 @@ Added workflows:
 - `examples/whip/model/workflows/endpoint/reject_unauthorized_request.yaml`
 - `examples/whip/model/workflows/client/follow_setup_redirect.yaml`
 - `examples/whip/model/workflows/endpoint/defer_overloaded_setup.yaml`
-- `examples/whip/model/workflows/client/receive_ice_server_configuration.yaml`
-- `examples/whip/model/workflows/client/handle_problem_response.yaml`
 
 Added minimal capability stubs:
 
@@ -124,6 +123,18 @@ Updated:
 No components, modules, interfaces, events, decisions, state-machine transitions, or traceability files were created in Phase 4.
 
 Workflow ownership is explicit and direct from semantic areas. Silent discard of unusable Trickle ICE candidates remains local RFC-defined processing covered by the Trickle ICE capability description and later traceability, not a workflow, event, state transition, branch, guard, algorithmic step, or failure state.
+
+### Phase 4 review — Adjust semantic workflow granularity
+
+Reviewed and adjusted before Phase 5:
+
+- `examples/whip/model/workflows/client/create_session.yaml` now stays focused on the WHIP HTTP POST / 201 Created setup exchange. The `media_server` participant and `whip/establish_media_transport` step were removed from this workflow. Media-plane establishment remains a lifecycle boundary or later modeling decision, not a role interaction in the setup workflow.
+- Removed `examples/whip/model/workflows/client/handle_problem_response.yaml` because generic failed-response handling is not a standalone behavior spine. Problem details and generic HTTP fallback should be represented by rejection workflow capabilities, later decisions, or traceability.
+- Removed `examples/whip/model/workflows/client/receive_ice_server_configuration.yaml` because ICE server configuration is better refined under successful setup response capabilities in Phase 5 than modeled as a standalone workflow.
+- Removed empty workflow-owning candidate semantic areas `examples/whip/model/semantic-areas/problem-response-handling.yaml` and `examples/whip/model/semantic-areas/ice-server-discovery.yaml`.
+- Removed now-unreferenced capability stubs that only existed for the removed workflows or removed media transport setup step.
+
+No events, state transitions, decisions, components, modules, interfaces, or traceability files were created during the review.
 
 ## Source material available
 
@@ -270,7 +281,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 
 1. Phase 2: complete. Created semantic-area skeletons for session establishment, session resource lifecycle, ICE candidate trickle, ICE restart, authorization and rejection, redirect and overload handling, ICE server discovery, and problem response handling. Extension discovery and non-recommended OPTIONS-based ICE server discovery are intentionally not modeled in this core rebuild.
 2. Phase 3: complete. Added high-level vocabulary required before workflows: WHIP client, WHIP endpoint, and media server roles; WHIP session/resource, ICE session, remote candidate set, authorization token, problem response, and ICE server configuration entities; and state-only lifecycle skeletons for WHIP session and WHIP session resource.
-3. Phase 4: complete. Added sequence-diagrammable workflows owned by semantic areas, plus minimal coarse capability stubs where workflow steps needed stable responsibility references.
+3. Phase 4: complete and reviewed. Added sequence-diagrammable workflows owned by semantic areas, then removed standalone problem-response and ICE-server-configuration workflows and narrowed setup to the WHIP HTTP exchange before Phase 5.
 4. Phase 5: refine capabilities under workflow context, keeping protocol grammar, schemas, and implementation mechanics out of the model.
 5. Phase 6: refine events, state machines, and decisions once workflows and responsibilities show which occurrences and lifecycle constraints are meaningful.
 6. Phase 7: add traceability and final documentation after the semantic model exists.
@@ -292,11 +303,11 @@ Resolved for Phase 3 based on human feedback:
 
 - `curl -L --fail --show-error https://www.ietf.org/rfc/rfc9725.txt -o examples/whip/sources/rfc9725.md`: Passed.
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
-- `git status --short`: Run after Phase 4 changes.
-- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 4 changes.
-- `npm run validate:models`: Passed for Phase 4. Expected coverage notes remain because triggers, events, transitions, and capability event associations are intentionally deferred: 12 workflows without explicit trigger, 26 capabilities without events, 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
+- `git status --short`: Run after Phase 4 review changes.
+- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 4 review changes.
+- `npm run validate:models`: Passed after Phase 4 review adjustments. Expected coverage notes remain because triggers, events, transitions, and capability event associations are intentionally deferred: 10 workflows without explicit trigger, 21 capabilities without events, 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
 
 ## Phase gate
 
-- Stopped after Phase 4.
+- Stopped after Phase 4 review.
 - Do not proceed to Phase 5 until a human explicitly confirms continuation.

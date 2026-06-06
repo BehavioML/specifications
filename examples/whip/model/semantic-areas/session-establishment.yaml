@@ -7,5 +7,7 @@ workflows:
   - client/create_session
   - endpoint/reject_invalid_offer
 notes: >-
-  Owns the setup success and invalid-offer rejection workflows. Detailed SDP
-  grammar and JSEP processing remain outside the workflow spine.
+  Owns the setup success and invalid-offer rejection workflows. The setup
+  workflow is intentionally limited to the WHIP HTTP POST / 201 Created
+  exchange; media-plane establishment remains a lifecycle boundary for later
+  refinement, not a role interaction in this workflow.
