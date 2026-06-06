@@ -22,6 +22,7 @@ model/
 ├── interfaces/
 ├── components/
 ├── modules/
+├── semantic-areas/
 ├── events/
 ├── entities/
 ├── state-machines/
@@ -106,13 +107,7 @@ The reference value is a path identity inside that target scope.
 
 References are never filesystem-relative.
 
-Forbidden reference forms:
-
-```text
-../foo
-./foo
-foo/../bar
-```
+Forbidden reference forms include current-directory references, parent-directory references, and any path identity that walks upward through a parent directory segment.
 
 ---
 
@@ -122,6 +117,7 @@ Typed fields resolve references to one known target scope.
 
 | Source field | Target scope |
 | --- | --- |
+| `SemanticArea.workflows[]` | `workflows/` |
 | `Workflow.roles.primary` | `roles/` |
 | `Workflow.roles.participants[]` | `roles/` |
 | `Workflow.steps[]` | `capabilities/` |
@@ -209,6 +205,131 @@ Current known polymorphic fields:
 
 ---
 
+## Semantic area rules
+
+A semantic area represents a behaviorally coherent area of the modeled system or protocol.
+
+Semantic areas organize behavior.
+
+Modules organize implementation and component ownership.
+
+A semantic area may contain:
+
+```yaml
+name: Protected packet receive
+description: >-
+  Behavior area covering receive-side processing of protected packets before
+  frame handling, ACK generation, recovery, or application processing.
+
+workflows:
+  - packet/endpoint/receive_protected_packet
+  - packet/endpoint/remove_header_protection
+  - packet/endpoint/remove_payload_protection
+
+notes:
+  - This area excludes frame handling, ACK generation, recovery, and application processing.
+```
+
+### Semantic area responsibilities
+
+A semantic area owns:
+
+- a behaviorally coherent semantic boundary
+- a list of workflows in that area
+
+The `semantic-areas/` scope determines that the file is a semantic area.
+
+Semantic area files should not define a top-level `kind` field to repeat the entity type.
+
+### Semantic area workflows
+
+`workflows` references workflows.
+
+The `workflows` field is the semantic area's direct workflow ownership list.
+
+A workflow should be listed by exactly one semantic area once semantic areas are adopted for a model.
+
+During migration, tools may warn rather than fail when workflows are not listed by any semantic area.
+
+A workflow must not be listed by more than one semantic area.
+
+### Semantic area non-goals
+
+Semantic areas must not model:
+
+- source document sections
+- requirements groups
+- user stories
+- epics
+- use cases
+- product journeys
+- implementation modules
+- component packages
+- services
+- planning task groups
+
+Semantic areas must not own components.
+
+Semantic areas should not reference components.
+
+Components remain organized by modules and implement capabilities and interfaces.
+
+Semantic areas should stay intentionally small.
+
+They should own only workflows.
+
+Related roles, capabilities, interfaces, entities, events, state machines, and decisions are discovered through the owned workflows and ordinary model references rather than repeated in semantic area files.
+
+Do not add separate ownership objects, component references, source references, or supporting model-element lists to semantic area files in the initial design.
+
+### Difference from modules
+
+A semantic area describes behavioral organization.
+
+A module describes implementation organization, ownership, packaging, or component boundaries.
+
+Use:
+
+```text
+SemanticArea -> workflows
+Module       -> components
+```
+
+Do not use modules as semantic behavior areas.
+
+Do not use semantic areas as implementation packages.
+
+### Semantic top-down modeling
+
+For complex source-backed modeling, prefer semantic top-down modeling.
+
+Recommended process:
+
+```text
+1. Survey the source corpus.
+2. Identify semantic areas.
+3. Identify behaviorally relevant entities and state owners.
+4. Identify relationships and dependencies between areas and concepts.
+5. Identify roles and protocol/system participants.
+6. Identify lifecycle constraints and state machines.
+7. Define behaviorally meaningful workflows owned by semantic areas.
+8. Define capabilities as stable responsibilities under workflow context.
+9. Add events only for meaningful observable occurrences.
+10. Add decisions for modeling boundaries, tradeoffs, and rationale.
+11. Add external traceability from source evidence to model elements.
+12. Review area-level gaps and generation readiness.
+```
+
+Do not start by turning every source section, paragraph, requirement, or normative sentence into a workflow or capability.
+
+Source sections are evidence and traceability anchors.
+
+They are not the primary model decomposition unit.
+
+Section-level modeling remains useful later as a deepening, audit, and traceability refinement step.
+
+---
+
 ## Workflow rules
 
 A workflow describes one behaviorally meaningful scenario.
@@ -273,9 +394,13 @@ This keeps workflow causality aligned with observable behavior and avoids hidden
 
 ### Workflow grouping
 
-Related workflows may be grouped by directory.
+Related workflows may be grouped by semantic area.
 
-A separate higher-level entity such as `Scenario`, `Use Case`, `Story`, or `Journey` should only be introduced if the group needs its own source-of-truth metadata.
+Directories may still be used as namespaces for related workflows.
+
+A semantic area should be used when a workflow grouping has source-of-truth behavior-model meaning.
+
+Do not introduce separate `Scenario`, `Use Case`, `Story`, or `Journey` entities for behavior grouping.
 
 ### Workflow non-goals
 
@@ -559,23 +684,26 @@ Suggested initial checks:
 1. Every YAML file parses successfully.
 2. No YAML file contains top-level `id`, `ids`, `uuid`, or `uuids`.
 3. References do not use relative filesystem forms.
-4. Workflow role references resolve under `roles/`.
-5. Workflow `steps` references resolve under `capabilities/`.
-6. Workflow `triggered_by` references resolve under `events/`.
-7. Workflows do not reference components directly.
-8. Capability `uses` references resolve under `capabilities/`.
-9. Capability `requires` references resolve under `interfaces/`.
-10. Capability `events` references resolve under `events/`.
-11. Component implemented capabilities resolve under `capabilities/`.
-12. Component implemented interfaces resolve under `interfaces/`.
-13. Component `belongs_to` resolves under `modules/`.
-14. State machine `entity` resolves under `entities/`.
-15. State machine transition events resolve under `events/`.
-16. State machine transition source states, if validated, may be scalar or array-valued.
-17. State machine transition target states, if validated, are scalar.
-18. Decision `affects` entries use typed references and resolve to existing model entities.
-19. `generated/` directories are ignored as source-of-truth input.
-20. Capability `uses` entries resolve under `capabilities/` and are treated as ordered decomposition.
+4. SemanticArea `workflows` references resolve under `workflows/`.
+5. SemanticArea files do not use top-level `kind`, `owns`, `model_refs`, or component reference fields.
+6. A workflow listed by more than one semantic area is reported.
+7. Workflow role references resolve under `roles/`.
+8. Workflow `steps` references resolve under `capabilities/`.
+9. Workflow `triggered_by` references resolve under `events/`.
+10. Workflows do not reference components directly.
+11. Capability `uses` references resolve under `capabilities/`.
+12. Capability `requires` references resolve under `interfaces/`.
+13. Capability `events` references resolve under `events/`.
+14. Component implemented capabilities resolve under `capabilities/`.
+15. Component implemented interfaces resolve under `interfaces/`.
+16. Component `belongs_to` resolves under `modules/`.
+17. State machine `entity` resolves under `entities/`.
+18. State machine transition events resolve under `events/`.
+19. State machine transition source states, if validated, may be scalar or array-valued.
+20. State machine transition target states, if validated, are scalar.
+21. Decision `affects` entries use typed references and resolve to existing model entities.
+22. `generated/` directories are ignored as source-of-truth input.
+23. Capability `uses` entries resolve under `capabilities/` and are treated as ordered decomposition.
 
 ---
 
@@ -590,6 +718,7 @@ The initial validator should not enforce:
 - whether every event must be consumed
 - whether every capability event must appear in a workflow
 - whether every workflow must be reachable from another workflow
+- whether every workflow must be listed by a semantic area
 - whether workflow directories imply a formal scenario entity
 - implementation-specific behavior
 
