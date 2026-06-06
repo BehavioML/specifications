@@ -3,8 +3,10 @@ description: >-
   Behavior area covering PATCH-based ICE restart for an existing WHIP session,
   including new ICE information, entity-tag replacement, candidate-set
   replacement, and failed restart boundaries.
-workflows: []
+workflows:
+  - client/restart_ice
+  - session/reject_failed_ice_restart
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4 so restart behavior
-  can reference stable Phase 3 vocabulary without modeling SDP fragment grammar
-  or local retry algorithms.
+  Owns successful ICE restart and restart rejection workflows. SDP fragment
+  grammar, local retry algorithms, and out-of-order response algorithms remain
+  outside the workflow spine.

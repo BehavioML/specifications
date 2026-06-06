@@ -1,0 +1,16 @@
+description: |
+  The WHIP client handles a failed WHIP response using generic HTTP semantics and any optional problem details returned by the endpoint or session resource.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+steps:
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_problem_response
+    label: Failed WHIP response with optional problem details
+  - from: whip_client
+    capability: whip/handle_failed_request_response
+    label: Apply generic HTTP failure handling

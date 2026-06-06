@@ -1,0 +1,2 @@
+description: |
+  Return failed-request information that may include problem details without modeling the RFC 9457 payload schema.

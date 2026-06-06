@@ -1,0 +1,2 @@
+description: |
+  Reject a PATCH request whose ICE fragment or PATCH operation cannot be accepted by the WHIP session.

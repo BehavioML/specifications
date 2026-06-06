@@ -1,0 +1,2 @@
+description: |
+  Receive and retain ICE server configuration advertised by the WHIP endpoint for later ICE gathering.

@@ -1,0 +1,17 @@
+description: |
+  The WHIP endpoint rejects an initial setup request when the request media type, SDP offer, or WHIP setup constraints cannot be accepted.
+
+roles:
+  primary: whip_endpoint
+  participants:
+    - whip_client
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_sdp_offer
+    label: HTTP POST with unacceptable offer
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/reject_invalid_offer
+    label: Setup rejection response

@@ -2,17 +2,18 @@
 
 ## Current phase status
 
-- Current phase: Phase 3 — Add roles, entities, and lifecycle skeleton.
+- Current phase: Phase 4 — Add workflows owned by semantic areas.
 - Status: Complete.
-- Summary: High-level WHIP vocabulary was added before workflows: functional roles, behaviorally relevant entities, and initial lifecycle skeletons for the WHIP session and session resource. No workflows, capabilities, components, modules, events, decisions, or traceability files were created in Phase 3.
-- Next phase safe to run: Yes, after human confirmation. Phase 4 may create workflows owned by the semantic areas and minimal capability stubs only where workflow step references require them.
+- Summary: Behaviorally meaningful workflows were added under `examples/whip/model/workflows/`, semantic-area workflow ownership lists were populated, and coarse responsibility-shaped capability stubs were added only to satisfy workflow step references. No components, modules, interfaces, events, decisions, or traceability files were created in Phase 4.
+- Next phase safe to run: Yes, after human confirmation. Phase 5 may refine capabilities under workflow context without turning protocol payload grammar or implementation mechanics into the core model.
 
 ## Commits made
 
 - Phase 0: `d5e1c72` — `docs(whip): reset model for semantic top-down rebuild`
 - Phase 1: `f4acc6d` — `docs(whip): survey RFC for semantic top-down model`
 - Phase 2: `e1ac969` — `docs(whip): add semantic area skeleton`
-- Phase 3: current commit — `docs(whip): add semantic vocabulary skeleton`
+- Phase 3: `85f7281` — `docs(whip): add semantic vocabulary skeleton`
+- Phase 4: current commit — `docs(whip): add semantic area workflows`
 
 ## Files changed per phase
 
@@ -90,6 +91,39 @@ Updated:
 - `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
 
 No workflows, capabilities, components, modules, events, decisions, or traceability files were created in Phase 3. The state machines intentionally define states only; transitions are deferred until Phase 6 when meaningful events are introduced.
+
+### Phase 4 — Add workflows owned by semantic areas
+
+Added workflows:
+
+- `examples/whip/model/workflows/client/create_session.yaml`
+- `examples/whip/model/workflows/endpoint/reject_invalid_offer.yaml`
+- `examples/whip/model/workflows/client/terminate_session.yaml`
+- `examples/whip/model/workflows/client/trickle_ice_candidates.yaml`
+- `examples/whip/model/workflows/session/reject_invalid_ice_patch.yaml`
+- `examples/whip/model/workflows/client/restart_ice.yaml`
+- `examples/whip/model/workflows/session/reject_failed_ice_restart.yaml`
+- `examples/whip/model/workflows/endpoint/reject_unauthorized_request.yaml`
+- `examples/whip/model/workflows/client/follow_setup_redirect.yaml`
+- `examples/whip/model/workflows/endpoint/defer_overloaded_setup.yaml`
+- `examples/whip/model/workflows/client/receive_ice_server_configuration.yaml`
+- `examples/whip/model/workflows/client/handle_problem_response.yaml`
+
+Added minimal capability stubs:
+
+- `examples/whip/model/capabilities/whip/*.yaml`
+
+Updated semantic area ownership:
+
+- `examples/whip/model/semantic-areas/*.yaml`
+
+Updated:
+
+- `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
+
+No components, modules, interfaces, events, decisions, state-machine transitions, or traceability files were created in Phase 4.
+
+Workflow ownership is explicit and direct from semantic areas. Silent discard of unusable Trickle ICE candidates remains local RFC-defined processing covered by the Trickle ICE capability description and later traceability, not a workflow, event, state transition, branch, guard, algorithmic step, or failure state.
 
 ## Source material available
 
@@ -236,7 +270,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 
 1. Phase 2: complete. Created semantic-area skeletons for session establishment, session resource lifecycle, ICE candidate trickle, ICE restart, authorization and rejection, redirect and overload handling, ICE server discovery, and problem response handling. Extension discovery and non-recommended OPTIONS-based ICE server discovery are intentionally not modeled in this core rebuild.
 2. Phase 3: complete. Added high-level vocabulary required before workflows: WHIP client, WHIP endpoint, and media server roles; WHIP session/resource, ICE session, remote candidate set, authorization token, problem response, and ICE server configuration entities; and state-only lifecycle skeletons for WHIP session and WHIP session resource.
-3. Phase 4: add sequence-diagrammable workflows owned by semantic areas, with minimal coarse capability stubs only where workflow steps need stable responsibilities.
+3. Phase 4: complete. Added sequence-diagrammable workflows owned by semantic areas, plus minimal coarse capability stubs where workflow steps needed stable responsibility references.
 4. Phase 5: refine capabilities under workflow context, keeping protocol grammar, schemas, and implementation mechanics out of the model.
 5. Phase 6: refine events, state machines, and decisions once workflows and responsibilities show which occurrences and lifecycle constraints are meaningful.
 6. Phase 7: add traceability and final documentation after the semantic model exists.
@@ -258,11 +292,11 @@ Resolved for Phase 3 based on human feedback:
 
 - `curl -L --fail --show-error https://www.ietf.org/rfc/rfc9725.txt -o examples/whip/sources/rfc9725.md`: Passed.
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
-- `git status --short`: Run after Phase 3 changes.
-- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 3 changes.
-- `npm run validate:models`: Passed for Phase 3. Expected coverage notes remain because workflows/events/transitions are intentionally deferred: 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
+- `git status --short`: Run after Phase 4 changes.
+- `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 4 changes.
+- `npm run validate:models`: Passed for Phase 4. Expected coverage notes remain because triggers, events, transitions, and capability event associations are intentionally deferred: 12 workflows without explicit trigger, 26 capabilities without events, 5 entities without state machine, 2 state machines without transitions, and 12 unused states.
 
 ## Phase gate
 
-- Stopped after Phase 3.
-- Do not proceed to Phase 4 until a human explicitly confirms continuation.
+- Stopped after Phase 4.
+- Do not proceed to Phase 5 until a human explicitly confirms continuation.

@@ -1,0 +1,17 @@
+description: |
+  The WHIP endpoint or session resource rejects a request that lacks acceptable authorization for the requested WHIP behavior.
+
+roles:
+  primary: whip_endpoint
+  participants:
+    - whip_client
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_sdp_offer
+    label: WHIP request without acceptable authorization
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/reject_unauthorized_request
+    label: Authorization rejection response

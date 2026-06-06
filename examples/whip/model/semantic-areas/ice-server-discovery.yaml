@@ -2,8 +2,9 @@ name: ICE server discovery
 description: >-
   Behavior area covering discovery of STUN/TURN server configuration advertised
   by the WHIP endpoint for client ICE gathering.
-workflows: []
+workflows:
+  - client/receive_ice_server_configuration
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4. Non-recommended
-  OPTIONS-based ICE server discovery is intentionally not modeled in this core
-  rebuild.
+  Owns ICE server configuration receipt from the setup response.
+  Non-recommended OPTIONS-based ICE server discovery is intentionally not
+  modeled in this core rebuild.

@@ -1,0 +1,17 @@
+description: |
+  The WHIP client receives a setup redirect and repeats the setup request at the redirected WHIP endpoint target.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+steps:
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_setup_redirect
+    label: Setup redirect response
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/follow_setup_redirect
+    label: Repeat setup request at redirected endpoint

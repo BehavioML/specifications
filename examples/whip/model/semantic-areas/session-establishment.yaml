@@ -3,8 +3,9 @@ description: >-
   Behavior area covering creation of a WHIP session resource from the
   client's initial SDP offer and the endpoint's setup response or setup
   rejection.
-workflows: []
+workflows:
+  - client/create_session
+  - endpoint/reject_invalid_offer
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4, after Phase 3
-  introduces the roles and state-owning entities needed to name workflow
-  participants consistently.
+  Owns the setup success and invalid-offer rejection workflows. Detailed SDP
+  grammar and JSEP processing remain outside the workflow spine.

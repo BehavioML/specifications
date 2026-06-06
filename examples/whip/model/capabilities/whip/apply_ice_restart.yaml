@@ -1,0 +1,2 @@
+description: |
+  Apply an accepted ICE restart and establish the new ICE session information without modeling SDP fragment grammar.

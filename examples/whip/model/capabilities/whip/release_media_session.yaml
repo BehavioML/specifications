@@ -1,0 +1,2 @@
+description: |
+  Release the media-server session boundary associated with an explicitly terminated WHIP session, without modeling media server internals.
