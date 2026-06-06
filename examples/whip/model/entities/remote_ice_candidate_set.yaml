@@ -1,0 +1,3 @@
+description: |
+  The currently relevant remote ICE candidates for a WHIP session, which can be
+  extended by Trickle ICE behavior or replaced after a successful ICE restart.

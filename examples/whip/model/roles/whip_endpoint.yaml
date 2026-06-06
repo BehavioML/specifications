@@ -1,0 +1,4 @@
+description: |
+  The functional participant that receives the initial WHIP setup request,
+  creates the session resource, returns setup responses, and exposes the WHIP
+  HTTP protocol surface for the endpoint.

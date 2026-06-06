@@ -1,0 +1,3 @@
+description: |
+  The ICE negotiation context associated with a WHIP session, including the ICE
+  credentials and entity-tag identity that can change on successful ICE restart.

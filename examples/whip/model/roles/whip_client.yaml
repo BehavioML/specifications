@@ -1,0 +1,4 @@
+description: |
+  The functional participant that acts as the WebRTC media encoder or producer,
+  initiates WHIP session setup, sends WHIP HTTP requests, and publishes media
+  toward the media server.
