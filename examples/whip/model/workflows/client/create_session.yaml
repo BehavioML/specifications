@@ -1,0 +1,28 @@
+description: |
+  The WHIP client sends an initial SDP offer to the WHIP endpoint, the endpoint creates a session resource, and the client receives the created response that establishes the session target.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+    - media_server
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_sdp_offer
+    label: HTTP POST with SDP offer
+  - from: whip_endpoint
+    capability: whip/accept_sdp_offer
+    label: Accept setup offer
+  - from: whip_endpoint
+    capability: whip/create_session_resource
+    label: Create WHIP session resource
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_session_created
+    label: 201 Created with SDP answer and Location
+  - from: whip_client
+    to: media_server
+    capability: whip/establish_media_transport
+    label: ICE, DTLS, and media transport established

@@ -1,0 +1,2 @@
+description: |
+  Establish the ICE, DTLS, and secured media transport boundary between the WHIP client and media server after setup succeeds, without modeling media pipeline internals.

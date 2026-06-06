@@ -3,7 +3,8 @@ description: >-
   Behavior area covering client and endpoint treatment of failed WHIP requests,
   including generic HTTP fallback expectations and optional problem response
   details.
-workflows: []
+workflows:
+  - client/handle_problem_response
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4. RFC 9457 payload
-  schema details are intentionally not modeled.
+  Owns generic failed-response handling with optional problem details. RFC 9457
+  payload schema details are intentionally not modeled.

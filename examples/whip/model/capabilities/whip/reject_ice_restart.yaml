@@ -1,0 +1,2 @@
+description: |
+  Reject an ICE restart request that cannot be satisfied while keeping the existing WHIP session boundary intact.

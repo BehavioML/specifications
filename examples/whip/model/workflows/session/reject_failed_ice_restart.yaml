@@ -1,0 +1,17 @@
+description: |
+  The WHIP session rejects an ICE restart request that cannot be satisfied without immediately terminating the existing WHIP session.
+
+roles:
+  primary: whip_endpoint
+  participants:
+    - whip_client
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_ice_restart_patch
+    label: HTTP PATCH with unsatisfied ICE restart
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/reject_ice_restart
+    label: ICE restart rejection response

@@ -1,0 +1,17 @@
+description: |
+  The WHIP session rejects a PATCH request when the ICE fragment, media type, conditional request, or requested PATCH operation cannot be accepted.
+
+roles:
+  primary: whip_endpoint
+  participants:
+    - whip_client
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_trickle_ice_patch
+    label: HTTP PATCH with unacceptable ICE information
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/reject_invalid_ice_patch
+    label: PATCH rejection response

@@ -1,0 +1,2 @@
+description: |
+  Reject a WHIP request that is not authenticated or authorized for the endpoint or session resource.

@@ -1,0 +1,2 @@
+description: |
+  Apply accepted Trickle ICE information to the WHIP session without modeling candidate grammar or silent local candidate discard as a separate behavior spine.

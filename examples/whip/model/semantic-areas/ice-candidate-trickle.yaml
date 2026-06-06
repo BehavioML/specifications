@@ -3,8 +3,10 @@ description: >-
   Behavior area covering PATCH-based delivery of additional ICE candidates to an
   existing WHIP session resource and the session response semantics for accepted
   or rejected trickle updates.
-workflows: []
+workflows:
+  - client/trickle_ice_candidates
+  - session/reject_invalid_ice_patch
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4 so the model can
-  first introduce the ICE-related entities and avoid encoding candidate parsing
-  or local buffering mechanics as workflows.
+  Owns PATCH-based Trickle ICE behavior and invalid PATCH rejection. Silent
+  discard of unusable candidates remains local RFC-defined processing, not a
+  separate workflow, event, branch, guard, state transition, or failure state.

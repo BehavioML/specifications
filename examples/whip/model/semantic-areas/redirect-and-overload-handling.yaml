@@ -2,8 +2,10 @@ name: Redirect and overload handling
 description: >-
   Behavior area covering setup-request redirection, client handling of the
   redirected setup target, and endpoint overload responses that defer setup.
-workflows: []
+workflows:
+  - client/follow_setup_redirect
+  - endpoint/defer_overloaded_setup
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4. PATCH and DELETE
+  Owns setup redirect follow-up and overload deferral. PATCH and DELETE
   redirection are not included because RFC 9725 does not require those
   redirections to be supported.

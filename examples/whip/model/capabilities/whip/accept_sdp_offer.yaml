@@ -1,0 +1,2 @@
+description: |
+  Accept the initial SDP offer for WHIP session establishment without modeling SDP grammar or JSEP internals.

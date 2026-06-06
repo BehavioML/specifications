@@ -1,0 +1,2 @@
+description: |
+  Reject an initial WHIP setup request when the offer or setup request cannot be accepted.

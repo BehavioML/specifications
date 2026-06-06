@@ -1,0 +1,25 @@
+description: |
+  The WHIP client explicitly terminates an active WHIP session resource and the session confirms termination.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+    - media_server
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_delete_request
+    label: HTTP DELETE to session resource
+  - from: whip_endpoint
+    capability: whip/remove_session_resource
+    label: Remove WHIP session resource
+  - from: whip_endpoint
+    to: media_server
+    capability: whip/release_media_session
+    label: Release media session boundary
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_session_terminated
+    label: Termination success response

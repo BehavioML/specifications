@@ -3,8 +3,8 @@ description: >-
   Behavior area covering the allocated WHIP session resource as the target for
   active-session mutation, explicit termination, resource removal, and lifecycle
   boundary conditions.
-workflows: []
+workflows:
+  - client/terminate_session
 notes: >-
-  Workflow ownership is intentionally deferred until Phase 4, after Phase 3
-  clarifies the WHIP session as a distinct entity and identifies the lifecycle
-  vocabulary shared by setup, mutation, and termination behavior.
+  Owns explicit client termination. Non-graceful teardown boundaries remain for
+  later lifecycle/event refinement rather than Phase 4 workflow expansion.

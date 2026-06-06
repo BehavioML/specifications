@@ -1,0 +1,2 @@
+description: |
+  Include advertised STUN or TURN server configuration in the successful setup response.

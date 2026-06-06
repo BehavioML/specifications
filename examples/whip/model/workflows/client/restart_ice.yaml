@@ -1,0 +1,20 @@
+description: |
+  The WHIP client performs an ICE restart by sending updated ICE information to the WHIP session resource and receiving the session's updated ICE answer.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_ice_restart_patch
+    label: HTTP PATCH with ICE restart information
+  - from: whip_endpoint
+    capability: whip/apply_ice_restart
+    label: Apply ICE restart
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_ice_restart_answer
+    label: 200 OK with updated ICE information

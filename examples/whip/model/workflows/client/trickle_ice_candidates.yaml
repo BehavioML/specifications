@@ -1,0 +1,20 @@
+description: |
+  The WHIP client sends additional ICE candidate information to an existing WHIP session resource and receives the accepted Trickle ICE response.
+
+roles:
+  primary: whip_client
+  participants:
+    - whip_endpoint
+
+steps:
+  - from: whip_client
+    to: whip_endpoint
+    capability: whip/send_trickle_ice_patch
+    label: HTTP PATCH with Trickle ICE fragment
+  - from: whip_endpoint
+    capability: whip/apply_trickle_ice_update
+    label: Apply accepted Trickle ICE information
+  - from: whip_endpoint
+    to: whip_client
+    capability: whip/return_trickle_ice_accepted
+    label: 204 No Content
