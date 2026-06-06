@@ -1,0 +1,10 @@
+name: Session establishment
+description: >-
+  Behavior area covering creation of a WHIP session resource from the
+  client's initial SDP offer and the endpoint's setup response or setup
+  rejection.
+workflows: []
+notes: >-
+  Workflow ownership is intentionally deferred until Phase 4, after Phase 3
+  introduces the roles and state-owning entities needed to name workflow
+  participants consistently.

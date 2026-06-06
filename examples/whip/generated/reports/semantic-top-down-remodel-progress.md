@@ -2,15 +2,16 @@
 
 ## Current phase status
 
-- Current phase: Phase 1 — RFC-wide semantic survey.
+- Current phase: Phase 2 — Create semantic-area skeleton.
 - Status: Complete.
-- Summary: RFC 9725 was fetched from the IETF RFC text endpoint and surveyed end-to-end to identify behavior-first semantic areas, likely model vocabulary, lifecycle candidates, observable exchanges, exclusions, traceability anchors, and a safe modeling order.
-- Next phase safe to run: Yes, after human confirmation. Phase 2 may create only the semantic-area skeleton under `examples/whip/model/semantic-areas/`.
+- Summary: The first WHIP source model skeleton was created under `examples/whip/model/semantic-areas/` using behavior-first semantic areas derived from the RFC-wide survey. Semantic area files are intentionally minimal and contain only `name`, `description`, `workflows`, and `notes`.
+- Next phase safe to run: Yes, after human confirmation. Phase 3 may add roles, behaviorally relevant entities, and lifecycle skeletons needed before workflows.
 
 ## Commits made
 
 - Phase 0: `d5e1c72` — `docs(whip): reset model for semantic top-down rebuild`
-- Phase 1: current commit — `docs(whip): survey RFC for semantic top-down model`
+- Phase 1: `f4acc6d` — `docs(whip): survey RFC for semantic top-down model`
+- Phase 2: current commit — `docs(whip): add semantic area skeleton`
 
 ## Files changed per phase
 
@@ -38,6 +39,27 @@ Updated:
 - `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
 
 No BehavioML model files were created in Phase 1.
+
+### Phase 2 — Create semantic-area skeleton
+
+Added:
+
+- `examples/whip/model/semantic-areas/session-establishment.yaml`
+- `examples/whip/model/semantic-areas/session-resource-lifecycle.yaml`
+- `examples/whip/model/semantic-areas/ice-candidate-trickle.yaml`
+- `examples/whip/model/semantic-areas/ice-restart.yaml`
+- `examples/whip/model/semantic-areas/authorization-and-rejection.yaml`
+- `examples/whip/model/semantic-areas/redirect-and-overload-handling.yaml`
+- `examples/whip/model/semantic-areas/ice-server-discovery.yaml`
+- `examples/whip/model/semantic-areas/problem-response-handling.yaml`
+
+Updated:
+
+- `examples/whip/generated/reports/semantic-top-down-remodel-progress.md`
+
+No workflows, capabilities, roles, entities, events, state machines, components, modules, decisions, or traceability files were created in Phase 2.
+
+Semantic areas intentionally have empty `workflows` lists because Phase 3 must first establish the participant and entity vocabulary, and Phase 4 is the designated phase for creating workflow files and assigning workflow ownership.
 
 ## Source material available
 
@@ -182,7 +204,7 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 
 ## Proposed modeling order
 
-1. Phase 2: create semantic-area skeletons for the stable behavior areas: session establishment, session resource lifecycle, ICE candidate trickle, ICE restart, authorization and rejection, redirect and overload handling, ICE server discovery, and problem response handling. Consider extension discovery as deferred unless the skeleton needs an explicit optional area.
+1. Phase 2: complete. Created semantic-area skeletons for session establishment, session resource lifecycle, ICE candidate trickle, ICE restart, authorization and rejection, redirect and overload handling, ICE server discovery, and problem response handling. Extension discovery and non-recommended OPTIONS-based ICE server discovery are intentionally not modeled in this core rebuild.
 2. Phase 3: add only the high-level vocabulary required before workflows: WHIP client, WHIP endpoint/session roles, WHIP session/resource entities, ICE session or candidate-set entities if justified, authorization token and problem response entities only if behaviorally referenced, and lifecycle skeletons for WHIP session/resource if clear.
 3. Phase 4: add sequence-diagrammable workflows owned by semantic areas, with minimal coarse capability stubs only where workflow steps need stable responsibilities.
 4. Phase 5: refine capabilities under workflow context, keeping protocol grammar, schemas, and implementation mechanics out of the model.
@@ -191,10 +213,15 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 
 ## Open questions
 
-- Should `WHIP session` be modeled as a distinct role from `WHIP endpoint`, or as a session-scoped responsibility of the endpoint, when workflows target the Location resource?
-- Should the `media server` appear as a role only in overview/lifecycle workflows, or remain outside the core WHIP HTTP model except as an entity/capability boundary?
-- Should non-recommended OPTIONS-based ICE server discovery be a workflow, a note in the ICE server discovery area, or an exclusion captured by a decision?
-- Should extension discovery be included as a candidate semantic area now, or deferred until there is a concrete extension behavior to model?
+Resolved for Phase 2 based on human feedback:
+
+- `WHIP session` should be treated as a distinct entity from `WHIP endpoint` in later vocabulary phases.
+- `Media server` should be treated as a distinct role where workflows need to represent media-plane participation or lifecycle boundaries.
+- Non-recommended OPTIONS-based ICE server discovery should not be modeled in the core rebuild.
+- Extension discovery should not be modeled in the core rebuild.
+
+Still open for later phases:
+
 - How should silent discard of unusable Trickle ICE candidates be represented without turning the workflow into local algorithmic control flow?
 
 ## Validation status
@@ -203,9 +230,9 @@ Use RFC/source sections as evidence anchors only, not as model decomposition uni
 - `wc -l examples/whip/sources/rfc9725.md`: Passed; fetched source has 1438 lines.
 - `git status --short`: Run after Phase 1 changes.
 - `find examples/whip -maxdepth 5 -type f | sort`: Run after Phase 1 changes.
-- `npm run validate:models`: Not run in Phase 1 because no BehavioML model files were created or changed.
+- `npm run validate:models`: Passed for Phase 2. The validator accepted `examples/whip/model` with zero counted model entities, which indicates semantic-area skeleton files do not participate in the current validator summary yet.
 
 ## Phase gate
 
-- Stopped after Phase 1.
-- Do not proceed to Phase 2 until a human explicitly confirms continuation.
+- Stopped after Phase 2.
+- Do not proceed to Phase 3 until a human explicitly confirms continuation.

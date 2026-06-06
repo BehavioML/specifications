@@ -1,0 +1,10 @@
+name: ICE candidate trickle
+description: >-
+  Behavior area covering PATCH-based delivery of additional ICE candidates to an
+  existing WHIP session resource and the session response semantics for accepted
+  or rejected trickle updates.
+workflows: []
+notes: >-
+  Workflow ownership is intentionally deferred until Phase 4 so the model can
+  first introduce the ICE-related entities and avoid encoding candidate parsing
+  or local buffering mechanics as workflows.

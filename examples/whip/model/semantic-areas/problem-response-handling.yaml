@@ -1,0 +1,9 @@
+name: Problem response handling
+description: >-
+  Behavior area covering client and endpoint treatment of failed WHIP requests,
+  including generic HTTP fallback expectations and optional problem response
+  details.
+workflows: []
+notes: >-
+  Workflow ownership is intentionally deferred until Phase 4. RFC 9457 payload
+  schema details are intentionally not modeled.

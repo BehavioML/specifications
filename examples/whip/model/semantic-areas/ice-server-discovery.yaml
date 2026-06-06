@@ -1,0 +1,9 @@
+name: ICE server discovery
+description: >-
+  Behavior area covering discovery of STUN/TURN server configuration advertised
+  by the WHIP endpoint for client ICE gathering.
+workflows: []
+notes: >-
+  Workflow ownership is intentionally deferred until Phase 4. Non-recommended
+  OPTIONS-based ICE server discovery is intentionally not modeled in this core
+  rebuild.
