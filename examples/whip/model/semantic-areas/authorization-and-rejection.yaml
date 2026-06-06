@@ -1,0 +1,9 @@
+name: Authorization and rejection
+description: >-
+  Behavior area covering request authentication expectations, bearer-token based
+  authorization, and behaviorally meaningful rejection of unauthorized or
+  unsupported WHIP requests.
+workflows: []
+notes: >-
+  Workflow ownership is intentionally deferred until Phase 4. Token syntax,
+  distribution, and authorization storage remain outside the core model.
