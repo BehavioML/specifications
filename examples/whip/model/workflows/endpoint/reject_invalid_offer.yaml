@@ -15,7 +15,3 @@ steps:
     to: whip_client
     capability: whip/reject_invalid_offer
     label: Setup rejection response
-
-emits:
-  - session_setup_requested
-  - session_setup_rejected
