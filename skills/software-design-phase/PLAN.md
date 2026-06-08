@@ -2,11 +2,13 @@
 
 ## Purpose
 
-This skill derives a downstream software-design layer from an existing BehavioML model.
+This skill derives a downstream software-design layer from an existing BehavioML model for initial code generation planning.
 
 It is intended for humans, ChatGPT, Codex, and other agents working in this repository or in repositories that follow the BehavioML conventions.
 
 The skill helps bridge from a behavior-first model to implementation planning without turning BehavioML into a class model, UML model, framework profile, or code-generation language.
+
+This skill is for initial code generation, scaffold planning, and implementation guidance. It is not a brownfield reverse-engineering or refactor-planning skill.
 
 ## Sources of truth
 
@@ -37,7 +39,7 @@ If no BehavioML model exists, stop before editing and report:
 No BehavioML model found. This skill requires an existing model. Run semantic top-down modeling first.
 ```
 
-If the model is clearly incomplete for the requested design work, report the gap before creating downstream artifacts.
+If the model is clearly incomplete for initial code generation planning, report the gap before creating downstream artifacts.
 
 Do not add missing core behavior to `model/` as part of this skill unless the user explicitly asks for model remediation.
 
@@ -69,8 +71,9 @@ The downstream artifacts normally live outside `model/`:
 ├── composition.md
 ├── dependency-rules.md
 ├── codegen-readiness.md
-├── current-code-reconciliation.md       # brownfield only
-└── refactor-slices.md                   # brownfield only
+├── AGENTS.md
+├── codegen-profile.yaml
+└── contracts/
 ```
 
 The `implementation/` directory is not the BehavioML source model.
@@ -84,7 +87,7 @@ Run phases in this order:
 1. [`00-unit-discovery.md`](00-unit-discovery.md)
 2. [`01-composition.md`](01-composition.md)
 3. [`02-codegen-readiness.md`](02-codegen-readiness.md)
-4. [`03-brownfield-reconciliation.md`](03-brownfield-reconciliation.md) — optional, only when existing code should be compared
+4. [`03-codegen-guidance.md`](03-codegen-guidance.md)
 
 ## Global non-goals
 
@@ -100,7 +103,9 @@ Do not:
 - duplicate source specifications as local mini-specs;
 - hide behavior in implementation guidance;
 - add technical payload schemas to the BehavioML model;
-- generate production code;
+- generate production code before codegen readiness permits it;
+- reverse-engineer existing code shape;
+- inspect production code unless explicitly needed to define generation target constraints;
 - implement local validation logic;
 - infer missing callbacks, retries, redirects, responses, or protocol follow-ups.
 
@@ -114,6 +119,6 @@ A run of this skill is complete when:
 - dependency and ownership rules are documented;
 - codegen readiness has a clear verdict;
 - missing contracts, scope notes, or implementation guidance are identified;
-- brownfield reconciliation is complete when applicable;
+- codegen guidance exists for the allowed generation target;
 - no hidden behavior has been introduced outside the model;
 - limitations and remaining gaps are reported honestly.
