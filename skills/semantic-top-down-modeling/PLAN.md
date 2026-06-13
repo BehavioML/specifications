@@ -89,11 +89,16 @@ Run phases in this order:
 5. [`04-workflows.md`](04-workflows.md)
 6. [`05-capabilities.md`](05-capabilities.md)
 7. [`06-events-lifecycle-decisions.md`](06-events-lifecycle-decisions.md)
-8. [`07-traceability-report.md`](07-traceability-report.md)
+8. [`07-aggregated-workflows.md`](07-aggregated-workflows.md)
+9. [`08-traceability-report.md`](08-traceability-report.md)
 
 The workflow candidate gate used by phases 03 and 04 is defined in:
 
 - [`workflow-candidate-gate.md`](workflow-candidate-gate.md)
+
+Aggregated workflow discovery and classification used by phase 07 is defined in:
+
+- `docs/design-notes/0010-aggregated-workflow-discovery-process.md`
 
 ## Global non-goals
 
@@ -111,6 +116,7 @@ Do not:
 - add components before behavior requires implementation anchors;
 - use modules as semantic behavior areas;
 - use semantic areas as modules, packages, services, use cases, epics, stories, or requirements groups;
+- use aggregated workflows as broad semantic buckets, role buckets, or directory buckets;
 - infer hidden callbacks, retries, redirects, responses, broker deliveries, or protocol follow-ups;
 - implement local validation logic.
 
@@ -125,6 +131,7 @@ A run of this skill is complete when:
 - accepted workflows have been created and assigned to semantic areas;
 - capabilities have been refined under workflow context;
 - events, lifecycle transitions, and decisions have been added deliberately;
+- strong aggregated workflow candidates have been created, folded, deferred, or rejected;
 - traceability and final reporting have been added outside the model;
 - validation limitations are reported honestly;
 - remaining gaps are classified.
