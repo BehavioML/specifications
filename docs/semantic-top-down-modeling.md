@@ -10,7 +10,7 @@ It is not a new BehavioML model entity, schema, or validator rule.
 
 ## Purpose
 
-Semantic top-down modeling helps keep BehavioML models organized around system behavior rather than source-document structure.
+Semantic top-down modeling keeps BehavioML models organized around system behavior rather than source-document structure.
 
 Use this process when modeling a complex system, protocol, feature, or implementation from external source material.
 
@@ -49,20 +49,6 @@ Do not immediately create one workflow, capability, or entity per source section
 ### 2. Identify semantic areas
 
 Identify behaviorally coherent areas of the system or protocol.
-
-Examples:
-
-```text
-session establishment
-resource lifecycle
-authorization and rejection
-redirect handling
-configuration discovery
-packet protection
-protected packet receive
-key update
-connection migration
-```
 
 Semantic areas should be named after stable behavior or protocol concepts, not after source sections, issue numbers, implementation packages, or planning tasks.
 
@@ -129,20 +115,7 @@ Classify each candidate before materializing it:
 
 Create a workflow only when it is high confidence.
 
-High-confidence workflow candidates have:
-
-- clear semantic area ownership;
-- clear primary role;
-- clear participants;
-- clear ordered scenario spine;
-- clear observable interaction or lifecycle impact;
-- no need for hidden role inference;
-- no dependence on executable control flow;
-- no source-section-shaped structure.
-
-Medium-confidence candidates should remain in a progress or review report until human review resolves them.
-
-Low-confidence candidates should be demoted and not materialized as workflows.
+High-confidence workflow candidates have clear semantic area ownership, roles, participants, ordered scenario spine, observable interaction or lifecycle impact, no hidden role inference, no executable control-flow dependency, and no source-section-shaped structure.
 
 ### 8. Define workflows owned by semantic areas
 
@@ -151,8 +124,6 @@ Define workflows only when there is a behaviorally meaningful scenario and the c
 Workflows should be owned by semantic areas.
 
 A workflow should not be created merely because a source section exists.
-
-Algorithmic local mechanics should not automatically become workflows.
 
 Do not create workflows for generic response handling, payload parsing, schema validation, status-code handling without domain or protocol meaning, implementation algorithms, helper completion, or test obligations.
 
@@ -168,8 +139,6 @@ Use `Capability.uses` for ordered internal decomposition only when the parent ca
 
 Do not create one capability per normative sentence, helper, return value, branch, implementation step, or source paragraph.
 
-Demote behavior to a capability when it happens inside an already modeled workflow, is reusable response preparation, is local processing by one role, or is ordered internal responsibility under a clear parent capability context.
-
 ### 10. Add events and decisions deliberately
 
 Add events only for meaningful observable occurrences that happened in the system.
@@ -180,11 +149,60 @@ If a candidate is primarily lifecycle-related, review whether it belongs as an e
 
 Add decisions for modeling boundaries, rationale, tradeoffs, exclusions, or important interpretation choices.
 
-Decisions should explain why, not restate what.
+### 11. Add aggregated workflows deliberately
 
-### 11. Add external traceability
+After atomic and medium-sized workflows, capabilities, events, state machines, and decisions are stable enough, review whether the model needs aggregated workflows.
 
-Add traceability after the model has semantic structure.
+Aggregated workflows are normal workflows that compose existing workflows with `workflow` + `bind` steps.
+
+They should answer a behavior-domain review question such as:
+
+```text
+Which existing workflows must be reviewed together to understand this behavior boundary?
+```
+
+Good aggregated workflows are behavior-domain slices, not broad buckets.
+
+They may include success, optional, failure, and terminal child workflows when those children belong to the same behavior-domain review slice.
+
+Their order may be review order rather than a strict executable runtime sequence, but this must be clear in `notes`.
+
+Do not create aggregated workflows merely because workflows live in the same directory, share the same primary role, belong to the same semantic area, have similar names, or would make a convenient diagram page.
+
+Classify candidates before creating them:
+
+- create;
+- fold into stronger aggregate;
+- defer to event/state view;
+- reject.
+
+Place created aggregates by behavior domain, not by implementation, mechanism, or role bucket.
+
+Good style:
+
+```text
+model/workflows/connection/establishment_lifecycle.yaml
+model/workflows/connection/termination_lifecycle.yaml
+model/workflows/path/continuity_lifecycle.yaml
+model/workflows/packet/protected_traffic_lifecycle.yaml
+model/workflows/stream/lifecycle.yaml
+```
+
+Avoid:
+
+```text
+model/workflows/aggregated/
+model/workflows/review/
+model/workflows/composite/
+model/workflows/client/all.yaml
+model/workflows/endpoint/all.yaml
+```
+
+Use event/state lifecycle views instead when the important question is transition coverage and the relevant behavior mostly lives in events or state machines rather than workflows.
+
+### 12. Add external traceability
+
+Add traceability after the model has semantic structure and aggregated workflow candidates have been considered.
 
 Traceability should answer:
 
@@ -200,20 +218,13 @@ Which model file did this source heading create?
 
 Keep traceability external unless the metamodel deliberately changes.
 
-### 12. Review gaps and readiness
+### 13. Review gaps and readiness
 
-Review the model by semantic area.
+Review the model by semantic area and behavior-domain slice.
 
 Classify missing information before adding detail to the wrong layer.
 
-Typical findings include:
-
-- source gaps;
-- modeling gaps;
-- contract gaps;
-- implementation guidance gaps;
-- test gaps;
-- out-of-scope details.
+Typical findings include source gaps, modeling gaps, contract gaps, implementation guidance gaps, test gaps, and out-of-scope details.
 
 Do not hide missing behavior in implementation guidance, technical contracts, prompts, generated reports, or code.
 
@@ -232,23 +243,28 @@ Create a workflow only if at least one of these is strongly true:
 - omitting it would make sequence diagrams or human review misleading;
 - it is needed to make a semantic area's behavior understandable.
 
-Do not create a workflow if the behavior is only:
-
-- local processing by one role;
-- reusable response preparation;
-- generic client-side handling;
-- generic server-side handling;
-- payload parsing;
-- schema validation;
-- status-code handling without domain or protocol-specific behavior;
-- implementation algorithm;
-- source section heading;
-- normative sentence;
-- capability decomposition;
-- traceability evidence;
-- test obligation.
+Do not create a workflow if the behavior is only local processing by one role, reusable response preparation, generic handling, payload parsing, schema validation, status-code handling without domain meaning, implementation algorithm, source heading, normative sentence, capability decomposition, traceability evidence, or test obligation.
 
 Ambiguous workflow candidates should be recorded as `needs review` instead of being materialized.
+
+---
+
+## Aggregated workflow candidate gate
+
+Use this gate after the model has stable child workflows.
+
+Create an aggregated workflow only when all of these are true:
+
+- it answers a coherent behavior-domain review question;
+- it composes existing workflows without inventing behavior;
+- it is not merely a semantic-area, directory, role, or naming bucket;
+- child workflow roles can be explicitly bound;
+- the aggregate remains understandable with `description` and `notes`;
+- it would likely be useful as a collapsed or expanded review diagram later.
+
+Do not create an aggregated workflow if it is just all workflows in a semantic area, all workflows for a role, a broad system bucket, a tiny sub-slice better folded into a stronger lifecycle aggregate, state transition coverage rather than workflow composition, hidden behavior inference, or something that would need `main`, `variants`, `cases`, or `outcome` to be understandable.
+
+Record rejected, folded, and deferred aggregate candidates in a report rather than forcing them into the model.
 
 ---
 
@@ -276,13 +292,7 @@ Mark a candidate as out of scope when it belongs outside the intended model boun
 
 Section-level modeling is still useful, but it should usually happen after a semantic skeleton exists.
 
-Use section-level work to:
-
-- deepen an existing semantic area;
-- audit conformance for a specific source section;
-- tighten traceability;
-- find implementation or test gaps for a known behavior area;
-- confirm that source evidence is represented by existing workflows, capabilities, entities, events, state machines, or decisions.
+Use section-level work to deepen an existing semantic area, audit conformance for a specific source section, tighten traceability, find implementation or test gaps for a known behavior area, and confirm that source evidence is represented by existing workflows, capabilities, entities, events, state machines, decisions, or aggregated workflows.
 
 Do not use section-level work as the default first decomposition step for complex source material.
 
@@ -292,16 +302,16 @@ Do not use section-level work as the default first decomposition step for comple
 
 Avoid these patterns:
 
+- source document headings define model structure;
 - one source section becomes one workflow by default;
 - one normative paragraph becomes one capability by default;
-- source document headings define model structure;
 - modules are used as semantic behavior areas;
 - semantic areas are used as modules or implementation packages;
-- semantic areas are treated as use cases, epics, user stories, or requirements groups;
-- workflows are created for local algorithmic mechanics;
-- workflows are created for generic response handling;
-- workflows are created for payload parsing or schema validation;
-- workflows are created for status-code handling without domain or protocol meaning;
+- workflows are created for local algorithmic mechanics or generic handling;
+- aggregated workflows are created as broad semantic buckets;
+- aggregated workflows are created as role buckets;
+- aggregated workflows are placed under technical `aggregated/`, `review/`, or `composite/` directories;
+- tiny aggregate sub-slices fragment stronger lifecycle aggregates;
 - capabilities hide role-to-role interactions;
 - events represent generic outcomes instead of observable occurrences;
 - traceability drives model creation instead of supporting model review;
@@ -316,6 +326,8 @@ A semantic top-down BehavioML model should make it clear:
 - which semantic areas organize the behavior;
 - which workflows each semantic area owns;
 - which candidate workflows were accepted, deferred, or demoted;
+- which aggregated workflows compose review-level behavior-domain slices;
+- which aggregate candidates were created, folded, deferred, or rejected;
 - which entities and state machines carry lifecycle meaning;
 - which roles participate in behavior;
 - which capabilities express stable responsibilities;
