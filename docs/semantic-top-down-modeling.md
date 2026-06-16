@@ -155,24 +155,31 @@ After atomic and medium-sized workflows, capabilities, events, state machines, a
 
 Aggregated workflows are normal workflows that compose existing workflows with `workflow` + `bind` steps.
 
-They should answer a behavior-domain review question such as:
+Because they are workflows, they must describe one behaviorally meaningful scenario branch.
+
+They should answer a scenario-branch question such as:
+
+```text
+Which existing workflows compose this concrete scenario branch?
+```
+
+They should not answer a review question such as:
 
 ```text
 Which existing workflows must be reviewed together to understand this behavior boundary?
 ```
 
-Good aggregated workflows are behavior-domain slices, not broad buckets.
+Good aggregated workflows are composed scenario branches, not broad review slices.
 
-They may include success, optional, failure, and terminal child workflows when those children belong to the same behavior-domain review slice.
+They must not include success, optional, failure, and terminal child workflows in the same aggregate unless those child workflows genuinely occur in the same concrete branch.
 
-Their order may be review order rather than a strict executable runtime sequence, but this must be clear in `notes`.
+Their order should express scenario continuity, not review order.
 
 Do not create aggregated workflows merely because workflows live in the same directory, share the same primary role, belong to the same semantic area, have similar names, or would make a convenient diagram page.
 
 Classify candidates before creating them:
 
 - create;
-- fold into stronger aggregate;
 - defer to event/state view;
 - reject.
 
@@ -181,16 +188,22 @@ Place created aggregates by behavior domain, not by implementation, mechanism, o
 Good style:
 
 ```text
-model/workflows/connection/establishment_lifecycle.yaml
-model/workflows/connection/termination_lifecycle.yaml
-model/workflows/path/continuity_lifecycle.yaml
-model/workflows/packet/protected_traffic_lifecycle.yaml
-model/workflows/stream/lifecycle.yaml
+model/workflows/connection/version_negotiation_restart.yaml
+model/workflows/connection/retry_validated_establishment.yaml
+model/workflows/connection/zero_rtt_resumption.yaml
+model/workflows/connection/handshake_failure_termination.yaml
+model/workflows/path/client_migration.yaml
+model/workflows/stream/data_transfer_progress.yaml
+model/workflows/packet/key_update_exchange.yaml
 ```
 
 Avoid:
 
 ```text
+model/workflows/connection/establishment_lifecycle.yaml
+model/workflows/connection/termination_lifecycle.yaml
+model/workflows/packet/protected_traffic_lifecycle.yaml
+model/workflows/stream/lifecycle.yaml
 model/workflows/aggregated/
 model/workflows/review/
 model/workflows/composite/
@@ -198,7 +211,9 @@ model/workflows/client/all.yaml
 model/workflows/endpoint/all.yaml
 ```
 
-Use event/state lifecycle views instead when the important question is transition coverage and the relevant behavior mostly lives in events or state machines rather than workflows.
+Use semantic-area generated views when the important question is review, navigation, readiness, or area-level coverage.
+
+Use event/state lifecycle views when the important question is transition coverage and the relevant behavior mostly lives in events or state machines rather than workflows.
 
 ### 12. Add external traceability
 
@@ -220,7 +235,7 @@ Keep traceability external unless the metamodel deliberately changes.
 
 ### 13. Review gaps and readiness
 
-Review the model by semantic area and behavior-domain slice.
+Review the model by semantic area and concrete scenario branch.
 
 Classify missing information before adding detail to the wrong layer.
 
@@ -255,16 +270,17 @@ Use this gate after the model has stable child workflows.
 
 Create an aggregated workflow only when all of these are true:
 
-- it answers a coherent behavior-domain review question;
-- it composes existing workflows without inventing behavior;
-- it is not merely a semantic-area, directory, role, or naming bucket;
+- it names one concrete scenario branch;
+- it composes existing workflows without adding behavior;
+- every child workflow belongs to the same branch;
+- child workflow order expresses scenario continuity;
+- it is not merely a semantic-area, directory, role, naming, or lifecycle-coverage bucket;
 - child workflow roles can be explicitly bound;
-- the aggregate remains understandable with `description` and `notes`;
-- it would likely be useful as a collapsed or expanded review diagram later.
+- the aggregate remains understandable without `main`, `variants`, `cases`, `outcome`, guards, branches, or execution control flow.
 
-Do not create an aggregated workflow if it is just all workflows in a semantic area, all workflows for a role, a broad system bucket, a tiny sub-slice better folded into a stronger lifecycle aggregate, state transition coverage rather than workflow composition, hidden behavior inference, or something that would need `main`, `variants`, `cases`, or `outcome` to be understandable.
+Do not create an aggregated workflow if it is just all workflows in a semantic area, all workflows for a role, a broad system bucket, a lifecycle coverage view, a collection of alternative branches, or something that would need `main`, `variants`, `cases`, or `outcome` to be understandable.
 
-Record rejected, folded, and deferred aggregate candidates in a report rather than forcing them into the model.
+Record rejected and deferred aggregate candidates in a report rather than forcing them into the model.
 
 ---
 
@@ -310,8 +326,11 @@ Avoid these patterns:
 - workflows are created for local algorithmic mechanics or generic handling;
 - aggregated workflows are created as broad semantic buckets;
 - aggregated workflows are created as role buckets;
+- aggregated workflows are created as lifecycle coverage summaries;
+- aggregated workflows are created as review-order diagram pages;
+- aggregated workflows mix mutually exclusive branches;
+- aggregated workflows combine optional variants into one apparent sequence;
 - aggregated workflows are placed under technical `aggregated/`, `review/`, or `composite/` directories;
-- tiny aggregate sub-slices fragment stronger lifecycle aggregates;
 - capabilities hide role-to-role interactions;
 - events represent generic outcomes instead of observable occurrences;
 - traceability drives model creation instead of supporting model review;
@@ -326,8 +345,8 @@ A semantic top-down BehavioML model should make it clear:
 - which semantic areas organize the behavior;
 - which workflows each semantic area owns;
 - which candidate workflows were accepted, deferred, or demoted;
-- which aggregated workflows compose review-level behavior-domain slices;
-- which aggregate candidates were created, folded, deferred, or rejected;
+- which aggregated workflows compose concrete scenario branches;
+- which aggregate candidates were rejected because they were review slices, lifecycle coverage views, role buckets, or branch bundles;
 - which entities and state machines carry lifecycle meaning;
 - which roles participate in behavior;
 - which capabilities express stable responsibilities;
