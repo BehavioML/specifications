@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Add external traceability and final reporting after the BehavioML model has semantic structure and aggregated workflow review slices have been considered.
+Add external traceability and final reporting after the BehavioML model has semantic structure and aggregated workflow candidates have been considered.
 
 Traceability supports audit and review. It must not drive model decomposition.
 
@@ -97,7 +97,7 @@ The report should include:
 - source inputs inspected;
 - semantic areas created;
 - workflows owned by each semantic area;
-- aggregated workflows created or rejected;
+- aggregated workflows created, deferred, marked for workflow-granularity review, or rejected;
 - roles, entities, and state machines created;
 - capabilities created or refined;
 - events and decisions created or refined;
