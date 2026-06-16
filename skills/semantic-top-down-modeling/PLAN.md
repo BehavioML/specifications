@@ -98,7 +98,10 @@ The workflow candidate gate used by phases 03 and 04 is defined in:
 
 Aggregated workflow discovery and classification used by phase 07 is defined in:
 
-- `docs/design-notes/0010-aggregated-workflow-discovery-process.md`
+- `docs/design-notes/0013-aggregated-workflows-as-scenario-branches.md`
+- `docs/design-notes/0014-aggregated-workflows-and-branch-local-steps.md`
+
+Historical aggregate workflow design notes may still explain earlier decisions, but `0013` and `0014` define the current rule: aggregates are concrete scenario branches and may mix workflow references with branch-local object steps.
 
 ## Global non-goals
 
@@ -116,7 +119,7 @@ Do not:
 - add components before behavior requires implementation anchors;
 - use modules as semantic behavior areas;
 - use semantic areas as modules, packages, services, use cases, epics, stories, or requirements groups;
-- use aggregated workflows as broad semantic buckets, role buckets, or directory buckets;
+- use aggregated workflows as broad semantic buckets, role buckets, directory buckets, lifecycle coverage summaries, or review-order artifacts;
 - infer hidden callbacks, retries, redirects, responses, broker deliveries, or protocol follow-ups;
 - implement local validation logic.
 
@@ -131,7 +134,7 @@ A run of this skill is complete when:
 - accepted workflows have been created and assigned to semantic areas;
 - capabilities have been refined under workflow context;
 - events, lifecycle transitions, and decisions have been added deliberately;
-- strong aggregated workflow candidates have been created, folded, deferred, or rejected;
+- strong aggregated workflow candidates have been created, deferred, marked for workflow-granularity review, or rejected;
 - traceability and final reporting have been added outside the model;
 - validation limitations are reported honestly;
 - remaining gaps are classified.
